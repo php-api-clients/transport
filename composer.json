@@ -1,5 +1,5 @@
 {
-  "name": "api-clients/foundation",
+  "name": "api-clients/transport",
   "license": "MIT",
   "authors": [
     {
@@ -34,12 +34,12 @@
   },
   "autoload": {
     "psr-4": {
-      "ApiClients\\Foundation\\": "src/"
+      "ApiClients\\Foundation\\Transport\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "ApiClients\\Tests\\Foundation\\": "tests/"
+      "ApiClients\\Tests\\Foundation\\Transport\\": "tests/"
     }
   },
   "config": {

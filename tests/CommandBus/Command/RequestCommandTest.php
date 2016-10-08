@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace ApiClients\Tests\Foundation\Transport\CommandBus\Command;
 
 use ApiClients\Foundation\Transport\CommandBus\Command\RequestCommand;
-use ApiClients\Tests\Foundation\TestCase;
+use ApiClients\Tests\Foundation\Transport\TestCase;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\RequestInterface;
 

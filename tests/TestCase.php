@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace ApiClients\Tests\Foundation;
+namespace ApiClients\Tests\Foundation\Transport;
 
 use GeneratedHydrator\Configuration;
 use Phake;

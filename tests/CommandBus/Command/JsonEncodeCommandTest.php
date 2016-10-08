@@ -3,7 +3,7 @@
 namespace ApiClients\Tests\Foundation\Transport\CommandBus\Command;
 
 use ApiClients\Foundation\Transport\CommandBus\Command\JsonEncodeCommand;
-use ApiClients\Tests\Foundation\TestCase;
+use ApiClients\Tests\Foundation\Transport\TestCase;
 
 class JsonEncodeCommandTest extends TestCase
 {
