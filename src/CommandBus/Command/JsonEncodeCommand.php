@@ -2,6 +2,11 @@
 
 namespace ApiClients\Foundation\Transport\CommandBus\Command;
 
+use WyriHaximus\Tactician\CommandHandler\Annotations\Handler;
+
+/**
+ * @Handler("ApiClients\Foundation\Transport\CommandBus\Handler\JsonEncodeHandler")
+ */
 final class JsonEncodeCommand
 {
     /**

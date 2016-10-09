@@ -4,7 +4,11 @@ namespace ApiClients\Foundation\Transport\CommandBus\Command;
 
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
+use WyriHaximus\Tactician\CommandHandler\Annotations\Handler;
 
+/**
+ * @Handler("ApiClients\Foundation\Transport\CommandBus\Handler\SimpleRequestHandler")
+ */
 final class SimpleRequestCommand implements RequestCommandInterface
 {
     /**

@@ -3,7 +3,11 @@
 namespace ApiClients\Foundation\Transport\CommandBus\Command;
 
 use Psr\Http\Message\RequestInterface;
+use WyriHaximus\Tactician\CommandHandler\Annotations\Handler;
 
+/**
+ * @Handler("ApiClients\Foundation\Transport\CommandBus\Handler\RequestHandler")
+ */
 final class RequestCommand implements RequestCommandInterface
 {
     /**
