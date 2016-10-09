@@ -32,7 +32,7 @@ class Factory
         $container->get(EmitterInterface::class)->
             addListener(CommandLocatorEvent::NAME, function (CommandLocatorEvent $event) {
                 $event->add(
-                    dirname(__DIR__) . DIRECTORY_SEPARATOR . 'CommandBus' . DIRECTORY_SEPARATOR,
+                    __DIR__ . DIRECTORY_SEPARATOR . 'CommandBus' . DIRECTORY_SEPARATOR,
                     __NAMESPACE__ . '\CommandBus'
                 );
             })
