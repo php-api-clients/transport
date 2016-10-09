@@ -5,7 +5,7 @@ namespace ApiClients\Tests\Foundation\Transport\CommandBus\Handler;
 use ApiClients\Foundation\Transport\Client;
 use ApiClients\Foundation\Transport\CommandBus\Command\SimpleRequestCommand;
 use ApiClients\Foundation\Transport\CommandBus\Handler\RequestHandler;
-use ApiClients\Tests\Foundation\Transport\TestCase;
+use ApiClients\Tools\TestUtilities\TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\RequestInterface;
 use React\Promise\FulfilledPromise;

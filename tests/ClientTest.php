@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace ApiClients\Tests\Foundation\Transport;
 
 use ApiClients\Foundation\Transport\Response as TransportResponse;
+use ApiClients\Tools\TestUtilities\TestCase;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
@@ -21,7 +22,7 @@ use ApiClients\Foundation\Transport\Client;
 use function Clue\React\Block\await;
 use function React\Promise\resolve;
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
     public function testRequest()
     {

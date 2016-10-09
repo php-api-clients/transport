@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace ApiClients\Tests\Foundation\Transport;
 
 use ApiClients\Foundation\Transport\Response;
-use ApiClients\Tests\Foundation\Transport\TestCase;
+use ApiClients\Tools\TestUtilities\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
 class ResponseTest extends TestCase

@@ -7,10 +7,11 @@ use League\Container\Container;
 use League\Event\Emitter;
 use League\Event\EmitterInterface;
 use React\EventLoop\Factory as LoopFactory;
+use ApiClients\Tools\TestUtilities\TestCase;
 use ApiClients\Foundation\Transport\Client;
 use ApiClients\Foundation\Transport\Factory;
 
-class FactoryTest extends \PHPUnit_Framework_TestCase
+class FactoryTest extends TestCase
 {
     public function testCreate()
     {

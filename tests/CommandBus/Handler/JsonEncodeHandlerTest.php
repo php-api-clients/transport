@@ -4,7 +4,7 @@ namespace ApiClients\Tests\Foundation\Transport\CommandBus\Handler;
 
 use ApiClients\Foundation\Transport\CommandBus\Command\JsonEncodeCommand;
 use ApiClients\Foundation\Transport\CommandBus\Handler\JsonEncodeHandler;
-use ApiClients\Tests\Foundation\Transport\TestCase;
+use ApiClients\Tools\TestUtilities\TestCase;
 use React\EventLoop\Factory;
 use function Clue\React\Block\await;
 
