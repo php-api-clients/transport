@@ -7,7 +7,7 @@ use Psr\Http\Message\RequestInterface;
 use WyriHaximus\Tactician\CommandHandler\Annotations\Handler;
 
 /**
- * @Handler("ApiClients\Foundation\Transport\CommandBus\Handler\SimpleRequestHandler")
+ * @Handler("ApiClients\Foundation\Transport\CommandBus\Handler\RequestHandler")
  */
 final class SimpleRequestCommand implements RequestCommandInterface
 {
