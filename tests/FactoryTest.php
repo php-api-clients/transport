@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace ApiClients\Tests\Foundation\Transport;
 
-use ApiClients\Foundation\Transport\Options;
+use League\Container\Container;
+use League\Event\Emitter;
+use League\Event\EmitterInterface;
 use React\EventLoop\Factory as LoopFactory;
-use React\EventLoop\LoopInterface;
 use ApiClients\Foundation\Transport\Client;
 use ApiClients\Foundation\Transport\Factory;
 
@@ -13,27 +14,26 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreate()
     {
+        $container = new Container();
+        $container->share(EmitterInterface::class, new Emitter());
         $loop = LoopFactory::create();
         $client = Factory::create(
+            $container,
             $loop,
-            [
-                Options::HYDRATOR_OPTIONS => [],
-            ]
+            []
         );
         $this->assertInstanceOf(Client::class, $client);
-        $this->assertInstanceOf(LoopInterface::class, $client->getLoop());
-        $this->assertSame($loop, $client->getLoop());
     }
 
     public function testCreateWithoutLoop()
     {
+        $container = new Container();
+        $container->share(EmitterInterface::class, new Emitter());
         $client = Factory::create(
+            $container,
             null,
-            [
-                Options::HYDRATOR_OPTIONS => [],
-            ]
+            []
         );
         $this->assertInstanceOf(Client::class, $client);
-        $this->assertInstanceOf(LoopInterface::class, $client->getLoop());
     }
 }

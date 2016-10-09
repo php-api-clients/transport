@@ -2,15 +2,14 @@
 
 namespace ApiClients\Foundation\Transport;
 
-use ApiClients\Foundation\Hydrator\Factory as HydratorFactory;
 use ApiClients\Foundation\Hydrator\Hydrator;
-use ApiClients\Foundation\Hydrator\Options as HydratorOptions;
 use ApiClients\Foundation\Transport\CommandBus;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Psr7\Request as Psr7Request;
 use GuzzleHttp\Psr7\Response as Psr7Response;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\RequestOptions;
+use Interop\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
@@ -59,11 +58,16 @@ class Client
 
     /**
      * @param LoopInterface $loop
+     * @param ContainerInterface $container
      * @param GuzzleClient $handler
      * @param array $options
      */
-    public function __construct(LoopInterface $loop, GuzzleClient $handler, array $options = [])
-    {
+    public function __construct(
+        LoopInterface $loop,
+        ContainerInterface $container,
+        GuzzleClient $handler,
+        array $options = []
+    ) {
         $this->loop = $loop;
         $this->handler = $handler;
         $this->options = $options + self::DEFAULT_OPTIONS;
@@ -71,43 +75,6 @@ class Client
         if (isset($this->options[Options::CACHE]) && $this->options[Options::CACHE] instanceof CacheInterface) {
             $this->cache = $this->options[Options::CACHE];
         }
-
-        $this->hydrator = $this->determineHydrator();
-    }
-
-    /**
-     * @return Hydrator
-     * @throws \Exception
-     */
-    protected function determineHydrator(): Hydrator
-    {
-        if (isset($this->options[Options::HYDRATOR]) && $this->options[Options::HYDRATOR] instanceof Hydrator) {
-            return $this->options[Options::HYDRATOR];
-        }
-
-        if (!isset($this->options[Options::HYDRATOR_OPTIONS])) {
-            throw new \Exception('Missing Hydrator options');
-        }
-
-        $this->ensureCommandHandlers();
-
-        return HydratorFactory::create($this->options[Options::HYDRATOR_OPTIONS]);
-    }
-
-    protected function ensureCommandHandlers()
-    {
-        $mapping = [];
-        if (isset($this->options[Options::HYDRATOR_OPTIONS][HydratorOptions::COMMAND_BUS])) {
-            $mapping = $this->options[Options::HYDRATOR_OPTIONS][HydratorOptions::COMMAND_BUS];
-        }
-
-        $requestHandler = new CommandBus\Handler\RequestHandler($this);
-        $mapping[CommandBus\Command\RequestCommand::class] = $requestHandler;
-        $mapping[CommandBus\Command\SimpleRequestCommand::class] = $requestHandler;
-        $mapping[CommandBus\Command\JsonEncodeCommand::class] = new CommandBus\Handler\JsonEncodeHandler($this->loop);
-        $mapping[CommandBus\Command\JsonDecodeCommand::class] = new CommandBus\Handler\JsonDecodeHandler($this->loop);
-
-        $this->options[Options::HYDRATOR_OPTIONS][HydratorOptions::COMMAND_BUS] = $mapping;
     }
 
     /**
@@ -288,22 +255,6 @@ class Client
         ];
         $headers += $this->options[Options::HEADERS];
         return $headers;
-    }
-
-    /**
-     * @return Hydrator
-     */
-    public function getHydrator(): Hydrator
-    {
-        return $this->hydrator;
-    }
-
-    /**
-     * @return LoopInterface
-     */
-    public function getLoop(): LoopInterface
-    {
-        return $this->loop;
     }
 
     /**

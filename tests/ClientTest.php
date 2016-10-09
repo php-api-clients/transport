@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace ApiClients\Tests\Foundation\Transport;
 
-use ApiClients\Foundation\Transport\Options;
 use ApiClients\Foundation\Transport\Response as TransportResponse;
 use GuzzleHttp\Promise\FulfilledPromise;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\RequestOptions;
+use League\Container\Container;
 use Phake;
 use GuzzleHttp\Client as GuzzleClient;
 use Psr\Http\Message\RequestInterface;
@@ -16,41 +16,16 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use React\Cache\CacheInterface;
 use React\EventLoop\Factory;
-use React\EventLoop\LoopInterface;
 use React\Promise\RejectedPromise;
 use ApiClients\Foundation\Transport\Client;
-use ApiClients\Foundation\Hydrator\Hydrator;
 use function Clue\React\Block\await;
 use function React\Promise\resolve;
 
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetLoop()
-    {
-        $client = new Client(
-            Factory::create(),
-            Phake::mock(GuzzleClient::class),
-            [
-                Options::HYDRATOR_OPTIONS => [],
-            ]
-        );
-        $this->assertInstanceOf(LoopInterface::class, $client->getLoop());
-    }
-
-    public function testGetHydrator()
-    {
-        $client = new Client(
-            Phake::mock(LoopInterface::class),
-            Phake::mock(GuzzleClient::class),
-            [
-                Options::HYDRATOR_OPTIONS => [],
-            ]
-        );
-        $this->assertInstanceOf(Hydrator::class, $client->getHydrator());
-    }
-
     public function testRequest()
     {
+        $container = new Container();
         $loop = Factory::create();
 
         $stream = Phake::mock(StreamInterface::class);
@@ -72,10 +47,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $client = new Client(
             $loop,
+            $container,
             $handler,
-            [
-                Options::HYDRATOR_OPTIONS => [],
-            ]
+            []
         );
 
         $client->request(new Request('GET', 'http://api.example.com/status'), [], true);
@@ -90,6 +64,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testRequestRefreshHitAPI()
     {
+        $container = new Container();
         $loop = Factory::create();
 
         $cache = Phake::mock(CacheInterface::class);
@@ -109,11 +84,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $client = new Client(
             $loop,
+            $container,
             $handler,
             [
                 'cache' => $cache,
                 'host' => 'api.example.com',
-                Options::HYDRATOR_OPTIONS => [],
             ]
         );
 
@@ -130,6 +105,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testRequestNoCacheHitAPI()
     {
+        $container = new Container();
         $loop = Factory::create();
 
         $stream = Phake::mock(StreamInterface::class);
@@ -147,10 +123,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $client = new Client(
             $loop,
+            $container,
             $handler,
             [
                 'host' => 'api.example.com',
-                Options::HYDRATOR_OPTIONS => [],
             ]
         );
 
@@ -162,6 +138,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testRequestCacheMissHitAPI()
     {
+        $container = new Container();
         $loop = Factory::create();
 
         $cache = Phake::mock(CacheInterface::class);
@@ -182,11 +159,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $client = new Client(
             $loop,
+            $container,
             $handler,
             [
                 'cache' => $cache,
                 'host' => 'api.example.com',
-                Options::HYDRATOR_OPTIONS => [],
             ]
         );
 
@@ -208,6 +185,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testRequestCacheHitIgnoreAPI()
     {
+        $container = new Container();
         $loop = Factory::create();
 
         $cache = Phake::mock(CacheInterface::class);
@@ -219,11 +197,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $client = new Client(
             $loop,
+            $container,
             $handler,
             [
                 'cache' => $cache,
                 'host' => 'api.example.com',
-                Options::HYDRATOR_OPTIONS => [],
             ]
         );
 
@@ -236,6 +214,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testRequestStreaming()
     {
+        $container = new Container();
         $loop = Factory::create();
 
         $cache = Phake::mock(CacheInterface::class);
@@ -270,11 +249,11 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $client = new Client(
             $loop,
+            $container,
             $handler,
             [
                 'cache' => $cache,
                 'host' => 'api.example.com',
-                Options::HYDRATOR_OPTIONS => [],
             ]
         );
 
@@ -308,7 +287,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             [
                 'schema' => 'http',
                 'host' => 'api.wyrihaximus.net',
-                Options::HYDRATOR_OPTIONS => [],
             ],
             'http://api.wyrihaximus.net/'
         ];
@@ -317,7 +295,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             [
                 'host' => 'wyrihaximus.net',
                 'path' => '/api/',
-                Options::HYDRATOR_OPTIONS => [],
             ],
             'https://wyrihaximus.net/api/'
         ];
@@ -326,7 +303,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             [
                 'schema' => 'gopher',
                 'host' => 'thorerik.com',
-                Options::HYDRATOR_OPTIONS => [],
             ],
             'gopher://thorerik.com/'
         ];
@@ -337,11 +313,13 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetBaseURL(array $options, string $baseURL)
     {
+        $container = new Container();
         $loop = Factory::create();
         $handler = Phake::mock(GuzzleClient::class);
 
         $client = new Client(
             $loop,
+            $container,
             $handler,
             $options
         );
