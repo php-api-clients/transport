@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace ApiClients\Tests\Foundation\Transport;
 
+use ApiClients\Foundation\Events\CommandLocatorEvent;
 use League\Container\Container;
 use League\Event\Emitter;
 use League\Event\EmitterInterface;
@@ -36,5 +37,18 @@ class FactoryTest extends TestCase
             []
         );
         $this->assertInstanceOf(Client::class, $client);
+    }
+
+    public function testCommandBusEvent()
+    {
+        $emitter = new Emitter();
+        $container = new Container();
+        $container->share(EmitterInterface::class, $emitter);
+        Factory::create($container);
+
+        $event = CommandLocatorEvent::create();
+        $this->assertSame(0, count($event->getMap()));
+        $emitter->emit($event);
+        $this->assertSame(3, count($event->getMap()));
     }
 }
