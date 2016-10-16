@@ -49,6 +49,6 @@ class FactoryTest extends TestCase
         $event = CommandLocatorEvent::create();
         $this->assertSame(0, count($event->getMap()));
         $emitter->emit($event);
-        $this->assertSame(3, count($event->getMap()));
+        $this->assertSame(4, count($event->getMap()));
     }
 }
