@@ -2,7 +2,6 @@
 
 namespace ApiClients\Foundation\Transport;
 
-use ApiClients\Foundation\Hydrator\Hydrator;
 use ApiClients\Foundation\Transport\CommandBus;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Psr7\Request as Psr7Request;
@@ -45,11 +44,6 @@ class Client
      * @var array
      */
     protected $options = [];
-
-    /**
-     * @var Hydrator
-     */
-    protected $hydrator;
 
     /**
      * @var CacheInterface
