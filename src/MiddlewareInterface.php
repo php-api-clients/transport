@@ -6,6 +6,9 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use React\Promise\CancellablePromiseInterface;
 
+/**
+ * Middleware, when a new request is made an instance specifically for that request is made for each request.
+ */
 interface MiddlewareInterface
 {
     /**
