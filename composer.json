@@ -13,14 +13,13 @@
     "api-clients/resource": "dev-master",
     "api-clients/test-utilities": "dev-master",
     "clue/block-react": "^1.1",
+    "clue/buzz-react": "^1.0",
     "doctrine/annotations": "^1.2",
-    "guzzlehttp/guzzle": "^6.2",
     "league/container": "^2.2",
     "league/event": "^2.1",
     "react/cache": "^0.4.1",
     "react/promise": "^2.4",
     "reactivex/rxphp": "^1.2",
-    "wyrihaximus/react-guzzle-psr7": "^1.0",
     "wyrihaximus/ticking-promise": "^1.6"
   },
   "require-dev": {
