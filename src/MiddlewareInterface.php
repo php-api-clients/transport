@@ -12,7 +12,9 @@ use React\Promise\CancellablePromiseInterface;
 interface MiddlewareInterface
 {
     /**
-     * Return the processed $request via a promise
+     * Return the processed $request via a fulfilled promise.
+     * When implementing cache or other feature that returns a response, do it with a rejected promise.
+     * If neither is possible, e.g. on some kind of failure, resolve the unaltered request.
      *
      * @param RequestInterface $request
      * @param array $options
@@ -21,7 +23,7 @@ interface MiddlewareInterface
     public function pre(RequestInterface $request, array $options = []): CancellablePromiseInterface;
 
     /**
-     * Return the processed $response via a promise
+     * Return the processed $response via a promise.
      *
      * @param ResponseInterface $response
      * @param array $options
