@@ -2,6 +2,7 @@
 
 namespace ApiClients\Foundation\Transport;
 
+use ApiClients\Foundation\Middleware\MiddlewareInterface;
 use ApiClients\Foundation\Transport\CommandBus;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Psr7\Request as Psr7Request;
