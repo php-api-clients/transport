@@ -5,19 +5,15 @@ namespace ApiClients\Foundation\Transport;
 use ApiClients\Foundation\Transport\CommandBus;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Psr7\Request as Psr7Request;
-use GuzzleHttp\Psr7\Response as Psr7Response;
 use GuzzleHttp\Psr7\Uri;
-use GuzzleHttp\RequestOptions;
 use Interop\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\UriInterface;
-use React\Cache\CacheInterface;
 use React\EventLoop\LoopInterface;
 use React\EventLoop\Timer\TimerInterface;
+use React\Promise\CancellablePromiseInterface;
 use React\Promise\PromiseInterface;
 use function React\Promise\reject;
-use React\Promise\RejectedPromise;
 use function React\Promise\resolve;
 use function WyriHaximus\React\futureFunctionPromise;
 
@@ -31,14 +27,19 @@ class Client
     ];
 
     /**
-     * @var GuzzleClient
-     */
-    protected $handler;
-
-    /**
      * @var LoopInterface
      */
     protected $loop;
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * @var GuzzleClient
+     */
+    protected $handler;
 
     /**
      * @var array
@@ -46,9 +47,9 @@ class Client
     protected $options = [];
 
     /**
-     * @var CacheInterface
+     * @var MiddlewareInterface[]
      */
-    protected $cache;
+    protected $middleware = [];
 
     /**
      * @param LoopInterface $loop
@@ -63,144 +64,88 @@ class Client
         array $options = []
     ) {
         $this->loop = $loop;
+        $this->container = $container;
         $this->handler = $handler;
         $this->options = $options + self::DEFAULT_OPTIONS;
 
-        if (isset($this->options[Options::CACHE]) && $this->options[Options::CACHE] instanceof CacheInterface) {
-            $this->cache = $this->options[Options::CACHE];
+        if (isset($this->options[Options::MIDDLEWARE])
+        ) {
+            $this->middleware = $this->options[Options::MIDDLEWARE];
         }
     }
+    protected function preRequest(
+        array $middlewares,
+        RequestInterface $request,
+        array $options
+    ): CancellablePromiseInterface {
+        $promise = resolve($request);
 
-    /**
-     * @param UriInterface $uri
-     * @return PromiseInterface
-     */
-    protected function checkCache(UriInterface $uri): PromiseInterface
-    {
-        if (!($this->cache instanceof CacheInterface)) {
-            return reject();
+        foreach ($middlewares as $middleware) {
+            $requestMiddleware = $middleware;
+            $promise = $promise->then(function (RequestInterface $request) use ($options, $requestMiddleware) {
+                return $requestMiddleware->pre($request, $options);
+            });
         }
 
-        $key = $this->determineCacheKey($uri);
-        return $this->cache->get($key)->then(function ($document) {
-            $document = json_decode($document, true);
-            $response = new Psr7Response(
-                $document['status_code'],
-                $document['headers'],
-                $document['body'],
-                $document['protocol_version'],
-                $document['reason_phrase']
-            );
+        return $promise;
+    }
 
-            return resolve($response);
-        });
+    protected function postRequest(
+        array $middlewares,
+        ResponseInterface $response,
+        array $options
+    ): CancellablePromiseInterface {
+        $promise = resolve($response);
+
+        foreach ($middlewares as $middleware) {
+            $responseMiddleware = $middleware;
+            $promise = $promise->then(function (ResponseInterface $response) use ($options, $responseMiddleware) {
+                return $responseMiddleware->post($response, $options);
+            });
+        }
+
+        return $promise;
+    }
+
+    protected function constructMiddlewares(array $options): array
+    {
+        $set = $this->middleware;
+
+        if (isset($options[Options::MIDDLEWARE])) {
+            $set = $options[Options::MIDDLEWARE];
+        }
+
+        $middlewares = [];
+        foreach ($set as $middleware) {
+            if (!is_subclass_of($middleware, MiddlewareInterface::class)) {
+                continue;
+            }
+
+            $middlewares[] = $this->container->get($middleware);
+        }
+
+        return $middlewares;
     }
 
     /**
      * @param RequestInterface $request
-     * @param ResponseInterface $response
-     */
-    protected function storeCache(RequestInterface $request, ResponseInterface $response)
-    {
-        if (!($this->cache instanceof CacheInterface)) {
-            return;
-        }
-
-        $document = [
-            'body' => $response->getBody()->getContents(),
-            'headers' => $response->getHeaders(),
-            'protocol_version' => $response->getProtocolVersion(),
-            'reason_phrase' => $response->getReasonPhrase(),
-            'status_code' => $response->getStatusCode(),
-        ];
-
-        $key = $this->determineCacheKey($request->getUri());
-
-        $this->cache->set($key, json_encode($document));
-    }
-
-    /**
-     * @param UriInterface $uri
-     * @return string
-     */
-    protected function determineCacheKey(UriInterface $uri): string
-    {
-        return $this->stripExtraSlashes(
-            implode(
-                '/',
-                [
-                    $uri->getScheme(),
-                    $uri->getHost(),
-                    $uri->getPort(),
-                    $uri->getPath(),
-                    md5($uri->getQuery()),
-                ]
-            )
-        );
-    }
-
-    /**
-     * @param string $string
-     * @return string
-     */
-    protected function stripExtraSlashes(string $string): string
-    {
-        return preg_replace('#/+#', '/', $string);
-    }
-
-    /**
-     * @param RequestInterface $request
-     * @param bool $refresh
      * @param array $options
      * @return PromiseInterface
      */
-    public function request(RequestInterface $request, array $options = [], bool $refresh = false): PromiseInterface
+    public function request(RequestInterface $request, array $options = []): PromiseInterface
     {
-        $promise = new RejectedPromise();
-
         $request = $this->applyApiSettingsToRequest($request);
+        $middlewares = $this->constructMiddlewares($options);
 
-        if ((!isset($options[RequestOptions::STREAM]) || !$options[RequestOptions::STREAM]) && !$refresh) {
-            $promise = $this->checkCache($request->getUri());
-        }
-
-        return $promise->otherwise(function () use ($request, $options) {
+        return $this->preRequest($middlewares, $request, $options)->then(function ($request) use ($options) {
             return resolve($this->handler->sendAsync(
                 $request,
                 $options
             ));
-        })->then(function (ResponseInterface $response) use ($request, $options, $refresh) {
-            if (isset($options[RequestOptions::STREAM]) && $options[RequestOptions::STREAM] === true) {
-                $responseWrapper = new Response('', $response);
-                $this->streamBody($responseWrapper);
-                return resolve($responseWrapper);
-            }
-
-            $contents = $response->getBody()->getContents();
-
-            $this->storeCache(
-                $request,
-                new Psr7Response(
-                    $response->getStatusCode(),
-                    $response->getHeaders(),
-                    $contents,
-                    $response->getProtocolVersion(),
-                    $response->getReasonPhrase()
-                )
-            );
-
-            return resolve(
-                new Response(
-                    $contents,
-                    new Psr7Response(
-                        $response->getStatusCode(),
-                        $response->getHeaders(),
-                        $contents,
-                        $response->getProtocolVersion(),
-                        $response->getReasonPhrase()
-                    )
-                )
-            );
+        }, function (ResponseInterface $response) {
+            return resolve($response);
+        })->then(function (ResponseInterface $response) use ($middlewares, $options) {
+            return $this->postRequest($middlewares, $response, $options);
         });
     }
 
@@ -227,7 +172,15 @@ class Client
     {
         $uri = $request->getUri();
         if (substr((string)$uri, 0, 4) !== 'http') {
-            $uri = Uri::resolve(new Uri($this->getBaseURL()), $request->getUri());
+            $uri = Uri::resolve(
+                new Uri(
+                    $this->options[Options::SCHEMA] .
+                    '://' .
+                    $this->options[Options::HOST] .
+                    $this->options[Options::PATH]
+                ),
+                $request->getUri()
+            );
         }
 
         return new Psr7Request(
