@@ -1,6 +1,8 @@
 {
   "name": "api-clients/transport",
   "license": "MIT",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "authors": [
     {
       "name": "Cees-Jan Kiewiet",
@@ -10,6 +12,7 @@
   "require": {
     "php": "^7.0",
     "api-clients/events": "dev-master",
+    "api-clients/middleware": "dev-master",
     "api-clients/resource": "dev-master",
     "api-clients/test-utilities": "dev-master",
     "clue/block-react": "^1.1",
@@ -31,8 +34,8 @@
   },
   "suggest": {
     "api-clients/resource-generator": "Easy wireframing of resources",
-    "wyrihaximus/react-cache-filesystem": "Filesystem cache",
-    "wyrihaximus/react-cache-redis": "Redis cache"
+    "api-clients/middleware-cache": "Caching middleware",
+    "api-clients/middleware-oauth1": "Oauth 1.0 middleware"
   },
   "autoload": {
     "psr-4": {

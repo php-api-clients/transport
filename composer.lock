@@ -4,9 +4,54 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bbd327e254b857a9d9cf06490fc83540",
-    "content-hash": "53495758666e67349033ec0155259034",
+    "hash": "d5ca91ddaf5216fdb7ee08c7adfa5c34",
+    "content-hash": "0c4f3fa4159f23a989bd655cabbf5d1d",
     "packages": [
+        {
+            "name": "api-clients/command-bus",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-api-clients/command-bus.git",
+                "reference": "aa851059c0377984dee054a460aeeee645b42f77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-api-clients/command-bus/zipball/aa851059c0377984dee054a460aeeee645b42f77",
+                "reference": "aa851059c0377984dee054a460aeeee645b42f77",
+                "shasum": ""
+            },
+            "require": {
+                "league/tactician": "^1.0",
+                "php": "^7.0",
+                "react/event-loop": "^0.4.2",
+                "wyrihaximus/ticking-promise": "^1.6"
+            },
+            "require-dev": {
+                "api-clients/test-utilities": "dev-master",
+                "clue/block-react": "^1.1",
+                "phake/phake": "^2.3",
+                "phpunit/phpunit": "^5.2.3",
+                "squizlabs/php_codesniffer": "^2.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ApiClients\\Tools\\CommandBus\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cees-Jan Kiewiet",
+                    "email": "ceesjank@gmail.com"
+                }
+            ],
+            "time": "2016-10-11 19:37:47"
+        },
         {
             "name": "api-clients/events",
             "version": "dev-master",
@@ -53,21 +98,65 @@
             "time": "2016-10-09 00:00:03"
         },
         {
+            "name": "api-clients/middleware",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-api-clients/middleware.git",
+                "reference": "2e727bbf0e1eb914dbf0abf5761b0151bf3adb95"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-api-clients/middleware/zipball/2e727bbf0e1eb914dbf0abf5761b0151bf3adb95",
+                "reference": "2e727bbf0e1eb914dbf0abf5761b0151bf3adb95",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0",
+                "psr/http-message": "^1.0"
+            },
+            "require-dev": {
+                "api-clients/test-utilities": "dev-master",
+                "clue/block-react": "^1.1",
+                "humbug/humbug": "1.0.0-alpha2",
+                "phpspec/prophecy": "^1.6",
+                "phpunit/phpunit": "^5.2.3",
+                "squizlabs/php_codesniffer": "^2.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ApiClients\\Foundation\\Middleware\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cees-Jan Kiewiet",
+                    "email": "ceesjank@gmail.com"
+                }
+            ],
+            "time": "2016-10-21 21:58:49"
+        },
+        {
             "name": "api-clients/resource",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/resource.git",
-                "reference": "608f91ece92946dcb0a904c8cccef4458775356c"
+                "reference": "b06a42c650e26ae8fe8a0a9ec7705d2613503788"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/resource/zipball/608f91ece92946dcb0a904c8cccef4458775356c",
-                "reference": "608f91ece92946dcb0a904c8cccef4458775356c",
+                "url": "https://api.github.com/repos/php-api-clients/resource/zipball/b06a42c650e26ae8fe8a0a9ec7705d2613503788",
+                "reference": "b06a42c650e26ae8fe8a0a9ec7705d2613503788",
                 "shasum": ""
             },
             "require": {
-                "league/tactician": "^1.0",
+                "api-clients/command-bus": "dev-master",
                 "php": "^7.0"
             },
             "require-dev": {
@@ -94,7 +183,7 @@
                     "email": "ceesjank@gmail.com"
                 }
             ],
-            "time": "2016-10-02 17:08:56"
+            "time": "2016-10-22 18:11:21"
         },
         {
             "name": "api-clients/test-utilities",
@@ -102,15 +191,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/test-utilities.git",
-                "reference": "9352c32ad2fb7fda6835aa86bce027153b1219a8"
+                "reference": "4e1e522e18fefcb7d0bcbfc227ae8660b1963b73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/test-utilities/zipball/9352c32ad2fb7fda6835aa86bce027153b1219a8",
-                "reference": "9352c32ad2fb7fda6835aa86bce027153b1219a8",
+                "url": "https://api.github.com/repos/php-api-clients/test-utilities/zipball/4e1e522e18fefcb7d0bcbfc227ae8660b1963b73",
+                "reference": "4e1e522e18fefcb7d0bcbfc227ae8660b1963b73",
                 "shasum": ""
             },
             "require": {
+                "clue/block-react": "^1.1",
                 "humbug/humbug": "1.0.0-alpha2",
                 "phake/phake": "^2.3",
                 "php": "^7.0",
@@ -134,7 +224,7 @@
                     "email": "ceesjank@gmail.com"
                 }
             ],
-            "time": "2016-10-09 10:47:21"
+            "time": "2016-10-22 22:34:47"
         },
         {
             "name": "clue/block-react",
@@ -186,16 +276,16 @@
         },
         {
             "name": "clue/buzz-react",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/clue/php-buzz-react.git",
-                "reference": "0b2bdeefaf4e09aed5bd122909589e3573afb5f4"
+                "reference": "693c96d35f0cd0e4f0e1a51b976433a91792eff9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/clue/php-buzz-react/zipball/0b2bdeefaf4e09aed5bd122909589e3573afb5f4",
-                "reference": "0b2bdeefaf4e09aed5bd122909589e3573afb5f4",
+                "url": "https://api.github.com/repos/clue/php-buzz-react/zipball/693c96d35f0cd0e4f0e1a51b976433a91792eff9",
+                "reference": "693c96d35f0cd0e4f0e1a51b976433a91792eff9",
                 "shasum": ""
             },
             "require": {
@@ -237,7 +327,7 @@
                 "http client",
                 "reactphp"
             ],
-            "time": "2016-08-12 11:50:24"
+            "time": "2016-10-21 10:29:37"
         },
         {
             "name": "container-interop/container-interop",
@@ -268,35 +358,35 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "v1.2.7",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "f25c8aab83e0c3e976fd7d19875f198ccf2f7535"
+                "reference": "30e07cf03edc3cd3ef579d0dd4dd8c58250799a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/f25c8aab83e0c3e976fd7d19875f198ccf2f7535",
-                "reference": "f25c8aab83e0c3e976fd7d19875f198ccf2f7535",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/30e07cf03edc3cd3ef579d0dd4dd8c58250799a5",
+                "reference": "30e07cf03edc3cd3ef579d0dd4dd8c58250799a5",
                 "shasum": ""
             },
             "require": {
                 "doctrine/lexer": "1.*",
-                "php": ">=5.3.2"
+                "php": "^5.6 || ^7.0"
             },
             "require-dev": {
                 "doctrine/cache": "1.*",
-                "phpunit/phpunit": "4.*"
+                "phpunit/phpunit": "^5.6.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3.x-dev"
+                    "dev-master": "1.4.x-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Doctrine\\Common\\Annotations\\": "lib/"
+                "psr-4": {
+                    "Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -332,7 +422,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2015-08-31 12:32:49"
+            "time": "2016-10-24 11:45:47"
         },
         {
             "name": "doctrine/instantiator",
@@ -1546,16 +1636,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.6.1",
+            "version": "5.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "60c32c5b5e79c2248001efa2560f831da11cc2d7"
+                "reference": "cd13b23ac5a519a4708e00736c26ee0bb28b2e01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/60c32c5b5e79c2248001efa2560f831da11cc2d7",
-                "reference": "60c32c5b5e79c2248001efa2560f831da11cc2d7",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/cd13b23ac5a519a4708e00736c26ee0bb28b2e01",
+                "reference": "cd13b23ac5a519a4708e00736c26ee0bb28b2e01",
                 "shasum": ""
             },
             "require": {
@@ -1624,7 +1714,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-10-07 13:03:26"
+            "time": "2016-10-25 07:40:25"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1899,16 +1989,16 @@
         },
         {
             "name": "react/http-client",
-            "version": "v0.4.12",
+            "version": "v0.4.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/http-client.git",
-                "reference": "f2b902a0e5bc062ffb2ddd9032776bed9ed5d9f0"
+                "reference": "07fa19d83d9d3af4a6899c120fd4d41380d4a04e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/http-client/zipball/f2b902a0e5bc062ffb2ddd9032776bed9ed5d9f0",
-                "reference": "f2b902a0e5bc062ffb2ddd9032776bed9ed5d9f0",
+                "url": "https://api.github.com/repos/reactphp/http-client/zipball/07fa19d83d9d3af4a6899c120fd4d41380d4a04e",
+                "reference": "07fa19d83d9d3af4a6899c120fd4d41380d4a04e",
                 "shasum": ""
             },
             "require": {
@@ -1935,7 +2025,7 @@
             "keywords": [
                 "http"
             ],
-            "time": "2016-10-06 13:08:24"
+            "time": "2016-10-19 20:19:11"
         },
         {
             "name": "react/promise",
@@ -3396,14 +3486,14 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "api-clients/events": 20,
+        "api-clients/middleware": 20,
         "api-clients/resource": 20,
-        "api-clients/test-utilities": 20,
-        "humbug/humbug": 15
+        "api-clients/test-utilities": 20
     },
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^7.0"
