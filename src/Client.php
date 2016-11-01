@@ -4,7 +4,7 @@ namespace ApiClients\Foundation\Transport;
 
 use ApiClients\Foundation\Middleware\MiddlewareInterface;
 use ApiClients\Foundation\Transport\CommandBus;
-use GuzzleHttp\Client as GuzzleClient;
+use Clue\React\Buzz\Browser;
 use GuzzleHttp\Psr7\Request as Psr7Request;
 use GuzzleHttp\Psr7\Uri;
 use Interop\Container\ContainerInterface;
@@ -55,18 +55,18 @@ class Client
     /**
      * @param LoopInterface $loop
      * @param ContainerInterface $container
-     * @param GuzzleClient $handler
+     * @param Browser $buzz
      * @param array $options
      */
     public function __construct(
         LoopInterface $loop,
         ContainerInterface $container,
-        GuzzleClient $handler,
+        Browser $buzz,
         array $options = []
     ) {
         $this->loop = $loop;
         $this->container = $container;
-        $this->handler = $handler;
+        $this->handler = $buzz;
         $this->options = $options + self::DEFAULT_OPTIONS;
 
         if (isset($this->options[Options::MIDDLEWARE])
@@ -136,12 +136,12 @@ class Client
     public function request(RequestInterface $request, array $options = []): PromiseInterface
     {
         $request = $this->applyApiSettingsToRequest($request);
+        $options = $this->applyRequestOptions($options);
         $middlewares = $this->constructMiddlewares($options);
 
         return $this->preRequest($middlewares, $request, $options)->then(function ($request) use ($options) {
-            return resolve($this->handler->sendAsync(
-                $request,
-                $options
+            return resolve($this->handler->send(
+                $request
             ));
         }, function (ResponseInterface $response) {
             return resolve($response);
@@ -190,6 +190,18 @@ class Client
             $this->getHeaders() + $request->getHeaders(),
             $request->getBody(),
             $request->getProtocolVersion()
+        );
+    }
+
+    public function applyRequestOptions(array $options): array
+    {
+        if (!isset($this->options[Options::DEFAULT_REQUEST_OPTIONS])) {
+            return $options;
+        }
+
+        return array_merge_recursive(
+            $this->options[Options::DEFAULT_REQUEST_OPTIONS],
+            $options
         );
     }
 

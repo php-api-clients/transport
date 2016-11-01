@@ -3,8 +3,7 @@
 namespace ApiClients\Tests\Foundation\Transport\CommandBus\Command;
 
 use ApiClients\Foundation\Transport\CommandBus\Command\SimpleRequestCommand;
-use ApiClients\Tools\TestUtilities\TestCase;;
-use GuzzleHttp\RequestOptions;
+use ApiClients\Tools\TestUtilities\TestCase;
 use Psr\Http\Message\RequestInterface;
 
 class SimpleRequestCommandTest extends TestCase
@@ -17,15 +16,14 @@ class SimpleRequestCommandTest extends TestCase
         $method = 'GET';
         $path = '/foo/bar.json';
         $command = new SimpleRequestCommand($path, [
-            RequestOptions::STREAM => true,
+            'option' => 'value',
         ], $refresh);
         $this->assertInstanceOf(RequestInterface::class, $command->getRequest());
         $this->assertSame($method, $command->getRequest()->getMethod());
         $this->assertSame($path, $command->getRequest()->getUri()->getPath());
         $this->assertSame([
-            RequestOptions::STREAM => true,
+            'option' => 'value',
         ], $command->getOptions());
-        $this->assertSame($refresh, $command->getRefresh());
     }
 
     public function testCommandDefaults()
@@ -38,6 +36,5 @@ class SimpleRequestCommandTest extends TestCase
         $this->assertSame($method, $command->getRequest()->getMethod());
         $this->assertSame($path, $command->getRequest()->getUri()->getPath());
         $this->assertSame([], $command->getOptions());
-        $this->assertSame($refresh, $command->getRefresh());
     }
 }

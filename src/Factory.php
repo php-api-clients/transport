@@ -4,16 +4,18 @@ declare(strict_types=1);
 namespace ApiClients\Foundation\Transport;
 
 use ApiClients\Foundation\Events\CommandLocatorEvent;
+use Clue\React\Buzz\Browser;
+use Clue\React\Buzz\Io\Sender;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\HandlerStack;
 use League\Container\ContainerInterface;
 use League\Event\EmitterInterface;
+use React\Dns\Resolver\Factory as ResolverFactory;
 use React\Dns\Resolver\Resolver;
 use React\EventLoop\Factory as LoopFactory;
 use React\EventLoop\LoopInterface;
 use React\HttpClient\Client as HttpClient;
 use React\HttpClient\Factory as HttpClientFactory;
-use React\Dns\Resolver\Factory as ResolverFactory;
 use WyriHaximus\React\GuzzlePsr7\HttpClientAdapter;
 
 class Factory
@@ -75,20 +77,12 @@ class Factory
         LoopInterface $loop = null,
         array $options = []
     ): Client {
-        return self::createFromGuzzleClient(
+        return self::createFromBuzz(
             $container,
             $loop,
-            new GuzzleClient(
-                [
-                    'handler' => HandlerStack::create(
-                        new HttpClientAdapter(
-                            $loop,
-                            $httpClient,
-                            $resolver
-                        )
-                    ),
-                ]
-            ),
+            (new Browser($loop, Sender::createFromLoopDns($loop, $resolver)))->withOptions([
+                'streaming' => true,
+            ]),
             $options
         );
     }
@@ -96,20 +90,20 @@ class Factory
     /**
      * @param ContainerInterface $container
      * @param LoopInterface $loop
-     * @param GuzzleClient $guzzle
+     * @param Browser $buzz
      * @param array $options
      * @return Client
      */
-    public static function createFromGuzzleClient(
+    public static function createFromBuzz(
         ContainerInterface $container,
         LoopInterface $loop,
-        GuzzleClient $guzzle,
+        Browser $buzz,
         array $options = []
     ): Client {
         return new Client(
             $loop,
             $container,
-            $guzzle,
+            $buzz,
             $options
         );
     }
