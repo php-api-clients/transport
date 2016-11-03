@@ -151,7 +151,7 @@ class Client
     protected function applyApiSettingsToRequest(RequestInterface $request): RequestInterface
     {
         $uri = $request->getUri();
-        if (substr((string)$uri, 0, 4) !== 'http') {
+        if (strpos((string)$uri, '://') === false) {
             $uri = Uri::resolve(
                 new Uri(
                     $this->options[Options::SCHEMA] .
