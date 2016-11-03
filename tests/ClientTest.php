@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace ApiClients\Tests\Foundation\Transport;
 
@@ -20,7 +19,27 @@ use function React\Promise\resolve;
 
 class ClientTest extends TestCase
 {
-    public function testRequest()
+    public function provideRequests()
+    {
+        yield [
+            new Request('GET', 'status'),
+            new Request('GET', 'http://api.example.com/status', [
+                'User-Agent' => 'WyriHaximus/php-api-client',
+            ]),
+        ];
+
+        yield [
+            new Request('HEAD', 'https://api.example.com/status'),
+            new Request('HEAD', 'https://api.example.com/status', [
+                'User-Agent' => 'WyriHaximus/php-api-client',
+            ]),
+        ];
+    }
+
+    /**
+     * @dataProvider provideRequests
+     */
+    public function testRequest(RequestInterface $inputRequest, RequestInterface $outputRequest)
     {
         $container = new Container();
         $loop = Factory::create();
@@ -52,14 +71,16 @@ class ClientTest extends TestCase
             ]
         );
 
-        $client->request(new Request('GET', 'status'), [], true);
+        $client->request($inputRequest, [], true);
 
-        $this->assertSame('GET', $request->getMethod());
-        $this->assertSame('http://api.example.com/status', (string) $request->getUri());
-        $this->assertSame([
-            'Host' => ['api.example.com'],
-            'User-Agent' => ['WyriHaximus/php-api-client'],
-        ], $request->getHeaders());
+        $this->assertSame($outputRequest->getMethod(), $request->getMethod());
+        $this->assertSame((string) $outputRequest->getUri(), (string) $request->getUri());
+
+        $headers = $request->getHeaders();
+        ksort($headers);
+        $outputHeaders = $request->getHeaders();
+        ksort($outputHeaders);
+        $this->assertSame($headers, $outputHeaders);
     }
 
     public function provideGetBaseURL()
