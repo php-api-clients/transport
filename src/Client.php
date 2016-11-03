@@ -68,8 +68,7 @@ class Client
         $this->handler = $buzz;
         $this->options = $options + self::DEFAULT_OPTIONS;
 
-        if (isset($this->options[Options::MIDDLEWARE])
-        ) {
+        if (isset($this->options[Options::MIDDLEWARE])) {
             $this->middleware = $this->options[Options::MIDDLEWARE];
         }
     }
