@@ -22,6 +22,13 @@ class ClientTest extends TestCase
     public function provideRequests()
     {
         yield [
+            new Request('GET', ''),
+            new Request('GET', 'http://api.example.com/', [
+                'User-Agent' => 'WyriHaximus/php-api-client',
+            ]),
+        ];
+
+        yield [
             new Request('GET', 'status'),
             new Request('GET', 'http://api.example.com/status', [
                 'User-Agent' => 'WyriHaximus/php-api-client',
