@@ -11,7 +11,6 @@ use Interop\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use React\EventLoop\LoopInterface;
-use React\EventLoop\Timer\TimerInterface;
 use React\Promise\CancellablePromiseInterface;
 use React\Promise\PromiseInterface;
 use function React\Promise\reject;
@@ -147,25 +146,6 @@ class Client
             return resolve($response);
         })->then(function (ResponseInterface $response) use ($middlewares, $options) {
             return $this->postRequest($middlewares, $response, $options);
-        });
-    }
-
-    protected function streamBody(Response $response)
-    {
-        $stream = $response->getResponse()->getBody();
-        $this->loop->addPeriodicTimer(0.001, function (TimerInterface $timer) use ($stream, $response) {
-            if ($stream->eof()) {
-                $timer->cancel();
-                $response->emit('end');
-                return;
-            }
-
-            $size = $stream->getSize();
-            if ($size === 0) {
-                return;
-            }
-
-            $response->emit('data', [$stream->read($size)]);
         });
     }
 
