@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace ApiClients\Tests\Foundation\Transport;
 
 use ApiClients\Foundation\Transport\Client;
+use ApiClients\Foundation\Transport\Options;
 use ApiClients\Tools\TestUtilities\TestCase;
 use Clue\React\Buzz\Browser as BuzzClient;
 use GuzzleHttp\Psr7\Request;
@@ -45,16 +46,19 @@ class ClientTest extends TestCase
             $loop,
             $container,
             $handler,
-            []
+            [
+                Options::SCHEMA => 'http',
+                Options::HOST => 'api.example.com',
+            ]
         );
 
-        $client->request(new Request('GET', 'http://api.example.com/status'), [], true);
+        $client->request(new Request('GET', 'status'), [], true);
 
         $this->assertSame('GET', $request->getMethod());
         $this->assertSame('http://api.example.com/status', (string) $request->getUri());
         $this->assertSame([
-            'User-Agent' => ['WyriHaximus/php-api-client'],
             'Host' => ['api.example.com'],
+            'User-Agent' => ['WyriHaximus/php-api-client'],
         ], $request->getHeaders());
     }
 
