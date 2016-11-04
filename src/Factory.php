@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace ApiClients\Foundation\Transport;
 
 use ApiClients\Foundation\Events\CommandLocatorEvent;
+use ApiClients\Foundation\Events\ServiceLocatorEvent;
 use Clue\React\Buzz\Browser;
 use Clue\React\Buzz\Io\Sender;
 use GuzzleHttp\Client as GuzzleClient;
@@ -36,6 +37,15 @@ class Factory
                 $event->add(
                     __DIR__ . DIRECTORY_SEPARATOR . 'CommandBus' . DIRECTORY_SEPARATOR,
                     __NAMESPACE__ . '\CommandBus'
+                );
+            })
+        ;
+
+        $container->get(EmitterInterface::class)->
+            addListener(ServiceLocatorEvent::NAME, function (ServiceLocatorEvent $event) {
+                $event->add(
+                    __DIR__ . DIRECTORY_SEPARATOR . 'Service' . DIRECTORY_SEPARATOR,
+                    __NAMESPACE__ . '\Service'
                 );
             })
         ;
