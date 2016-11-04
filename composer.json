@@ -14,6 +14,7 @@
     "api-clients/events": "dev-master",
     "api-clients/middleware": "dev-master",
     "api-clients/resource": "dev-master",
+    "api-clients/service": "dev-master",
     "api-clients/test-utilities": "dev-master",
     "clue/block-react": "^1.1",
     "clue/buzz-react": "^1.0",

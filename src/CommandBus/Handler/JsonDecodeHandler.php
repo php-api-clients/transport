@@ -3,23 +3,23 @@
 namespace ApiClients\Foundation\Transport\CommandBus\Handler;
 
 use ApiClients\Foundation\Transport\CommandBus\Command\JsonDecodeCommand;
-use React\EventLoop\LoopInterface;
+use ApiClients\Foundation\Transport\Service\JsonDecodeService;
 use React\Promise\PromiseInterface;
 use function WyriHaximus\React\futureFunctionPromise;
 
 final class JsonDecodeHandler
 {
     /**
-     * @var LoopInterface
+     * @var JsonDecodeService
      */
-    private $loop;
+    private $jsonDecodeService;
 
     /**
-     * @param LoopInterface $loop
+     * @param JsonDecodeService $jsonDecodeService
      */
-    public function __construct(LoopInterface $loop)
+    public function __construct(JsonDecodeService $jsonDecodeService)
     {
-        $this->loop = $loop;
+        $this->jsonDecodeService = $jsonDecodeService;
     }
 
     /**
@@ -28,8 +28,6 @@ final class JsonDecodeHandler
      */
     public function handle(JsonDecodeCommand $command): PromiseInterface
     {
-        return futureFunctionPromise($this->loop, $command->getJson(), function ($json) {
-            return json_decode($json, true);
-        });
+        return $this->jsonDecodeService->handle($command->getJson());
     }
 }
