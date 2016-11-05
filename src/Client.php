@@ -166,7 +166,7 @@ class Client
         return new Psr7Request(
             $request->getMethod(),
             $uri,
-            $this->getHeaders() + $request->getHeaders(),
+            $this->options[Options::HEADERS] + $request->getHeaders(),
             $request->getBody(),
             $request->getProtocolVersion()
         );
@@ -182,25 +182,5 @@ class Client
             $this->options[Options::DEFAULT_REQUEST_OPTIONS],
             $options
         );
-    }
-
-    /**
-     * @return array
-     */
-    public function getHeaders(): array
-    {
-        $headers = [
-            'User-Agent' => $this->options[Options::USER_AGENT],
-        ];
-        $headers += $this->options[Options::HEADERS];
-        return $headers;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBaseURL(): string
-    {
-        return $this->options[Options::SCHEMA] . '://' . $this->options[Options::HOST] . $this->options[Options::PATH];
     }
 }
