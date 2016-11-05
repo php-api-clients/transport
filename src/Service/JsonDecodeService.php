@@ -3,6 +3,7 @@
 namespace ApiClients\Foundation\Transport\Service;
 
 use ApiClients\Foundation\Service\ServiceInterface;
+use function ExceptionalJSON\decode;
 use React\EventLoop\LoopInterface;
 use React\Promise\CancellablePromiseInterface;
 use function WyriHaximus\React\futureFunctionPromise;
@@ -25,7 +26,7 @@ final class JsonDecodeService implements ServiceInterface
     public function handle($input): CancellablePromiseInterface
     {
         return futureFunctionPromise($this->loop, $input, function ($json) {
-            return json_decode($json, true);
+            return decode($json, true);
         });
     }
 }
