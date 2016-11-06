@@ -58,27 +58,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/events.git",
-                "reference": "6d4d755b86babfd01d17fb6ec47f0feb0cc4cc02"
+                "reference": "019589e9b936f0d6ac8cebc2167a5e38dfa69578"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/events/zipball/6d4d755b86babfd01d17fb6ec47f0feb0cc4cc02",
-                "reference": "6d4d755b86babfd01d17fb6ec47f0feb0cc4cc02",
+                "url": "https://api.github.com/repos/php-api-clients/events/zipball/019589e9b936f0d6ac8cebc2167a5e38dfa69578",
+                "reference": "019589e9b936f0d6ac8cebc2167a5e38dfa69578",
                 "shasum": ""
             },
             "require": {
                 "api-clients/service": "dev-master",
-                "api-clients/test-utilities": "dev-master",
                 "league/event": "^2.1",
                 "php": "^7.0",
                 "wyrihaximus/tactician-command-handler-mapper": "^1.0"
             },
             "require-dev": {
-                "humbug/humbug": "1.0.0-alpha2",
-                "phake/phake": "^2.3",
-                "phpspec/prophecy": "^1.6",
-                "phpunit/phpunit": "^5.2.3",
-                "squizlabs/php_codesniffer": "^2.6"
+                "api-clients/test-utilities": "dev-master"
             },
             "type": "library",
             "autoload": {
@@ -96,7 +91,7 @@
                     "email": "ceesjank@gmail.com"
                 }
             ],
-            "time": "2016-11-03 21:19:35"
+            "time": "2016-11-05 23:05:41"
         },
         {
             "name": "api-clients/middleware",
@@ -192,16 +187,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/service.git",
-                "reference": "1085ed0ff137f2e36fd8ff49ee25bf451c42dc3d"
+                "reference": "0a8e653620dc13692883bb74ab0249e8e3f17760"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/service/zipball/1085ed0ff137f2e36fd8ff49ee25bf451c42dc3d",
-                "reference": "1085ed0ff137f2e36fd8ff49ee25bf451c42dc3d",
+                "url": "https://api.github.com/repos/php-api-clients/service/zipball/0a8e653620dc13692883bb74ab0249e8e3f17760",
+                "reference": "0a8e653620dc13692883bb74ab0249e8e3f17760",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0"
+                "php": "^7.0",
+                "react/promise": "^2.4"
             },
             "require-dev": {
                 "api-clients/test-utilities": "dev-master"
@@ -222,7 +218,7 @@
                     "email": "ceesjank@gmail.com"
                 }
             ],
-            "time": "2016-11-03 20:56:51"
+            "time": "2016-11-05 17:17:37"
         },
         {
             "name": "api-clients/test-utilities",
@@ -230,12 +226,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/test-utilities.git",
-                "reference": "4e1e522e18fefcb7d0bcbfc227ae8660b1963b73"
+                "reference": "0890f53574fa987177e33557680e701f444eaa55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/test-utilities/zipball/4e1e522e18fefcb7d0bcbfc227ae8660b1963b73",
-                "reference": "4e1e522e18fefcb7d0bcbfc227ae8660b1963b73",
+                "url": "https://api.github.com/repos/php-api-clients/test-utilities/zipball/0890f53574fa987177e33557680e701f444eaa55",
+                "reference": "0890f53574fa987177e33557680e701f444eaa55",
                 "shasum": ""
             },
             "require": {
@@ -244,7 +240,7 @@
                 "phake/phake": "^2.3",
                 "php": "^7.0",
                 "phpspec/prophecy": "^1.6",
-                "phpunit/phpunit": "^5.2.3",
+                "phpunit/phpunit": "^5.6",
                 "squizlabs/php_codesniffer": "^2.6"
             },
             "type": "library",
@@ -263,7 +259,7 @@
                     "email": "ceesjank@gmail.com"
                 }
             ],
-            "time": "2016-10-22 22:34:47"
+            "time": "2016-11-05 22:45:05"
         },
         {
             "name": "clue/block-react",
