@@ -4,7 +4,10 @@ namespace ApiClients\Foundation\Transport\CommandBus\Handler;
 
 use ApiClients\Foundation\Transport\Client;
 use ApiClients\Foundation\Transport\CommandBus\Command\RequestCommandInterface;
+use ApiClients\Foundation\Transport\StreamingResponse;
+use Psr\Http\Message\ResponseInterface;
 use React\Promise\PromiseInterface;
+use function React\Promise\resolve;
 
 final class StreamingRequestHandler
 {
@@ -23,6 +26,11 @@ final class StreamingRequestHandler
 
     public function handle(RequestCommandInterface $command): PromiseInterface
     {
-        return $this->client->request($command->getRequest(), $command->getOptions());
+        return $this->client->request(
+            $command->getRequest(),
+            $command->getOptions()
+        )->then(function (ResponseInterface $response) {
+            return resolve(new StreamingResponse($response));
+        });
     }
 }
