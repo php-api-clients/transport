@@ -12,6 +12,7 @@ use React\EventLoop\Factory;
 use React\Stream\ThroughStream;
 use RingCentral\Psr7\Response;
 use Rx\React\Promise;
+use function React\Promise\resolve;
 
 class StreamingResponseTest extends TestCase
 {
@@ -26,7 +27,7 @@ class StreamingResponseTest extends TestCase
         $psr7Response = new Response(200, [], new ReadableBodyStream($stream));
         $response = new StreamingResponse($psr7Response);
         $this->assertSame($psr7Response, $response->getResponse());
-        $result = await(Promise::fromObservable($response->subscribe()), $loop);
+        $result = await(Promise::fromObservable(Promise::toObservable(resolve($response))->switchLatest()), $loop);
         $this->assertSame($string, $result);
     }
 
@@ -43,6 +44,6 @@ class StreamingResponseTest extends TestCase
         });
         $psr7Response = new Response(200, [], new ReadableBodyStream($stream));
         $response = new StreamingResponse($psr7Response);
-        await(Promise::fromObservable($response->subscribe()), $loop);
+        await(Promise::fromObservable(Promise::toObservable(resolve($response))->switchLatest()), $loop);
     }
 }
