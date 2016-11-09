@@ -11,7 +11,7 @@ use React\Promise\CancellablePromiseInterface;
 use function React\Promise\resolve;
 use RingCentral\Psr7\BufferStream;
 
-class JsonEncode implements MiddlewareInterface
+class JsonEncodeMiddleware implements MiddlewareInterface
 {
     use PostTrait;
 

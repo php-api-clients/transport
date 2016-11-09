@@ -11,7 +11,7 @@ use React\Promise\CancellablePromiseInterface;
 use function React\Promise\resolve;
 use React\Stream\ReadableStreamInterface;
 
-class JsonDecode implements MiddlewareInterface
+class JsonDecodeMiddleware implements MiddlewareInterface
 {
     use PreTrait;
 
