@@ -111,7 +111,7 @@ class Client
         $set = $this->middleware;
 
         if (isset($options[Options::MIDDLEWARE])) {
-            $set = $options[Options::MIDDLEWARE];
+            $set = $this->combinedMiddlewares($options[Options::MIDDLEWARE]);
         }
 
         $middlewares = [];
@@ -124,6 +124,21 @@ class Client
         }
 
         return $middlewares;
+    }
+
+    protected function combinedMiddlewares(array $extraMiddlewares): array
+    {
+        $set = $this->middleware;
+
+        foreach ($extraMiddlewares as $middleware) {
+            if (in_array($middleware, $set)) {
+                continue;
+            }
+
+            $set[] = $middleware;
+        }
+
+        return $set;
     }
 
     /**
