@@ -34,7 +34,7 @@ class JsonDecodeMiddleware implements MiddlewareInterface
      */
     public function priority(): int
     {
-        return 0;
+        return 1000;
     }
 
     /**

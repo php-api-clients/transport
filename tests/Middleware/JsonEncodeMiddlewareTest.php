@@ -53,6 +53,6 @@ class JsonEncodeMiddlewareTest extends TestCase
         $loop = Factory::create();
         $service = new JsonEncodeService($loop);
         $middleware = new JsonEncodeMiddleware($service);
-        $this->assertSame(0, $middleware->priority());
+        $this->assertSame(1000, $middleware->priority());
     }
 }
