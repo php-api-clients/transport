@@ -18,9 +18,9 @@
     "api-clients/test-utilities": "dev-master",
     "clue/block-react": "^1.1",
     "clue/buzz-react": "^1.0",
+    "container-interop/container-interop": "^1.1",
     "daverandom/exceptional-json": "^1.0",
     "doctrine/annotations": "^1.2",
-    "league/container": "^2.2",
     "league/event": "^2.1",
     "react/cache": "^0.4.1",
     "react/promise": "^2.4",
@@ -30,6 +30,7 @@
   "require-dev": {
     "humbug/humbug": "1.0.0-alpha2",
     "phake/phake": "^2.3",
+    "php-di/php-di": "^5.4",
     "phpspec/prophecy": "^1.6",
     "phpunit/phpunit": "^5.2.3",
     "squizlabs/php_codesniffer": "^2.6"

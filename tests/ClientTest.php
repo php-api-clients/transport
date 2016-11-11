@@ -6,8 +6,8 @@ use ApiClients\Foundation\Transport\Client;
 use ApiClients\Foundation\Transport\Options;
 use ApiClients\Tools\TestUtilities\TestCase;
 use Clue\React\Buzz\Browser as BuzzClient;
+use DI\ContainerBuilder;
 use GuzzleHttp\Psr7\Request;
-use League\Container\Container;
 use Phake;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -48,7 +48,7 @@ class ClientTest extends TestCase
      */
     public function testRequest(RequestInterface $inputRequest, RequestInterface $outputRequest)
     {
-        $container = new Container();
+        $container = ContainerBuilder::buildDevContainer();
         $loop = Factory::create();
 
         $stream = Phake::mock(StreamInterface::class);
