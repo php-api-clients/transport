@@ -30,6 +30,14 @@ class JsonDecodeMiddleware implements MiddlewareInterface
     }
 
     /**
+     * @return int
+     */
+    public function priority(): int
+    {
+        return 0;
+    }
+
+    /**
      * @param ResponseInterface $response
      * @param array $options
      * @return CancellablePromiseInterface

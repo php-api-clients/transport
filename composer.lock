@@ -99,12 +99,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/middleware.git",
-                "reference": "2e727bbf0e1eb914dbf0abf5761b0151bf3adb95"
+                "reference": "3ac9c02e65aec758d1bcbbca35e681d04305a271"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/middleware/zipball/2e727bbf0e1eb914dbf0abf5761b0151bf3adb95",
-                "reference": "2e727bbf0e1eb914dbf0abf5761b0151bf3adb95",
+                "url": "https://api.github.com/repos/php-api-clients/middleware/zipball/3ac9c02e65aec758d1bcbbca35e681d04305a271",
+                "reference": "3ac9c02e65aec758d1bcbbca35e681d04305a271",
                 "shasum": ""
             },
             "require": {
@@ -135,7 +135,7 @@
                     "email": "ceesjank@gmail.com"
                 }
             ],
-            "time": "2016-10-21 21:58:49"
+            "time": "2016-11-11 06:42:02"
         },
         {
             "name": "api-clients/resource",

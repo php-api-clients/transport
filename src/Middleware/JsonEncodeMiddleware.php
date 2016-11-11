@@ -29,6 +29,14 @@ class JsonEncodeMiddleware implements MiddlewareInterface
     }
 
     /**
+     * @return int
+     */
+    public function priority(): int
+    {
+        return 0;
+    }
+
+    /**
      * @param RequestInterface $request
      * @param array $options
      * @return CancellablePromiseInterface
