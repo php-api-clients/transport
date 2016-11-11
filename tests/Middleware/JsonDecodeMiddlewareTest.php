@@ -49,4 +49,12 @@ class JsonDecodeMiddlewareTest extends TestCase
             )
         );
     }
+
+    public function testPriority()
+    {
+        $loop = Factory::create();
+        $service = new JsonDecodeService($loop);
+        $middleware = new JsonDecodeMiddleware($service);
+        $this->assertSame(0, $middleware->priority());
+    }
 }
