@@ -29,6 +29,7 @@ class JsonEncodeMiddlewareTest extends TestCase
             )->getBody()
         );
     }
+
     public function testPreNoJson()
     {
         $loop = Factory::create();

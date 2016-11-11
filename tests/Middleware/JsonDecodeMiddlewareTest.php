@@ -33,6 +33,7 @@ class JsonDecodeMiddlewareTest extends TestCase
             $body->getJson()
         );
     }
+
     public function testPostNoJson()
     {
         $loop = Factory::create();
