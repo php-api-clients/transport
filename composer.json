@@ -17,7 +17,7 @@
     "api-clients/service": "dev-master",
     "api-clients/test-utilities": "dev-master",
     "clue/block-react": "^1.1",
-    "clue/buzz-react": "^1.0",
+    "clue/buzz-react": "^1.1",
     "container-interop/container-interop": "^1.1",
     "daverandom/exceptional-json": "^1.0",
     "doctrine/annotations": "^1.2",

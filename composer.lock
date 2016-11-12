@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "26a6f1234686da49c8fb79e45e0c5081",
-    "content-hash": "4ce060a29bc450a50e34da8472dd204c",
+    "hash": "c91e855efd0958a82bbbff35fa39d385",
+    "content-hash": "b4dd5854a5ef57dc1ee5270038fac0ef",
     "packages": [
         {
             "name": "api-clients/command-bus",
