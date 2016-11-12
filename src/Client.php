@@ -2,6 +2,7 @@
 
 namespace ApiClients\Foundation\Transport;
 
+use ApiClients\Foundation\Middleware\MiddlewareExecutioner;
 use ApiClients\Foundation\Middleware\MiddlewareInterface;
 use ApiClients\Foundation\Transport\CommandBus;
 use Clue\React\Buzz\Browser;
@@ -72,39 +73,6 @@ class Client
             $this->middleware = $this->options[Options::MIDDLEWARE];
         }
     }
-    protected function preRequest(
-        array $middlewares,
-        RequestInterface $request,
-        array $options
-    ): CancellablePromiseInterface {
-        $promise = resolve($request);
-
-        foreach ($middlewares as $middleware) {
-            $requestMiddleware = $middleware;
-            $promise = $promise->then(function (RequestInterface $request) use ($options, $requestMiddleware) {
-                return $requestMiddleware->pre($request, $options);
-            });
-        }
-
-        return $promise;
-    }
-
-    protected function postRequest(
-        array $middlewares,
-        ResponseInterface $response,
-        array $options
-    ): CancellablePromiseInterface {
-        $promise = resolve($response);
-
-        foreach ($middlewares as $middleware) {
-            $responseMiddleware = $middleware;
-            $promise = $promise->then(function (ResponseInterface $response) use ($options, $responseMiddleware) {
-                return $responseMiddleware->post($response, $options);
-            });
-        }
-
-        return $promise;
-    }
 
     protected function constructMiddlewares(array $options): array
     {
@@ -114,7 +82,8 @@ class Client
             $set = $this->combinedMiddlewares($options[Options::MIDDLEWARE]);
         }
 
-        $middlewares = [];
+        $args = [];
+        $args[] = $options;
         foreach ($set as $middleware) {
             if (!is_subclass_of($middleware, MiddlewareInterface::class)) {
                 continue;
@@ -123,7 +92,7 @@ class Client
             $middlewares[] = $this->container->get($middleware);
         }
 
-        return $middlewares;
+        return new MiddlewareExecutioner(...$args);
     }
 
     protected function combinedMiddlewares(array $extraMiddlewares): array
@@ -150,16 +119,16 @@ class Client
     {
         $request = $this->applyApiSettingsToRequest($request);
         $options = $this->applyRequestOptions($options);
-        $middlewares = $this->constructMiddlewares($options);
+        $executioner = $this->constructMiddlewares($options);
 
-        return $this->preRequest($middlewares, $request, $options)->then(function ($request) use ($options) {
+        return $executioner->pre($request)->then(function ($request) use ($options) {
             return resolve($this->handler->send(
                 $request
             ));
         }, function (ResponseInterface $response) {
             return resolve($response);
-        })->then(function (ResponseInterface $response) use ($middlewares, $options) {
-            return $this->postRequest($middlewares, $response, $options);
+        })->then(function (ResponseInterface $response) use ($executioner) {
+            return $executioner->post($response);
         });
     }
 

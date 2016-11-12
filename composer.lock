@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "26a6f1234686da49c8fb79e45e0c5081",
-    "content-hash": "4ce060a29bc450a50e34da8472dd204c",
+    "hash": "e1075528d945a40621483a4a75dacaba",
+    "content-hash": "e20d6d7db67a5f57d70d4fe7ae862edf",
     "packages": [
         {
             "name": "api-clients/command-bus",
@@ -95,29 +95,26 @@
         },
         {
             "name": "api-clients/middleware",
-            "version": "dev-master",
+            "version": "dev-feature-middleware-executioner",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/middleware.git",
-                "reference": "3ac9c02e65aec758d1bcbbca35e681d04305a271"
+                "reference": "e33fd3bcbaeeec72bf07e8fc612ddeeb740b230f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/middleware/zipball/3ac9c02e65aec758d1bcbbca35e681d04305a271",
-                "reference": "3ac9c02e65aec758d1bcbbca35e681d04305a271",
+                "url": "https://api.github.com/repos/php-api-clients/middleware/zipball/e33fd3bcbaeeec72bf07e8fc612ddeeb740b230f",
+                "reference": "e33fd3bcbaeeec72bf07e8fc612ddeeb740b230f",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.0",
-                "psr/http-message": "^1.0"
+                "psr/http-message": "^1.0",
+                "react/promise": "^2.4"
             },
             "require-dev": {
                 "api-clients/test-utilities": "dev-master",
-                "clue/block-react": "^1.1",
-                "humbug/humbug": "1.0.0-alpha2",
-                "phpspec/prophecy": "^1.6",
-                "phpunit/phpunit": "^5.2.3",
-                "squizlabs/php_codesniffer": "^2.6"
+                "guzzlehttp/psr7": "^1.3"
             },
             "type": "library",
             "autoload": {
@@ -135,7 +132,7 @@
                     "email": "ceesjank@gmail.com"
                 }
             ],
-            "time": "2016-11-11 06:42:02"
+            "time": "2016-11-12 20:09:10"
         },
         {
             "name": "api-clients/resource",
@@ -3632,7 +3629,14 @@
             "time": "2015-11-29 10:34:25"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "dev-master",
+            "alias_normalized": "9999999-dev",
+            "version": "dev-feature-middleware-executioner",
+            "package": "api-clients/middleware"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "api-clients/events": 20,
