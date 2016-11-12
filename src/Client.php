@@ -12,7 +12,6 @@ use Interop\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use React\EventLoop\LoopInterface;
-use React\Promise\CancellablePromiseInterface;
 use React\Promise\PromiseInterface;
 use function React\Promise\reject;
 use function React\Promise\resolve;
