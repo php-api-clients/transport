@@ -88,7 +88,7 @@ class Client
                 continue;
             }
 
-            $middlewares[] = $this->container->get($middleware);
+            $args[] = $this->container->get($middleware);
         }
 
         return new MiddlewareRunner(...$args);
