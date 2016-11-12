@@ -8,7 +8,7 @@ use ApiClients\Foundation\Transport\Service\JsonDecodeService;
 use ApiClients\Tools\TestUtilities\TestCase;
 use function Clue\React\Block\await;
 use Clue\React\Buzz\Message\ReadableBodyStream;
-use GuzzleHttp\Psr7\Response;
+use RingCentral\Psr7\Response;
 use React\EventLoop\Factory;
 use React\Stream\ThroughStream;
 

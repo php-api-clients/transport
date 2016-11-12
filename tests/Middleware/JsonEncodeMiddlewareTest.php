@@ -7,8 +7,8 @@ use ApiClients\Foundation\Transport\Middleware\JsonEncodeMiddleware;
 use ApiClients\Foundation\Transport\Service\JsonEncodeService;
 use ApiClients\Tools\TestUtilities\TestCase;
 use function Clue\React\Block\await;
-use GuzzleHttp\Psr7\BufferStream;
-use GuzzleHttp\Psr7\Request;
+use RingCentral\Psr7\BufferStream;
+use RingCentral\Psr7\Request;
 use React\EventLoop\Factory;
 
 class JsonEncodeMiddlewareTest extends TestCase

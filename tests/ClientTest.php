@@ -7,7 +7,7 @@ use ApiClients\Foundation\Transport\Options;
 use ApiClients\Tools\TestUtilities\TestCase;
 use Clue\React\Buzz\Browser as BuzzClient;
 use DI\ContainerBuilder;
-use GuzzleHttp\Psr7\Request;
+use RingCentral\Psr7\Request;
 use Phake;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
