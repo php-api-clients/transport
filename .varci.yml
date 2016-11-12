@@ -1,0 +1,10 @@
+ruleset:
+  merge_for_me:
+
+    name: Merge pull requests for me when I start a comment with "LGTM"
+    events: [ issue_comment ]
+    when:
+      - action = "created"
+      - user.login = "WyriHaximus"
+      - body matches "/^LGTM/"
+    merge: true
