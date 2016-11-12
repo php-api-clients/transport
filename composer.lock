@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e1075528d945a40621483a4a75dacaba",
-    "content-hash": "e20d6d7db67a5f57d70d4fe7ae862edf",
+    "hash": "26a6f1234686da49c8fb79e45e0c5081",
+    "content-hash": "4ce060a29bc450a50e34da8472dd204c",
     "packages": [
         {
             "name": "api-clients/command-bus",
@@ -95,16 +95,16 @@
         },
         {
             "name": "api-clients/middleware",
-            "version": "dev-feature-middleware-executioner",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/middleware.git",
-                "reference": "3faaf479286636fc6b43f485cd20bc6b5098c68f"
+                "reference": "c5537587160f3c766aa6eda45a3750ac2920d193"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/middleware/zipball/3faaf479286636fc6b43f485cd20bc6b5098c68f",
-                "reference": "3faaf479286636fc6b43f485cd20bc6b5098c68f",
+                "url": "https://api.github.com/repos/php-api-clients/middleware/zipball/c5537587160f3c766aa6eda45a3750ac2920d193",
+                "reference": "c5537587160f3c766aa6eda45a3750ac2920d193",
                 "shasum": ""
             },
             "require": {
@@ -132,7 +132,7 @@
                     "email": "ceesjank@gmail.com"
                 }
             ],
-            "time": "2016-11-12 20:29:26"
+            "time": "2016-11-12 20:49:55"
         },
         {
             "name": "api-clients/resource",
@@ -3629,14 +3629,7 @@
             "time": "2015-11-29 10:34:25"
         }
     ],
-    "aliases": [
-        {
-            "alias": "dev-master",
-            "alias_normalized": "9999999-dev",
-            "version": "dev-feature-middleware-executioner",
-            "package": "api-clients/middleware"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "api-clients/events": 20,
