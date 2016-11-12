@@ -5,6 +5,8 @@ namespace ApiClients\Tests\Foundation\Transport\CommandBus\Handler;
 use ApiClients\Foundation\Transport\Client;
 use ApiClients\Foundation\Transport\CommandBus\Command\SimpleRequestCommand;
 use ApiClients\Foundation\Transport\CommandBus\Handler\RequestHandler;
+use ApiClients\Foundation\Transport\Middleware\BufferedSinkMiddleware;
+use ApiClients\Foundation\Transport\Options;
 use ApiClients\Tools\TestUtilities\TestCase;
 use Clue\React\Buzz\Message\ReadableBodyStream;
 use Prophecy\Argument;
@@ -32,11 +34,14 @@ class RequestHandlerTest extends TestCase
         $promise = new FulfilledPromise($response);
         $client->request(Argument::that(function (RequestInterface $request) use ($path) {
             return $request->getUri()->getPath() === $path;
-        }), [])->willReturn($promise);
+        }), [
+            Options::MIDDLEWARE => [
+                BufferedSinkMiddleware::class,
+            ],
+        ])->willReturn($promise);
         $command = new SimpleRequestCommand($path);
         $handler = new RequestHandler($client->reveal());
         $result = await($handler->handle($command), $loop);
         $this->assertEquals(200, $result->getStatusCode());
-        $this->assertEquals($bodyString, (string)$result->getBody());
     }
 }
