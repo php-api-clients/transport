@@ -19,7 +19,7 @@
     "clue/block-react": "^1.1",
     "clue/buzz-react": "^1.1",
     "container-interop/container-interop": "^1.1",
-    "daverandom/exceptional-json": "^1.0",
+    "daverandom/exceptional-json": "^1.0.1",
     "doctrine/annotations": "^1.2",
     "league/event": "^2.1",
     "react/cache": "^0.4.1",
