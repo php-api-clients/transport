@@ -2,7 +2,7 @@
 
 namespace ApiClients\Foundation\Transport;
 
-use ApiClients\Foundation\Middleware\MiddlewareExecutioner;
+use ApiClients\Foundation\Middleware\MiddlewareRunner;
 use ApiClients\Foundation\Middleware\MiddlewareInterface;
 use ApiClients\Foundation\Transport\CommandBus;
 use Clue\React\Buzz\Browser;
@@ -92,7 +92,7 @@ class Client
             $middlewares[] = $this->container->get($middleware);
         }
 
-        return new MiddlewareExecutioner(...$args);
+        return new MiddlewareRunner(...$args);
     }
 
     protected function combinedMiddlewares(array $extraMiddlewares): array
