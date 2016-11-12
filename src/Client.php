@@ -74,7 +74,7 @@ class Client
         }
     }
 
-    protected function constructMiddlewares(array $options): array
+    protected function constructMiddlewares(array $options): MiddlewareRunner
     {
         $set = $this->middleware;
 
