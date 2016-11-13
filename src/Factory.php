@@ -18,7 +18,7 @@ class Factory
 {
     /**
      * @param ContainerInterface $container
-     * @param LoopInterface|null $loop
+     * @param LoopInterface $loop
      * @param array $options
      * @return Client
      */
@@ -65,7 +65,7 @@ class Factory
      * @param ContainerInterface $container
      * @param HttpClient $httpClient
      * @param Resolver $resolver
-     * @param LoopInterface|null $loop
+     * @param LoopInterface $loop
      * @param array $options
      * @return Client
      */
