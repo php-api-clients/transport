@@ -1,32 +1,30 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace ApiClients\Foundation\Transport;
 
 use ApiClients\Foundation\Events\CommandLocatorEvent;
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\HandlerStack;
-use League\Container\ContainerInterface;
+use ApiClients\Foundation\Events\ServiceLocatorEvent;
+use Clue\React\Buzz\Browser;
+use Clue\React\Buzz\Io\Sender;
+use Interop\Container\ContainerInterface;
 use League\Event\EmitterInterface;
+use React\Dns\Resolver\Factory as ResolverFactory;
 use React\Dns\Resolver\Resolver;
-use React\EventLoop\Factory as LoopFactory;
 use React\EventLoop\LoopInterface;
 use React\HttpClient\Client as HttpClient;
 use React\HttpClient\Factory as HttpClientFactory;
-use React\Dns\Resolver\Factory as ResolverFactory;
-use WyriHaximus\React\GuzzlePsr7\HttpClientAdapter;
 
 class Factory
 {
     /**
      * @param ContainerInterface $container
-     * @param LoopInterface|null $loop
+     * @param LoopInterface $loop
      * @param array $options
      * @return Client
      */
     public static function create(
         ContainerInterface $container,
-        LoopInterface $loop = null,
+        LoopInterface $loop,
         array $options = []
     ): Client {
         $container->get(EmitterInterface::class)->
@@ -38,11 +36,14 @@ class Factory
             })
         ;
 
-        if (!($loop instanceof LoopInterface)) {
-            $loop = LoopFactory::create();
-        }
-
-        $container->share(LoopInterface::class, $loop);
+        $container->get(EmitterInterface::class)->
+            addListener(ServiceLocatorEvent::NAME, function (ServiceLocatorEvent $event) {
+                $event->add(
+                    __DIR__ . DIRECTORY_SEPARATOR . 'Service' . DIRECTORY_SEPARATOR,
+                    __NAMESPACE__ . '\Service'
+                );
+            })
+        ;
 
         if (!isset($options[Options::DNS])) {
             $options[Options::DNS] = '8.8.8.8';
@@ -64,7 +65,7 @@ class Factory
      * @param ContainerInterface $container
      * @param HttpClient $httpClient
      * @param Resolver $resolver
-     * @param LoopInterface|null $loop
+     * @param LoopInterface $loop
      * @param array $options
      * @return Client
      */
@@ -72,23 +73,15 @@ class Factory
         ContainerInterface $container,
         HttpClient $httpClient,
         Resolver $resolver,
-        LoopInterface $loop = null,
+        LoopInterface $loop,
         array $options = []
     ): Client {
-        return self::createFromGuzzleClient(
+        return self::createFromBuzz(
             $container,
             $loop,
-            new GuzzleClient(
-                [
-                    'handler' => HandlerStack::create(
-                        new HttpClientAdapter(
-                            $loop,
-                            $httpClient,
-                            $resolver
-                        )
-                    ),
-                ]
-            ),
+            (new Browser($loop, Sender::createFromLoopDns($loop, $resolver)))->withOptions([
+                'streaming' => true,
+            ]),
             $options
         );
     }
@@ -96,20 +89,20 @@ class Factory
     /**
      * @param ContainerInterface $container
      * @param LoopInterface $loop
-     * @param GuzzleClient $guzzle
+     * @param Browser $buzz
      * @param array $options
      * @return Client
      */
-    public static function createFromGuzzleClient(
+    public static function createFromBuzz(
         ContainerInterface $container,
         LoopInterface $loop,
-        GuzzleClient $guzzle,
+        Browser $buzz,
         array $options = []
     ): Client {
         return new Client(
             $loop,
             $container,
-            $guzzle,
+            $buzz,
             $options
         );
     }

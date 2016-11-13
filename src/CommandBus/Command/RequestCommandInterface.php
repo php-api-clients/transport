@@ -16,11 +16,6 @@ interface RequestCommandInterface
     public function getRequest(): RequestInterface;
 
     /**
-     * @return bool
-     */
-    public function getRefresh(): bool;
-
-    /**
      * @return array
      */
     public function getOptions(): array;

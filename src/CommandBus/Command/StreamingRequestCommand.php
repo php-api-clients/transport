@@ -2,14 +2,14 @@
 
 namespace ApiClients\Foundation\Transport\CommandBus\Command;
 
-use RingCentral\Psr7\Request;
+use ApiClients\Foundation\Transport\CommandBus\Handler\StreamingRequestHandler;
 use Psr\Http\Message\RequestInterface;
 use WyriHaximus\Tactician\CommandHandler\Annotations\Handler;
 
 /**
- * @Handler("ApiClients\Foundation\Transport\CommandBus\Handler\RequestHandler")
+* @Handler(StreamingRequestHandler::class)
  */
-final class SimpleRequestCommand implements RequestCommandInterface
+final class StreamingRequestCommand implements RequestCommandInterface
 {
     /**
      * @var RequestInterface
@@ -22,15 +22,12 @@ final class SimpleRequestCommand implements RequestCommandInterface
     private $options;
 
     /**
-     * @param string $path
+     * @param RequestInterface $request
      * @param array $options
      */
-    public function __construct(string $path, array $options = [])
+    public function __construct(RequestInterface $request, array $options = [])
     {
-        $this->request = new Request(
-            'GET',
-            $path
-        );
+        $this->request = $request;
         $this->options = $options;
     }
 

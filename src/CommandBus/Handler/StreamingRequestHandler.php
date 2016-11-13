@@ -4,12 +4,12 @@ namespace ApiClients\Foundation\Transport\CommandBus\Handler;
 
 use ApiClients\Foundation\Transport\Client;
 use ApiClients\Foundation\Transport\CommandBus\Command\RequestCommandInterface;
-use ApiClients\Foundation\Transport\Middleware\BufferedSinkMiddleware;
-use ApiClients\Foundation\Transport\Options;
+use ApiClients\Foundation\Transport\StreamingResponse;
+use Psr\Http\Message\ResponseInterface;
 use React\Promise\PromiseInterface;
 use function React\Promise\resolve;
 
-final class RequestHandler
+final class StreamingRequestHandler
 {
     /**
      * @var Client
@@ -26,19 +26,11 @@ final class RequestHandler
 
     public function handle(RequestCommandInterface $command): PromiseInterface
     {
-        $options = $command->getOptions();
-
-        if (!isset($options[Options::MIDDLEWARE])) {
-            $options[Options::MIDDLEWARE] = [];
-        }
-
-        if (!in_array(BufferedSinkMiddleware::class, $options[Options::MIDDLEWARE])) {
-            $options[Options::MIDDLEWARE][] = BufferedSinkMiddleware::class;
-        }
-
         return $this->client->request(
             $command->getRequest(),
-            $options
-        );
+            $command->getOptions()
+        )->then(function (ResponseInterface $response) {
+            return resolve(new StreamingResponse($response));
+        });
     }
 }

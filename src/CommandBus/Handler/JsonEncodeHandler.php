@@ -3,23 +3,23 @@
 namespace ApiClients\Foundation\Transport\CommandBus\Handler;
 
 use ApiClients\Foundation\Transport\CommandBus\Command\JsonEncodeCommand;
-use React\EventLoop\LoopInterface;
+use ApiClients\Foundation\Transport\Service\JsonEncodeService;
 use React\Promise\PromiseInterface;
 use function WyriHaximus\React\futureFunctionPromise;
 
 final class JsonEncodeHandler
 {
     /**
-     * @var LoopInterface
+     * @var JsonEncodeService
      */
-    private $loop;
+    private $jsonEncodeService;
 
     /**
-     * @param LoopInterface $loop
+     * @param JsonEncodeService $jsonEncodeService
      */
-    public function __construct(LoopInterface $loop)
+    public function __construct(JsonEncodeService $jsonEncodeService)
     {
-        $this->loop = $loop;
+        $this->jsonEncodeService = $jsonEncodeService;
     }
 
     /**
@@ -28,8 +28,6 @@ final class JsonEncodeHandler
      */
     public function handle(JsonEncodeCommand $command): PromiseInterface
     {
-        return futureFunctionPromise($this->loop, $command->getJson(), function ($json) {
-            return json_encode($json);
-        });
+        return $this->jsonEncodeService->handle($command->getJson());
     }
 }
