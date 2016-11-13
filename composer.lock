@@ -2207,16 +2207,16 @@
         },
         {
             "name": "react/stream",
-            "version": "v0.4.4",
+            "version": "v0.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/stream.git",
-                "reference": "fcc9e7cea126962cff303c90c05e2efdcec09a27"
+                "reference": "23389503012e1ab721ad498a5a1f4b39f7a43c00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/stream/zipball/fcc9e7cea126962cff303c90c05e2efdcec09a27",
-                "reference": "fcc9e7cea126962cff303c90c05e2efdcec09a27",
+                "url": "https://api.github.com/repos/reactphp/stream/zipball/23389503012e1ab721ad498a5a1f4b39f7a43c00",
+                "reference": "23389503012e1ab721ad498a5a1f4b39f7a43c00",
                 "shasum": ""
             },
             "require": {
@@ -2247,7 +2247,7 @@
                 "pipe",
                 "stream"
             ],
-            "time": "2016-08-22 09:51:07"
+            "time": "2016-11-13 17:06:02"
         },
         {
             "name": "reactivex/rxphp",
