@@ -37,9 +37,9 @@ class Client
     protected $container;
 
     /**
-     * @var GuzzleClient
+     * @var Browser
      */
-    protected $handler;
+    protected $browser;
 
     /**
      * @var array
@@ -65,7 +65,7 @@ class Client
     ) {
         $this->loop = $loop;
         $this->container = $container;
-        $this->handler = $buzz;
+        $this->browser = $buzz;
         $this->options = $options + self::DEFAULT_OPTIONS;
 
         if (isset($this->options[Options::MIDDLEWARE])) {
@@ -121,7 +121,7 @@ class Client
         $executioner = $this->constructMiddlewares($options);
 
         return $executioner->pre($request)->then(function ($request) use ($options) {
-            return resolve($this->handler->send(
+            return resolve($this->browser->send(
                 $request
             ));
         }, function (ResponseInterface $response) {
