@@ -13,24 +13,30 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/command-bus.git",
-                "reference": "aa851059c0377984dee054a460aeeee645b42f77"
+                "reference": "0263845d3c8411ff4230d11a29cda3cc5cf8defe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/command-bus/zipball/aa851059c0377984dee054a460aeeee645b42f77",
-                "reference": "aa851059c0377984dee054a460aeeee645b42f77",
+                "url": "https://api.github.com/repos/php-api-clients/command-bus/zipball/0263845d3c8411ff4230d11a29cda3cc5cf8defe",
+                "reference": "0263845d3c8411ff4230d11a29cda3cc5cf8defe",
                 "shasum": ""
             },
             "require": {
+                "container-interop/container-interop": "^1.1",
+                "igorw/get-in": "^1.0",
+                "joshdifabio/composed": "^1.0",
                 "league/tactician": "^1.0",
+                "league/tactician-container": "^1.0",
                 "php": "^7.0",
                 "react/event-loop": "^0.4.2",
+                "wyrihaximus/tactician-command-handler-mapper": "^1.0",
                 "wyrihaximus/ticking-promise": "^1.6"
             },
             "require-dev": {
                 "api-clients/test-utilities": "dev-master",
                 "clue/block-react": "^1.1",
                 "phake/phake": "^2.3",
+                "php-di/php-di": "^5.4",
                 "phpunit/phpunit": "^5.2.3",
                 "squizlabs/php_codesniffer": "^2.6"
             },
@@ -50,7 +56,7 @@
                     "email": "ceesjank@gmail.com"
                 }
             ],
-            "time": "2016-10-11 19:37:47"
+            "time": "2016-11-13 18:43:01"
         },
         {
             "name": "api-clients/events",
@@ -99,12 +105,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/middleware.git",
-                "reference": "c5537587160f3c766aa6eda45a3750ac2920d193"
+                "reference": "ee8177fe41eb1f185b9e7d9aabd1cc2106e7eefe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/middleware/zipball/c5537587160f3c766aa6eda45a3750ac2920d193",
-                "reference": "c5537587160f3c766aa6eda45a3750ac2920d193",
+                "url": "https://api.github.com/repos/php-api-clients/middleware/zipball/ee8177fe41eb1f185b9e7d9aabd1cc2106e7eefe",
+                "reference": "ee8177fe41eb1f185b9e7d9aabd1cc2106e7eefe",
                 "shasum": ""
             },
             "require": {
@@ -132,7 +138,7 @@
                     "email": "ceesjank@gmail.com"
                 }
             ],
-            "time": "2016-11-12 20:49:55"
+            "time": "2016-11-16 20:41:49"
         },
         {
             "name": "api-clients/resource",
@@ -771,6 +777,100 @@
             "time": "2016-08-01 10:27:00"
         },
         {
+            "name": "igorw/get-in",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/igorw/get-in.git",
+                "reference": "170ded831f49abc6a6061f655aba9bdbcf7b8111"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/igorw/get-in/zipball/170ded831f49abc6a6061f655aba9bdbcf7b8111",
+                "reference": "170ded831f49abc6a6061f655aba9bdbcf7b8111",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/get_in.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch"
+                }
+            ],
+            "description": "Functions for for hash map (assoc array) traversal.",
+            "keywords": [
+                "assoc-array",
+                "hash-map"
+            ],
+            "time": "2014-12-15 23:03:51"
+        },
+        {
+            "name": "joshdifabio/composed",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joshdifabio/composed.git",
+                "reference": "ba6019e070679a4bf371bbf92a2093bc73c99d07"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joshdifabio/composed/zipball/ba6019e070679a4bf371bbf92a2093bc73c99d07",
+                "reference": "ba6019e070679a4bf371bbf92a2093bc73c99d07",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Composed\\": "src"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Di Fabio",
+                    "email": "joshdifabio@gmail.com"
+                }
+            ],
+            "description": "Easily parse your project's Composer configuration, and those of its dependencies, at runtime.",
+            "keywords": [
+                "composer",
+                "dependency",
+                "package"
+            ],
+            "time": "2015-07-16 22:30:20"
+        },
+        {
             "name": "league/event",
             "version": "2.1.2",
             "source": {
@@ -870,6 +970,57 @@
                 "service layer"
             ],
             "time": "2016-02-20 11:14:36"
+        },
+        {
+            "name": "league/tactician-container",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/tactician-container.git",
+                "reference": "4b75997f6655a574c4b950c7c91714fde9f31d84"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/tactician-container/zipball/4b75997f6655a574c4b950c7c91714fde9f31d84",
+                "reference": "4b75997f6655a574c4b950c7c91714fde9f31d84",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "^1.1",
+                "league/tactician": "^1.0",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "league/container": "~2.0",
+                "phpunit/phpunit": "~4.3",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\Tactician\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nigel Greenway",
+                    "homepage": "http://futurepixels.co.uk"
+                }
+            ],
+            "description": "Tactician integration for any container implementing the container-interop interface",
+            "keywords": [
+                "container",
+                "container-interop",
+                "di",
+                "interoperable",
+                "league",
+                "tactician"
+            ],
+            "time": "2015-12-31 12:41:26"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1590,16 +1741,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "1.4.8",
+            "version": "1.4.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "3144ae21711fb6cac0b1ab4cbe63b75ce3d4e8da"
+                "reference": "3b402f65a4cc90abf6e1104e388b896ce209631b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/3144ae21711fb6cac0b1ab4cbe63b75ce3d4e8da",
-                "reference": "3144ae21711fb6cac0b1ab4cbe63b75ce3d4e8da",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/3b402f65a4cc90abf6e1104e388b896ce209631b",
+                "reference": "3b402f65a4cc90abf6e1104e388b896ce209631b",
                 "shasum": ""
             },
             "require": {
@@ -1635,20 +1786,20 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2015-09-15 10:49:45"
+            "time": "2016-11-15 14:06:22"
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.6.2",
+            "version": "5.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "cd13b23ac5a519a4708e00736c26ee0bb28b2e01"
+                "reference": "a9de0dbafeb6b1391b391fbb034734cb0af9f67c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/cd13b23ac5a519a4708e00736c26ee0bb28b2e01",
-                "reference": "cd13b23ac5a519a4708e00736c26ee0bb28b2e01",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a9de0dbafeb6b1391b391fbb034734cb0af9f67c",
+                "reference": "a9de0dbafeb6b1391b391fbb034734cb0af9f67c",
                 "shasum": ""
             },
             "require": {
@@ -1717,7 +1868,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-10-25 07:40:25"
+            "time": "2016-11-14 06:39:40"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -2701,21 +2852,21 @@
         },
         {
             "name": "sebastian/object-enumerator",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/object-enumerator.git",
-                "reference": "d4ca2fb70344987502567bc50081c03e6192fb26"
+                "reference": "12dc92be4c9b1286fd37c15d54f7c9d8524f29e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/object-enumerator/zipball/d4ca2fb70344987502567bc50081c03e6192fb26",
-                "reference": "d4ca2fb70344987502567bc50081c03e6192fb26",
+                "url": "https://api.github.com/repos/sebastianbergmann/object-enumerator/zipball/12dc92be4c9b1286fd37c15d54f7c9d8524f29e0",
+                "reference": "12dc92be4c9b1286fd37c15d54f7c9d8524f29e0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.6",
-                "sebastian/recursion-context": "~1.0"
+                "sebastian/recursion-context": "~1.0.4"
             },
             "require-dev": {
                 "phpunit/phpunit": "~5"
@@ -2743,20 +2894,20 @@
             ],
             "description": "Traverses array structures and object graphs to enumerate all referenced objects",
             "homepage": "https://github.com/sebastianbergmann/object-enumerator/",
-            "time": "2016-01-28 13:25:10"
+            "time": "2016-11-16 07:17:31"
         },
         {
             "name": "sebastian/recursion-context",
-            "version": "1.0.2",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "913401df809e99e4f47b27cdd781f4a258d58791"
+                "reference": "938df7a6478e72795e5f8266cff24d06e3136f2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/913401df809e99e4f47b27cdd781f4a258d58791",
-                "reference": "913401df809e99e4f47b27cdd781f4a258d58791",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/938df7a6478e72795e5f8266cff24d06e3136f2e",
+                "reference": "938df7a6478e72795e5f8266cff24d06e3136f2e",
                 "shasum": ""
             },
             "require": {
@@ -2796,7 +2947,7 @@
             ],
             "description": "Provides functionality to recursively process PHP variables",
             "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
-            "time": "2015-11-11 19:50:13"
+            "time": "2016-11-15 06:55:36"
         },
         {
             "name": "sebastian/resource-operations",
@@ -3190,16 +3341,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "dff51f72b0706335131b00a7f49606168c582594"
+                "reference": "e79d363049d1c2128f133a2667e4f4190904f7f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/dff51f72b0706335131b00a7f49606168c582594",
-                "reference": "dff51f72b0706335131b00a7f49606168c582594",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/e79d363049d1c2128f133a2667e4f4190904f7f4",
+                "reference": "e79d363049d1c2128f133a2667e4f4190904f7f4",
                 "shasum": ""
             },
             "require": {
@@ -3211,7 +3362,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.3-dev"
                 }
             },
             "autoload": {
@@ -3245,7 +3396,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-05-18 14:26:46"
+            "time": "2016-11-14 01:06:16"
         },
         {
             "name": "symfony/process",

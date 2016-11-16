@@ -4,6 +4,7 @@ namespace ApiClients\Foundation\Transport\Middleware;
 
 use ApiClients\Foundation\Middleware\MiddlewareInterface;
 use ApiClients\Foundation\Middleware\PreTrait;
+use ApiClients\Foundation\Middleware\Priority;
 use ApiClients\Foundation\Transport\JsonStream;
 use ApiClients\Foundation\Transport\Service\JsonDecodeService as JsonDecodeService;
 use Psr\Http\Message\ResponseInterface;
@@ -34,7 +35,7 @@ class JsonDecodeMiddleware implements MiddlewareInterface
      */
     public function priority(): int
     {
-        return 1000;
+        return Priority::FIRST;
     }
 
     /**
