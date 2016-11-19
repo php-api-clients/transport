@@ -10,7 +10,7 @@ use function Composed\package;
 
 final class PackageVersionStrategy implements UserAgentStrategyInterface
 {
-    const USER_AGENT = '%s API client %s%s powered by PHP API Clients https://php-api-clients.org/';
+    const USER_AGENT = '%s %s%s powered by PHP API Clients https://php-api-clients.org/';
 
     public function determineUserAgent(array $options): string
     {

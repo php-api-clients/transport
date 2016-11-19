@@ -13,7 +13,7 @@ final class PackageVersionStrategyTest extends TestCase
     public function testWorking()
     {
         $this->assertSame(
-            'api-clients/transport API client ' . explode('@', Versions::getVersion('api-clients/transport'))[0] . ' powered by PHP API Clients https://php-api-clients.org/',
+            'api-clients/transport ' . explode('@', Versions::getVersion('api-clients/transport'))[0] . ' powered by PHP API Clients https://php-api-clients.org/',
             (new PackageVersionStrategy())->determineUserAgent([
                 Options::PACKAGE => 'api-clients/transport',
             ])
