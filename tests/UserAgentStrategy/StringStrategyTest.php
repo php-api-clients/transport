@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace ApiClients\Foundation\Transport\UserAgentStrategy;
+namespace ApiClients\Tests\Foundation\Transport\UserAgentStrategy;
 
 use ApiClients\Foundation\Transport\Options;
+use ApiClients\Foundation\Transport\UserAgentStrategy\StringStrategy;
 use ApiClients\Tools\TestUtilities\TestCase;
 use InvalidArgumentException;
 
