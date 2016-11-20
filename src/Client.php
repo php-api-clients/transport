@@ -91,7 +91,11 @@ class Client
         }
 
         if (!is_subclass_of($strategy, UserAgentStrategyInterface::class)) {
-            throw new InvalidArgumentException(sprintf('Strategy "%s", doesn\'t implement', $strategy, UserAgentStrategyInterface::class));
+            throw new InvalidArgumentException(sprintf(
+                'Strategy "%s", doesn\'t implement',
+                $strategy,
+                UserAgentStrategyInterface::class
+            ));
         }
 
         $this->options[Options::USER_AGENT] = $this->container->get($strategy)->determineUserAgent($this->options);
