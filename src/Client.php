@@ -6,9 +6,9 @@ use ApiClients\Foundation\Middleware\MiddlewareRunner;
 use ApiClients\Foundation\Middleware\MiddlewareInterface;
 use ApiClients\Foundation\Transport\CommandBus;
 use Clue\React\Buzz\Browser;
-use RingCentral\Psr7\Request as Psr7Request;
 use RingCentral\Psr7\Uri;
 use Interop\Container\ContainerInterface;
+use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use React\EventLoop\LoopInterface;
@@ -22,7 +22,6 @@ class Client
     const DEFAULT_OPTIONS = [
         Options::SCHEMA => 'https',
         Options::PATH => '/',
-        Options::USER_AGENT => 'WyriHaximus/php-api-client',
         Options::HEADERS => [],
     ];
 
@@ -71,6 +70,31 @@ class Client
         if (isset($this->options[Options::MIDDLEWARE])) {
             $this->middleware = $this->options[Options::MIDDLEWARE];
         }
+
+        $this->determineUserAgent();
+    }
+
+    protected function determineUserAgent()
+    {
+        if (!isset($this->options[Options::USER_AGENT]) && !isset($this->options[Options::USER_AGENT_STRATEGY])) {
+            throw new InvalidArgumentException('No way to determine user agent');
+        }
+
+        if (!isset($this->options[Options::USER_AGENT_STRATEGY])) {
+            return;
+        }
+
+        $strategy = $this->options[Options::USER_AGENT_STRATEGY];
+
+        if (!class_exists($strategy)) {
+            throw new InvalidArgumentException(sprintf('Strategy "%s", doesn\'t exist', $strategy));
+        }
+
+        if (!is_subclass_of($strategy, UserAgentStrategyInterface::class)) {
+            throw new InvalidArgumentException(sprintf('Strategy "%s", doesn\'t implement', $strategy, UserAgentStrategyInterface::class));
+        }
+
+        $this->options[Options::USER_AGENT] = $this->container->get($strategy)->determineUserAgent($this->options);
     }
 
     protected function constructMiddlewares(array $options): MiddlewareRunner
@@ -146,13 +170,11 @@ class Client
             );
         }
 
-        return new Psr7Request(
-            $request->getMethod(),
-            $uri,
-            $this->options[Options::HEADERS] + $request->getHeaders(),
-            $request->getBody(),
-            $request->getProtocolVersion()
-        );
+        foreach ($this->options[Options::HEADERS] as $key => $value) {
+            $request = $request->withAddedHeader($key, $value);
+        }
+
+        return $request->withUri($uri)->withAddedHeader('User-Agent', $this->options[Options::USER_AGENT]);
     }
 
     public function applyRequestOptions(array $options): array

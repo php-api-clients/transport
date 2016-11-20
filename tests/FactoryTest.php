@@ -3,6 +3,7 @@
 namespace ApiClients\Tests\Foundation\Transport;
 
 use ApiClients\Foundation\Events\CommandLocatorEvent;
+use ApiClients\Foundation\Transport\Options;
 use DI\ContainerBuilder;
 use League\Event\Emitter;
 use League\Event\EmitterInterface;
@@ -21,7 +22,7 @@ class FactoryTest extends TestCase
         $client = Factory::create(
             $container,
             $loop,
-            []
+            [Options::USER_AGENT => 'u']
         );
         $this->assertInstanceOf(Client::class, $client);
     }
@@ -32,7 +33,7 @@ class FactoryTest extends TestCase
         $emitter = new Emitter();
         $container = ContainerBuilder::buildDevContainer();
         $container->set(EmitterInterface::class, $emitter);
-        Factory::create($container, $loop);
+        Factory::create($container, $loop, [Options::USER_AGENT => 'u']);
 
         $event = CommandLocatorEvent::create();
         $this->assertSame(0, count($event->getMap()));
