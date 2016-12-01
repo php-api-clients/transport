@@ -30,6 +30,10 @@ final class JsonEncodeService implements ServiceInterface
      */
     public function handle($input): CancellablePromiseInterface
     {
+        if (!is_array($input)) {
+            return resolve($input);
+        }
+
         return futureFunctionPromise($this->loop, $input, function ($json) {
             return encode($json);
         });

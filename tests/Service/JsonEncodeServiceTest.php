@@ -24,6 +24,13 @@ class JsonEncodeServiceTest extends TestCase
 
         $loop = Factory::create();
         $handler = new JsonEncodeService($loop);
-        await($handler->handle("\xB1\x31"), $loop);
+        await($handler->handle(["\xB1\x31"]), $loop);
+    }
+
+    public function testNoJson()
+    {
+        $loop = Factory::create();
+        $handler = new JsonEncodeService($loop);
+        $this->assertSame('foo.bar', await($handler->handle('foo.bar'), $loop));
     }
 }
