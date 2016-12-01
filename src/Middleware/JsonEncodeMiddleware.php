@@ -51,7 +51,7 @@ class JsonEncodeMiddleware implements MiddlewareInterface
         return $this->jsonEncodeService->handle($request->getBody()->getJson())->then(function ($json) use ($request) {
             $body = new BufferStream(strlen($json));
             $body->write($json);
-            return resolve($request->withBody($body));
+            return resolve($request->withBody($body)->withAddedHeader('Content-Type', 'application/json'));
         });
     }
 }

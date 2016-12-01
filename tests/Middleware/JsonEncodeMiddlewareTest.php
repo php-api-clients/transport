@@ -21,13 +21,13 @@ class JsonEncodeMiddlewareTest extends TestCase
         $stream = new JsonStream([]);
         $request = new Request('GET', 'https://example.com', [], $stream);
 
+        $modifiedRequest = await($middleware->pre($request), $loop);
         $this->assertSame(
             '[]',
-            (string) await(
-                $middleware->pre($request),
-                $loop
-            )->getBody()
+            (string) $modifiedRequest->getBody()
         );
+        $this->assertTrue($modifiedRequest->hasHeader('Content-Type'));
+        $this->assertSame('application/json', $modifiedRequest->getHeaderLine('Content-Type'));
     }
 
     public function testPreNoJson()
