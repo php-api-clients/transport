@@ -4,9 +4,11 @@ namespace ApiClients\Tests\Foundation\Transport;
 
 use ApiClients\Foundation\Transport\Client;
 use ApiClients\Foundation\Transport\Options;
+use ApiClients\Foundation\Transport\UserAgentStrategies;
 use ApiClients\Tools\TestUtilities\TestCase;
 use Clue\React\Buzz\Browser as BuzzClient;
 use DI\ContainerBuilder;
+use PackageVersions\Versions;
 use RingCentral\Psr7\Request;
 use Phake;
 use Psr\Http\Message\RequestInterface;
@@ -24,21 +26,21 @@ class ClientTest extends TestCase
         yield [
             new Request('GET', ''),
             new Request('GET', 'http://api.example.com/', [
-                'User-Agent' => 'WyriHaximus/php-api-client',
+                'User-Agent' => 'api-clients/transport ' . explode('@', Versions::getVersion('api-clients/transport'))[0] . ' powered by PHP API Clients https://php-api-clients.org/',
             ]),
         ];
 
         yield [
             new Request('GET', 'status'),
             new Request('GET', 'http://api.example.com/status', [
-                'User-Agent' => 'WyriHaximus/php-api-client',
+                'User-Agent' => 'api-clients/transport ' . explode('@', Versions::getVersion('api-clients/transport'))[0] . ' powered by PHP API Clients https://php-api-clients.org/',
             ]),
         ];
 
         yield [
             new Request('HEAD', 'https://api.example.com/status'),
             new Request('HEAD', 'https://api.example.com/status', [
-                'User-Agent' => 'WyriHaximus/php-api-client',
+                'User-Agent' => 'api-clients/transport ' . explode('@', Versions::getVersion('api-clients/transport'))[0] . ' powered by PHP API Clients https://php-api-clients.org/',
             ]),
         ];
     }
@@ -75,6 +77,8 @@ class ClientTest extends TestCase
             [
                 Options::SCHEMA => 'http',
                 Options::HOST => 'api.example.com',
+                Options::USER_AGENT_STRATEGY => UserAgentStrategies::PACKAGE_VERSION,
+                Options::PACKAGE => 'api-clients/transport',
             ]
         );
 
@@ -83,7 +87,7 @@ class ClientTest extends TestCase
         $this->assertSame($outputRequest->getMethod(), $request->getMethod());
         $this->assertSame((string) $outputRequest->getUri(), (string) $request->getUri());
 
-        $headers = $request->getHeaders();
+        $headers = $outputRequest->getHeaders();
         ksort($headers);
         $outputHeaders = $request->getHeaders();
         ksort($outputHeaders);

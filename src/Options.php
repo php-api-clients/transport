@@ -14,4 +14,6 @@ class Options
     const HEADERS                 = 'headers';
     const MIDDLEWARE              = 'middleware';
     const DEFAULT_REQUEST_OPTIONS = 'default_request_options';
+    const USER_AGENT_STRATEGY     = 'user_agent_strategy';
+    const PACKAGE                 = 'package';
 }
