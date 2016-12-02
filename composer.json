@@ -15,7 +15,6 @@
     "api-clients/middleware": "dev-master",
     "api-clients/resource": "dev-master",
     "api-clients/service": "dev-master",
-    "api-clients/test-utilities": "dev-master",
     "clue/block-react": "^1.1",
     "clue/buzz-react": "^1.1",
     "container-interop/container-interop": "^1.1",
@@ -30,6 +29,7 @@
     "wyrihaximus/ticking-promise": "^1.6"
   },
   "require-dev": {
+    "api-clients/test-utilities": "dev-master",
     "humbug/humbug": "1.0.0-alpha2",
     "phake/phake": "^2.3",
     "php-di/php-di": "^5.4",
