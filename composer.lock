@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0d27f55abffb5a97493323f27e3c9522",
-    "content-hash": "ca24476bf55b84151e4f1a58aa33ab6c",
+    "hash": "c6c353cf8999b0f087e4ec59a01c2136",
+    "content-hash": "8076f6197e8afbc748481a1cf20d1822",
     "packages": [
         {
             "name": "api-clients/command-bus",
@@ -98,16 +98,16 @@
         },
         {
             "name": "api-clients/middleware",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/middleware.git",
-                "reference": "3d827ae23d58aacd26b40ff47cd960e82b4305e4"
+                "reference": "eaf8dcd516947b34f7525e052568b5d5ba8322d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/middleware/zipball/3d827ae23d58aacd26b40ff47cd960e82b4305e4",
-                "reference": "3d827ae23d58aacd26b40ff47cd960e82b4305e4",
+                "url": "https://api.github.com/repos/php-api-clients/middleware/zipball/eaf8dcd516947b34f7525e052568b5d5ba8322d6",
+                "reference": "eaf8dcd516947b34f7525e052568b5d5ba8322d6",
                 "shasum": ""
             },
             "require": {
@@ -116,11 +116,13 @@
                 "react/promise": "^2.4"
             },
             "require-dev": {
-                "api-clients/test-utilities": "dev-master",
+                "api-clients/test-utilities": "^1.0",
                 "guzzlehttp/psr7": "^1.3"
             },
             "suggest": {
-                "api-clients/middleware-log": "Log requests and their context"
+                "api-clients/middleware-cache": "Cache requests with different strategies",
+                "api-clients/middleware-log": "Log requests and their context",
+                "api-clients/middleware-oauth1": "Sign requests with oauth1"
             },
             "type": "library",
             "autoload": {
@@ -138,7 +140,8 @@
                     "email": "ceesjank@gmail.com"
                 }
             ],
-            "time": "2016-11-26 22:59:32"
+            "description": "Request middleware",
+            "time": "2016-12-05 07:52:20"
         },
         {
             "name": "api-clients/resource",
@@ -3977,7 +3980,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "api-clients/events": 20,
-        "api-clients/middleware": 20,
         "api-clients/service": 20
     },
     "prefer-stable": true,
