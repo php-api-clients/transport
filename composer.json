@@ -13,7 +13,7 @@
     "php": "^7.0",
     "api-clients/events": "dev-master",
     "api-clients/middleware": "^1.0",
-    "api-clients/resource": "^1.0",
+    "api-clients/resource": "^2.0",
     "api-clients/service": "dev-master",
     "clue/block-react": "^1.1",
     "clue/buzz-react": "^1.1",
@@ -29,7 +29,7 @@
     "wyrihaximus/ticking-promise": "^1.6"
   },
   "require-dev": {
-    "api-clients/test-utilities": "^1.0",
+    "api-clients/test-utilities": "^2.0",
     "php-di/php-di": "^5.4"
   },
   "suggest": {
@@ -68,14 +68,9 @@
       "@ensure-installed",
       "phpunit --colors=always -c phpunit.xml.dist --coverage-text --coverage-html covHtml"
     ],
-    "mutation": [
-      "@ensure-installed",
-      "if [ `php -m | grep xdebug | wc -l` -gt 0 ]; then humbug --ansi --incremental; fi"
-    ],
     "qa-all": [
       "@cs",
-      "@unit",
-      "@mutation"
+      "@unit"
     ],
     "qa-windows": [
       "@cs",
