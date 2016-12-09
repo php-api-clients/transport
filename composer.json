@@ -13,7 +13,7 @@
     "php": "^7.0",
     "api-clients/events": "dev-master",
     "api-clients/middleware": "^1.0",
-    "api-clients/resource": "^2.0",
+    "api-clients/resource": "^3.0",
     "api-clients/service": "dev-master",
     "clue/block-react": "^1.1",
     "clue/buzz-react": "^1.1",
