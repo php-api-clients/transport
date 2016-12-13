@@ -24,6 +24,7 @@
     "league/event": "^2.1",
     "ocramius/package-versions": "^1.1",
     "react/cache": "^0.4.1",
+    "react/http-client": "^0.4.15",
     "react/promise": "^2.4",
     "reactivex/rxphp": "^1.4",
     "wyrihaximus/ticking-promise": "^1.6"
