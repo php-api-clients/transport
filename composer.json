@@ -11,7 +11,6 @@
   ],
   "require": {
     "php": "^7.0",
-    "api-clients/events": "dev-master",
     "api-clients/middleware": "^1.0",
     "api-clients/resource": "^3.0",
     "api-clients/service": "dev-master",
@@ -21,9 +20,7 @@
     "daverandom/exceptional-json": "^1.0.1",
     "doctrine/annotations": "^1.2",
     "joshdifabio/composed": "^1.0",
-    "league/event": "^2.1",
     "ocramius/package-versions": "^1.1",
-    "react/cache": "^0.4.1",
     "react/http-client": "^0.4.15",
     "react/promise": "^2.4",
     "reactivex/rxphp": "^1.4",

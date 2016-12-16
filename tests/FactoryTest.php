@@ -17,7 +17,6 @@ class FactoryTest extends TestCase
     public function testCreate()
     {
         $container = ContainerBuilder::buildDevContainer();
-        $container->set(EmitterInterface::class, new Emitter());
         $loop = LoopFactory::create();
         $client = Factory::create(
             $container,
@@ -25,19 +24,5 @@ class FactoryTest extends TestCase
             [Options::USER_AGENT => 'u']
         );
         $this->assertInstanceOf(Client::class, $client);
-    }
-
-    public function testCommandBusEvent()
-    {
-        $loop = LoopFactory::create();
-        $emitter = new Emitter();
-        $container = ContainerBuilder::buildDevContainer();
-        $container->set(EmitterInterface::class, $emitter);
-        Factory::create($container, $loop, [Options::USER_AGENT => 'u']);
-
-        $event = CommandLocatorEvent::create();
-        $this->assertSame(0, count($event->getMap()));
-        $emitter->emit($event);
-        $this->assertSame(5, count($event->getMap()));
     }
 }

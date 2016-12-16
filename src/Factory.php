@@ -2,12 +2,9 @@
 
 namespace ApiClients\Foundation\Transport;
 
-use ApiClients\Foundation\Events\CommandLocatorEvent;
-use ApiClients\Foundation\Events\ServiceLocatorEvent;
 use Clue\React\Buzz\Browser;
 use Clue\React\Buzz\Io\Sender;
 use Interop\Container\ContainerInterface;
-use League\Event\EmitterInterface;
 use React\Dns\Resolver\Factory as ResolverFactory;
 use React\Dns\Resolver\Resolver;
 use React\EventLoop\LoopInterface;
@@ -27,24 +24,6 @@ class Factory
         LoopInterface $loop,
         array $options = []
     ): Client {
-        $container->get(EmitterInterface::class)->
-            addListener(CommandLocatorEvent::NAME, function (CommandLocatorEvent $event) {
-                $event->add(
-                    __DIR__ . DIRECTORY_SEPARATOR . 'CommandBus' . DIRECTORY_SEPARATOR,
-                    __NAMESPACE__ . '\CommandBus'
-                );
-            })
-        ;
-
-        $container->get(EmitterInterface::class)->
-            addListener(ServiceLocatorEvent::NAME, function (ServiceLocatorEvent $event) {
-                $event->add(
-                    __DIR__ . DIRECTORY_SEPARATOR . 'Service' . DIRECTORY_SEPARATOR,
-                    __NAMESPACE__ . '\Service'
-                );
-            })
-        ;
-
         if (!isset($options[Options::DNS])) {
             $options[Options::DNS] = '8.8.8.8';
         }
