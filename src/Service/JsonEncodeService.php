@@ -3,9 +3,9 @@
 namespace ApiClients\Foundation\Transport\Service;
 
 use ApiClients\Foundation\Service\ServiceInterface;
-use function ExceptionalJSON\encode;
 use React\EventLoop\LoopInterface;
 use React\Promise\CancellablePromiseInterface;
+use function ExceptionalJSON\encode;
 use function React\Promise\resolve;
 use function WyriHaximus\React\futureFunctionPromise;
 
@@ -25,10 +25,10 @@ final class JsonEncodeService implements ServiceInterface
     }
 
     /**
-     * @param $input
+     * @param array $input
      * @return CancellablePromiseInterface
      */
-    public function handle($input): CancellablePromiseInterface
+    public function handle(array $input = []): CancellablePromiseInterface
     {
         if (!is_array($input)) {
             return resolve($input);

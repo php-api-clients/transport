@@ -5,6 +5,7 @@ namespace ApiClients\Tests\Foundation\Transport\CommandBus\Handler;
 use ApiClients\Foundation\Transport\Client;
 use ApiClients\Foundation\Transport\CommandBus\Command\StreamingRequestCommand;
 use ApiClients\Foundation\Transport\CommandBus\Handler\StreamingRequestHandler;
+use ApiClients\Foundation\Transport\Service\StreamingRequestService;
 use ApiClients\Foundation\Transport\StreamingResponse;
 use ApiClients\Tools\TestUtilities\TestCase;
 use Prophecy\Argument;
@@ -28,7 +29,7 @@ class StreamingRequestHandlerTest extends TestCase
             return $request->getUri()->getPath() === $path;
         }), [])->willReturn($promise);
         $command = new StreamingRequestCommand($request);
-        $handler = new StreamingRequestHandler($client->reveal());
+        $handler = new StreamingRequestHandler(new StreamingRequestService($client->reveal()));
         $result = await($handler->handle($command), Factory::create());
         $this->assertInstanceOf(StreamingResponse::class, $result);
         $this->assertSame($response, $result->getResponse());
