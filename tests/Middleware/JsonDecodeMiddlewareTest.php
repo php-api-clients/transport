@@ -6,11 +6,11 @@ use ApiClients\Foundation\Transport\JsonStream;
 use ApiClients\Foundation\Transport\Middleware\JsonDecodeMiddleware;
 use ApiClients\Foundation\Transport\Service\JsonDecodeService;
 use ApiClients\Tools\TestUtilities\TestCase;
-use function Clue\React\Block\await;
 use Clue\React\Buzz\Message\ReadableBodyStream;
-use RingCentral\Psr7\Response;
 use React\EventLoop\Factory;
 use React\Stream\ThroughStream;
+use RingCentral\Psr7\Response;
+use function Clue\React\Block\await;
 
 class JsonDecodeMiddlewareTest extends TestCase
 {

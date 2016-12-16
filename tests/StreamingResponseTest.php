@@ -5,13 +5,13 @@ namespace ApiClients\Tests\Foundation\Transport;
 
 use ApiClients\Foundation\Transport\StreamingResponse;
 use ApiClients\Tools\TestUtilities\TestCase;
-use function Clue\React\Block\await;
 use Clue\React\Buzz\Message\ReadableBodyStream;
 use Exception;
 use React\EventLoop\Factory;
 use React\Stream\ThroughStream;
 use RingCentral\Psr7\Response;
 use Rx\React\Promise;
+use function Clue\React\Block\await;
 use function React\Promise\resolve;
 
 class StreamingResponseTest extends TestCase

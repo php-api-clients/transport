@@ -9,13 +9,13 @@ use ApiClients\Tools\TestUtilities\TestCase;
 use Clue\React\Buzz\Browser as BuzzClient;
 use DI\ContainerBuilder;
 use PackageVersions\Versions;
-use RingCentral\Psr7\Request;
 use Phake;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use React\EventLoop\Factory;
 use React\Promise\FulfilledPromise;
+use RingCentral\Psr7\Request;
 use function Clue\React\Block\await;
 use function React\Promise\resolve;
 

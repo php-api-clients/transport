@@ -9,8 +9,8 @@ use ApiClients\Foundation\Transport\JsonStream;
 use ApiClients\Foundation\Transport\Service\JsonDecodeService as JsonDecodeService;
 use Psr\Http\Message\ResponseInterface;
 use React\Promise\CancellablePromiseInterface;
-use function React\Promise\resolve;
 use React\Stream\ReadableStreamInterface;
+use function React\Promise\resolve;
 
 class JsonDecodeMiddleware implements MiddlewareInterface
 {

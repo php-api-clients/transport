@@ -7,10 +7,10 @@ use ApiClients\Foundation\Middleware\MiddlewareInterface;
 use ApiClients\Foundation\Middleware\PreTrait;
 use Psr\Http\Message\ResponseInterface;
 use React\Promise\CancellablePromiseInterface;
-use function React\Promise\resolve;
 use React\Stream\BufferedSink;
 use React\Stream\ReadableStreamInterface;
 use RingCentral\Psr7\BufferStream;
+use function React\Promise\resolve;
 
 class BufferedSinkMiddleware implements MiddlewareInterface
 {

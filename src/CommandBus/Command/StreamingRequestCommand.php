@@ -2,7 +2,6 @@
 
 namespace ApiClients\Foundation\Transport\CommandBus\Command;
 
-use ApiClients\Foundation\Transport\CommandBus\Handler\StreamingRequestHandler;
 use Psr\Http\Message\RequestInterface;
 use WyriHaximus\Tactician\CommandHandler\Annotations\Handler;
 

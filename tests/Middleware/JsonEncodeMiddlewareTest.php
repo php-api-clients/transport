@@ -6,10 +6,10 @@ use ApiClients\Foundation\Transport\JsonStream;
 use ApiClients\Foundation\Transport\Middleware\JsonEncodeMiddleware;
 use ApiClients\Foundation\Transport\Service\JsonEncodeService;
 use ApiClients\Tools\TestUtilities\TestCase;
-use function Clue\React\Block\await;
+use React\EventLoop\Factory;
 use RingCentral\Psr7\BufferStream;
 use RingCentral\Psr7\Request;
-use React\EventLoop\Factory;
+use function Clue\React\Block\await;
 
 class JsonEncodeMiddlewareTest extends TestCase
 {

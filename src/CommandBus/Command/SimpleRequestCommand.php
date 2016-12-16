@@ -2,8 +2,8 @@
 
 namespace ApiClients\Foundation\Transport\CommandBus\Command;
 
-use RingCentral\Psr7\Request;
 use Psr\Http\Message\RequestInterface;
+use RingCentral\Psr7\Request;
 use WyriHaximus\Tactician\CommandHandler\Annotations\Handler;
 
 /**

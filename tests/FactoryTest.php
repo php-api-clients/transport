@@ -3,14 +3,14 @@
 namespace ApiClients\Tests\Foundation\Transport;
 
 use ApiClients\Foundation\Events\CommandLocatorEvent;
+use ApiClients\Foundation\Transport\Client;
+use ApiClients\Foundation\Transport\Factory;
 use ApiClients\Foundation\Transport\Options;
+use ApiClients\Tools\TestUtilities\TestCase;
 use DI\ContainerBuilder;
 use League\Event\Emitter;
 use League\Event\EmitterInterface;
 use React\EventLoop\Factory as LoopFactory;
-use ApiClients\Tools\TestUtilities\TestCase;
-use ApiClients\Foundation\Transport\Client;
-use ApiClients\Foundation\Transport\Factory;
 
 class FactoryTest extends TestCase
 {
