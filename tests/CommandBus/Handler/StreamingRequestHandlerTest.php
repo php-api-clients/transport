@@ -2,7 +2,7 @@
 
 namespace ApiClients\Tests\Foundation\Transport\CommandBus\Handler;
 
-use ApiClients\Foundation\Transport\Client;
+use ApiClients\Foundation\Transport\ClientInterface;
 use ApiClients\Foundation\Transport\CommandBus\Command\StreamingRequestCommand;
 use ApiClients\Foundation\Transport\CommandBus\Handler\StreamingRequestHandler;
 use ApiClients\Foundation\Transport\Service\StreamingRequestService;
@@ -23,7 +23,7 @@ class StreamingRequestHandlerTest extends TestCase
         $path = '/foo/bar.json';
         $request = new Request('GET', $path);
         $response = $this->prophesize(ResponseInterface::class)->reveal();
-        $client = $this->prophesize(Client::class);
+        $client = $this->prophesize(ClientInterface::class);
         $promise = new FulfilledPromise($response);
         $client->request(Argument::that(function (RequestInterface $request) use ($path) {
             return $request->getUri()->getPath() === $path;

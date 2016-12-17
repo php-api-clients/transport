@@ -17,7 +17,7 @@ use function React\Promise\reject;
 use function React\Promise\resolve;
 use function WyriHaximus\React\futureFunctionPromise;
 
-class Client
+final class Client implements ClientInterface
 {
     const DEFAULT_OPTIONS = [
         Options::SCHEMA => 'https',

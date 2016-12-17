@@ -3,7 +3,7 @@
 namespace ApiClients\Foundation\Transport\Service;
 
 use ApiClients\Foundation\Service\ServiceInterface;
-use ApiClients\Foundation\Transport\Client;
+use ApiClients\Foundation\Transport\ClientInterface;
 use ApiClients\Foundation\Transport\Middleware\BufferedSinkMiddleware;
 use ApiClients\Foundation\Transport\Options;
 use Psr\Http\Message\RequestInterface;
@@ -13,14 +13,14 @@ use function React\Promise\resolve;
 final class RequestService implements ServiceInterface
 {
     /**
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 
     /**
-     * @param Client $client
+     * @param ClientInterface $client
      */
-    public function __construct(Client $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }

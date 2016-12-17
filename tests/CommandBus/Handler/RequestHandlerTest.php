@@ -2,7 +2,7 @@
 
 namespace ApiClients\Tests\Foundation\Transport\CommandBus\Handler;
 
-use ApiClients\Foundation\Transport\Client;
+use ApiClients\Foundation\Transport\ClientInterface;
 use ApiClients\Foundation\Transport\CommandBus\Command\SimpleRequestCommand;
 use ApiClients\Foundation\Transport\CommandBus\Handler\RequestHandler;
 use ApiClients\Foundation\Transport\Middleware\BufferedSinkMiddleware;
@@ -25,7 +25,7 @@ class RequestHandlerTest extends TestCase
         $loop = Factory::create();
         $path = '/foo/bar.json';
         $bodyString = 'foo.bar';
-        $client = $this->prophesize(Client::class);
+        $client = $this->prophesize(ClientInterface::class);
         $stream = new ThroughStream();
         $loop->futureTick(function ()use ($stream, $bodyString) {
             $stream->end($bodyString);
