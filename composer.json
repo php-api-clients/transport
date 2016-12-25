@@ -13,6 +13,7 @@
     "php": "^7.0",
     "api-clients/middleware": "^1.0",
     "api-clients/resource": "^3.0",
+    "api-clients/rx": "dev-master",
     "api-clients/service": "dev-master",
     "clue/block-react": "^1.1",
     "clue/buzz-react": "^1.1",
@@ -23,7 +24,6 @@
     "ocramius/package-versions": "^1.1",
     "react/http-client": "^0.4.15",
     "react/promise": "^2.4",
-    "reactivex/rxphp": "^1.4",
     "wyrihaximus/ticking-promise": "^1.6"
   },
   "require-dev": {
