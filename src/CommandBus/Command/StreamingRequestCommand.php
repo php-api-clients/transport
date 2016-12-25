@@ -6,7 +6,7 @@ use Psr\Http\Message\RequestInterface;
 use WyriHaximus\Tactician\CommandHandler\Annotations\Handler;
 
 /**
-* @Handler(StreamingRequestHandler::class)
+ * @Handler("ApiClients\Foundation\Transport\CommandBus\Handler\StreamingRequestHandler")
  */
 final class StreamingRequestCommand implements RequestCommandInterface
 {
