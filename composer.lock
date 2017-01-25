@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8da7fa580d467becc835de14621f5e5",
+    "content-hash": "2e2900fd328ed81f943e7819186a3686",
     "packages": [
         {
             "name": "api-clients/command-bus",
@@ -56,16 +56,16 @@
         },
         {
             "name": "api-clients/middleware",
-            "version": "dev-feature/middleware-locator",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jaapio/middleware.git",
-                "reference": "7f30d482c7f021e7f90004a5dd1648da8aa6808c"
+                "url": "https://github.com/php-api-clients/middleware.git",
+                "reference": "849488afde06d2a9211e10a2d75ff0c364629a80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jaapio/middleware/zipball/7f30d482c7f021e7f90004a5dd1648da8aa6808c",
-                "reference": "7f30d482c7f021e7f90004a5dd1648da8aa6808c",
+                "url": "https://api.github.com/repos/php-api-clients/middleware/zipball/849488afde06d2a9211e10a2d75ff0c364629a80",
+                "reference": "849488afde06d2a9211e10a2d75ff0c364629a80",
                 "shasum": ""
             },
             "require": {
@@ -82,7 +82,8 @@
                 "api-clients/middleware-cache": "Cache requests with different strategies",
                 "api-clients/middleware-log": "Log requests and their context",
                 "api-clients/middleware-oauth1": "Sign requests with oauth1",
-                "api-clients/middleware-pool": "Pool the maximum concurrent requests"
+                "api-clients/middleware-pool": "Pool the maximum concurrent requests",
+                "container-interop/container-interop": "Add a ContainerInterface implementation to use the ContainerLocator"
             },
             "type": "library",
             "autoload": {
@@ -90,68 +91,7 @@
                     "ApiClients\\Foundation\\Middleware\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "ApiClients\\Tests\\Foundation\\Middleware\\": "tests/"
-                }
-            },
-            "scripts": {
-                "ensure-installed": [
-                    "composer install --ansi -n -q"
-                ],
-                "cs": [
-                    "@ensure-installed",
-                    "phpcs --standard=PSR2 src/"
-                ],
-                "unit": [
-                    "@ensure-installed",
-                    "phpunit --colors=always -c phpunit.xml.dist"
-                ],
-                "unit-coverage": [
-                    "@ensure-installed",
-                    "phpunit --colors=always -c phpunit.xml.dist --coverage-text --coverage-html covHtml --coverage-clover ./build/logs/clover.xml"
-                ],
-                "mutation": [
-                    "@ensure-installed",
-                    "if [ `php -m | grep xdebug | wc -l` -gt 0 ]; then humbug --ansi --incremental; fi"
-                ],
-                "lint-php": [
-                    "@ensure-installed",
-                    "parallel-lint --exclude vendor ."
-                ],
-                "qa-all": [
-                    "@lint-php",
-                    "@cs",
-                    "@unit",
-                    "@mutation"
-                ],
-                "qa-all-coverage": [
-                    "@lint-php",
-                    "@cs",
-                    "@unit-coverage",
-                    "@mutation"
-                ],
-                "qa-windows": [
-                    "@lint-php",
-                    "@cs",
-                    "@unit"
-                ],
-                "qa-ci": [
-                    "@qa-all"
-                ],
-                "qa-ci-coverage": [
-                    "@qa-all-coverage"
-                ],
-                "qa-ci-windows": [
-                    "@qa-windows"
-                ],
-                "qa-contrib": [
-                    "@qa-all"
-                ],
-                "ci-coverage": [
-                    "if [ -f ./build/logs/clover.xml ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml; fi"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -162,10 +102,7 @@
                 }
             ],
             "description": "Request middleware",
-            "support": {
-                "source": "https://github.com/jaapio/middleware/tree/feature/middleware-locator"
-            },
-            "time": "2017-01-25 15:46:48"
+            "time": "2017-01-25T20:36:05+00:00"
         },
         {
             "name": "api-clients/resource",
@@ -3324,17 +3261,9 @@
             "time": "2016-11-23T20:04:58+00:00"
         }
     ],
-    "aliases": [
-        {
-            "alias": "1.1",
-            "alias_normalized": "1.1.0.0",
-            "version": "dev-feature/middleware-locator",
-            "package": "api-clients/middleware"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "api-clients/middleware": 20,
         "api-clients/rx": 20,
         "api-clients/service": 20
     },

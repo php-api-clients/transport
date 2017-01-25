@@ -11,7 +11,7 @@
   ],
   "require": {
     "php": "^7.0",
-    "api-clients/middleware": "dev-feature/middleware-locator as 1.1",
+    "api-clients/middleware": "^1.1",
     "api-clients/resource": "^3.0",
     "api-clients/rx": "dev-master",
     "api-clients/service": "dev-master",
@@ -48,12 +48,6 @@
   "config": {
     "sort-packages": true
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/jaapio/middleware.git"
-    }
-  ],
   "extra": {
     "api-clients": {
       "command-bus": {
