@@ -7,10 +7,24 @@
 [![License](https://poser.pugx.org/api-clients/foundation/license.png)](https://packagist.org/packages/api-clients/foundation)
 [![PHP 7 ready](http://php7ready.timesplinter.ch/php-api-clients/foundation/badge.svg)](https://appveyor-ci.org/php-api-clients/foundation)
 
+# Middleware
 
-# Goals
+Middlewares are passed into the client with the options argument. In this example the [`api-clients/middleware-delay`](https://github.com/php-api-clients/middleware-delay) is used. Adding middlewares to the client is simple, add an array to `$options` with `Options::MIDDLEWARE` as index cosisting of middleware class names. Optionally you can pass options for the middleware through the `$options` array. Simply add a new array inside the array with the middlware class name as index and pass the desired options into it.
 
-* Foundation for creating synchronous and asynchronous API clients 
+```php
+$options = [
+    Options::DEFAULT_REQUEST_OPTIONS => [
+        \ApiClients\Middleware\Delay\DelayMiddleware::class => [
+            \ApiClients\Middleware\Delay\Options::DELAY => 3,
+        ],
+    ],
+    Options::MIDDLEWARE => [
+        \ApiClients\Middleware\Delay\DelayMiddleware::class,
+    ],
+];
+
+$client = new Client($loop, $container, $browser, $options);
+```
 
 # License
 
