@@ -3,6 +3,7 @@
 namespace ApiClients\Foundation\Transport\Middleware;
 
 use ApiClients\Foundation\Middleware\DefaultPriorityTrait;
+use ApiClients\Foundation\Middleware\ErrorTrait;
 use ApiClients\Foundation\Middleware\MiddlewareInterface;
 use ApiClients\Foundation\Middleware\PreTrait;
 use Psr\Http\Message\ResponseInterface;
@@ -16,6 +17,7 @@ class BufferedSinkMiddleware implements MiddlewareInterface
 {
     use DefaultPriorityTrait;
     use PreTrait;
+    use ErrorTrait;
 
     /**
      * @param ResponseInterface $response
