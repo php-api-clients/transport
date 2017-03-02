@@ -23,6 +23,6 @@ class FactoryTest extends TestCase
             $loop,
             [Options::USER_AGENT => 'u']
         );
-        $this->assertInstanceOf(Client::class, $client);
+        self::assertInstanceOf(Client::class, $client);
     }
 }

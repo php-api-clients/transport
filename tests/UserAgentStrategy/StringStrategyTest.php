@@ -13,7 +13,7 @@ final class StringStrategyTest extends TestCase
     {
         $userAgent = 'abc';
 
-        $this->assertSame(
+        self::assertSame(
             $userAgent,
             (new StringStrategy())->determineUserAgent([
                 Options::USER_AGENT => $userAgent,

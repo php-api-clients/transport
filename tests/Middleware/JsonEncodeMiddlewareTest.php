@@ -22,12 +22,12 @@ class JsonEncodeMiddlewareTest extends TestCase
         $request = new Request('GET', 'https://example.com', [], $stream);
 
         $modifiedRequest = await($middleware->pre($request), $loop);
-        $this->assertSame(
+        self::assertSame(
             '[]',
             (string) $modifiedRequest->getBody()
         );
-        $this->assertTrue($modifiedRequest->hasHeader('Content-Type'));
-        $this->assertSame('application/json', $modifiedRequest->getHeaderLine('Content-Type'));
+        self::assertTrue($modifiedRequest->hasHeader('Content-Type'));
+        self::assertSame('application/json', $modifiedRequest->getHeaderLine('Content-Type'));
     }
 
     public function testPreNoJson()
@@ -39,7 +39,7 @@ class JsonEncodeMiddlewareTest extends TestCase
         $stream->write('yo');
         $request = new Request('GET', 'https://example.com', [], $stream);
 
-        $this->assertSame(
+        self::assertSame(
             $request,
             await(
                 $middleware->pre($request),
@@ -53,6 +53,6 @@ class JsonEncodeMiddlewareTest extends TestCase
         $loop = Factory::create();
         $service = new JsonEncodeService($loop);
         $middleware = new JsonEncodeMiddleware($service);
-        $this->assertSame(1000, $middleware->priority());
+        self::assertSame(1000, $middleware->priority());
     }
 }

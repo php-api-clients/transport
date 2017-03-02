@@ -17,7 +17,7 @@ class JsonDecodeServiceTest extends TestCase
         ];
         $loop = Factory::create();
         $service = new JsonDecodeService($loop);
-        $this->assertSame($json, await($service->handle(json_encode($json)), $loop));
+        self::assertSame($json, await($service->handle(json_encode($json)), $loop));
     }
 
     public function provideFaultyJsonStrings()

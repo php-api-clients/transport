@@ -18,8 +18,8 @@ class RequestCommandTest extends TestCase
         $command = new RequestCommand($request, [
             'option' => 'value',
         ], $refresh);
-        $this->assertSame($request, $command->getRequest());
-        $this->assertSame([
+        self::assertSame($request, $command->getRequest());
+        self::assertSame([
             'option' => 'value',
         ], $command->getOptions());
     }
@@ -28,7 +28,7 @@ class RequestCommandTest extends TestCase
     {
         $request = $this->prophesize(RequestInterface::class)->reveal();
         $command = new RequestCommand($request);
-        $this->assertSame($request, $command->getRequest());
-        $this->assertSame([], $command->getOptions());
+        self::assertSame($request, $command->getRequest());
+        self::assertSame([], $command->getOptions());
     }
 }

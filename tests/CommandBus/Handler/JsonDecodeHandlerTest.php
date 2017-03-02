@@ -20,6 +20,6 @@ class JsonDecodeHandlerTest extends TestCase
         $service = new JsonDecodeService($loop);
         $command = new JsonDecodeCommand(json_encode($json));
         $handler = new JsonDecodeHandler($service);
-        $this->assertSame($json, await($handler->handle($command), $loop));
+        self::assertSame($json, await($handler->handle($command), $loop));
     }
 }

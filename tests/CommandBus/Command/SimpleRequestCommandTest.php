@@ -18,10 +18,10 @@ class SimpleRequestCommandTest extends TestCase
         $command = new SimpleRequestCommand($path, [
             'option' => 'value',
         ], $refresh);
-        $this->assertInstanceOf(RequestInterface::class, $command->getRequest());
-        $this->assertSame($method, $command->getRequest()->getMethod());
-        $this->assertSame($path, $command->getRequest()->getUri()->getPath());
-        $this->assertSame([
+        self::assertInstanceOf(RequestInterface::class, $command->getRequest());
+        self::assertSame($method, $command->getRequest()->getMethod());
+        self::assertSame($path, $command->getRequest()->getUri()->getPath());
+        self::assertSame([
             'option' => 'value',
         ], $command->getOptions());
     }
@@ -32,9 +32,9 @@ class SimpleRequestCommandTest extends TestCase
         $path = '/foo/bar.json';
         $refresh = false;
         $command = new SimpleRequestCommand($path);
-        $this->assertInstanceOf(RequestInterface::class, $command->getRequest());
-        $this->assertSame($method, $command->getRequest()->getMethod());
-        $this->assertSame($path, $command->getRequest()->getUri()->getPath());
-        $this->assertSame([], $command->getOptions());
+        self::assertInstanceOf(RequestInterface::class, $command->getRequest());
+        self::assertSame($method, $command->getRequest()->getMethod());
+        self::assertSame($path, $command->getRequest()->getUri()->getPath());
+        self::assertSame([], $command->getOptions());
     }
 }

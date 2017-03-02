@@ -31,7 +31,7 @@ class StreamingRequestHandlerTest extends TestCase
         $command = new StreamingRequestCommand($request);
         $handler = new StreamingRequestHandler(new StreamingRequestService($client->reveal()));
         $result = await($handler->handle($command), Factory::create());
-        $this->assertInstanceOf(StreamingResponse::class, $result);
-        $this->assertSame($response, $result->getResponse());
+        self::assertInstanceOf(StreamingResponse::class, $result);
+        self::assertSame($response, $result->getResponse());
     }
 }
