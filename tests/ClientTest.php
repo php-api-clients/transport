@@ -65,7 +65,7 @@ class ClientTest extends TestCase
 
         $request = false;
         $handler = Phake::mock(BuzzClient::class);
-        Phake::when($handler)->send($this->isInstanceOf(Request::class))->thenReturnCallback(function (RequestInterface $guzzleRequest) use ($response, &$request) {
+        Phake::when($handler)->send($outputRequest)->thenReturnCallback(function (RequestInterface $guzzleRequest) use ($response, &$request) {
             $request = $guzzleRequest;
             return new FulfilledPromise($response);
         });
@@ -83,6 +83,8 @@ class ClientTest extends TestCase
         );
 
         $client->request($inputRequest, [], true);
+
+        Phake::verify($handler)->send($outputRequest);
 
         self::assertNotFalse($request);
         self::assertInstanceOf(RequestInterface::class, $request);
