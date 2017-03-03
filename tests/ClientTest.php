@@ -84,6 +84,7 @@ class ClientTest extends TestCase
 
         $client->request($inputRequest, [], true);
 
+        self::assertNotFalse($request);
         self::assertInstanceOf(RequestInterface::class, $request);
 
         self::assertSame($outputRequest->getMethod(), $request->getMethod());
