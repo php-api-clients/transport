@@ -13,6 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use React\EventLoop\LoopInterface;
 use React\Promise\PromiseInterface;
 use RingCentral\Psr7\Uri;
+use Throwable;
 use function React\Promise\reject;
 use function React\Promise\resolve;
 use function WyriHaximus\React\futureFunctionPromise;
@@ -156,6 +157,8 @@ final class Client implements ClientInterface
             return resolve($response);
         })->then(function (ResponseInterface $response) use ($executioner) {
             return $executioner->post($response);
+        })->otherwise(function (Throwable $throwable) use ($executioner) {
+            return reject($executioner->error($throwable));
         });
     }
 

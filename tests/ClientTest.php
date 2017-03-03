@@ -8,6 +8,8 @@ use ApiClients\Foundation\Transport\UserAgentStrategies;
 use ApiClients\Tools\TestUtilities\TestCase;
 use Clue\React\Buzz\Browser as BuzzClient;
 use DI\ContainerBuilder;
+use Exception;
+use InvalidArgumentException;
 use PackageVersions\Versions;
 use Phake;
 use Psr\Http\Message\RequestInterface;
@@ -17,6 +19,7 @@ use React\EventLoop\Factory;
 use React\Promise\FulfilledPromise;
 use RingCentral\Psr7\Request;
 use function Clue\React\Block\await;
+use function React\Promise\reject;
 use function React\Promise\resolve;
 
 class ClientTest extends TestCase
@@ -97,5 +100,50 @@ class ClientTest extends TestCase
         $outputHeaders = $request->getHeaders();
         ksort($outputHeaders);
         self::assertSame($headers, $outputHeaders);
+    }
+
+    /**
+     * @dataProvider provideRequests
+     */
+    public function testError(RequestInterface $inputRequest, RequestInterface $outputRequest)
+    {
+        $exceptionMessage = 'Exception turned InvalidArgumentException';
+        $exception = new Exception($exceptionMessage);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage($exceptionMessage);
+
+        $container = ContainerBuilder::buildDevContainer();
+        $loop = Factory::create();
+
+        $stream = Phake::mock(StreamInterface::class);
+        Phake::when($stream)->getContents()->thenReturn('{"foo":"bar"}');
+
+        $response = Phake::mock(ResponseInterface::class);
+        Phake::when($response)->getBody()->thenReturn($stream);
+        Phake::when($response)->getStatusCode()->thenReturn(200);
+        Phake::when($response)->getHeaders()->thenReturn([]);
+        Phake::when($response)->getProtocolVersion()->thenReturn('1.1');
+        Phake::when($response)->getReasonPhrase()->thenReturn('OK');
+
+        $handler = Phake::mock(BuzzClient::class);
+        Phake::when($handler)->send($outputRequest)->thenReturn(reject($exception));
+
+        $client = new Client(
+            $loop,
+            $container,
+            $handler,
+            [
+                Options::SCHEMA => 'http',
+                Options::HOST => 'api.example.com',
+                Options::USER_AGENT_STRATEGY => UserAgentStrategies::PACKAGE_VERSION,
+                Options::PACKAGE => 'api-clients/transport',
+                Options::MIDDLEWARE => [
+                    DummyMiddleware::class,
+                ],
+            ]
+        );
+
+        await($client->request($inputRequest, [], true), $loop);
     }
 }
