@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b1ba91a277cf1d87580598e21b1f98c",
+    "content-hash": "0558d5ba2bec839df49dd7479834452a",
     "packages": [
         {
             "name": "api-clients/command-bus",
@@ -56,16 +56,16 @@
         },
         {
             "name": "api-clients/middleware",
-            "version": "dev-feature-error-handling",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/middleware.git",
-                "reference": "f7873e12daf19f0fbb87cd3957b975276ed89fd0"
+                "reference": "3dbb05edfd01086368536ae176d444edf8093356"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/middleware/zipball/f7873e12daf19f0fbb87cd3957b975276ed89fd0",
-                "reference": "f7873e12daf19f0fbb87cd3957b975276ed89fd0",
+                "url": "https://api.github.com/repos/php-api-clients/middleware/zipball/3dbb05edfd01086368536ae176d444edf8093356",
+                "reference": "3dbb05edfd01086368536ae176d444edf8093356",
                 "shasum": ""
             },
             "require": {
@@ -102,7 +102,7 @@
                 }
             ],
             "description": "Request middleware",
-            "time": "2017-03-01 21:14:15"
+            "time": "2017-03-04T11:38:16+00:00"
         },
         {
             "name": "api-clients/resource",
@@ -3281,7 +3281,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "api-clients/middleware": 20,
         "api-clients/rx": 20,
         "api-clients/service": 20
     },

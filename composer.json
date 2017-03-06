@@ -11,7 +11,7 @@
   ],
   "require": {
     "php": "^7.0",
-    "api-clients/middleware": "dev-feature-error-handling",
+    "api-clients/middleware": "^2.0",
     "api-clients/resource": "^3.0",
     "api-clients/rx": "dev-master",
     "api-clients/service": "dev-master",
