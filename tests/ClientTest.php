@@ -2,9 +2,12 @@
 
 namespace ApiClients\Tests\Foundation\Transport;
 
+use ApiClients\Foundation\Middleware\Locator\Locator;
 use ApiClients\Foundation\Transport\Client;
 use ApiClients\Foundation\Transport\Options;
 use ApiClients\Foundation\Transport\UserAgentStrategies;
+use ApiClients\Foundation\Transport\UserAgentStrategy\PackageVersionStrategy;
+use ApiClients\Foundation\Transport\UserAgentStrategyInterface;
 use ApiClients\Tools\TestUtilities\TestCase;
 use Clue\React\Buzz\Browser as BuzzClient;
 use DI\ContainerBuilder;
@@ -50,7 +53,7 @@ class ClientTest extends TestCase
      */
     public function testRequest(RequestInterface $inputRequest, RequestInterface $outputRequest)
     {
-        $container = ContainerBuilder::buildDevContainer();
+        $locator = Phake::mock(Locator::class);
         $loop = Factory::create();
 
         $stream = Phake::mock(StreamInterface::class);
@@ -72,12 +75,12 @@ class ClientTest extends TestCase
 
         $client = new Client(
             $loop,
-            $container,
+            $locator,
             $handler,
             [
                 Options::SCHEMA => 'http',
                 Options::HOST => 'api.example.com',
-                Options::USER_AGENT_STRATEGY => UserAgentStrategies::PACKAGE_VERSION,
+                Options::USER_AGENT => 'api-clients/transport ' . explode('@', Versions::getVersion('api-clients/transport'))[0] . ' powered by PHP API Clients https://php-api-clients.org/',
                 Options::PACKAGE => 'api-clients/transport',
             ]
         );
