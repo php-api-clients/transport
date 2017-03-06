@@ -2,6 +2,7 @@
 
 namespace ApiClients\Foundation\Transport;
 
+use ApiClients\Foundation\Middleware\Locator\Locator;
 use ApiClients\Foundation\Middleware\MiddlewareInterface;
 use ApiClients\Foundation\Middleware\MiddlewareRunner;
 use ApiClients\Foundation\Transport\CommandBus;
@@ -34,7 +35,7 @@ final class Client implements ClientInterface
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    protected $locator;
 
     /**
      * @var Browser
@@ -47,59 +48,30 @@ final class Client implements ClientInterface
     protected $options = [];
 
     /**
-     * @var MiddlewareInterface[]
+     * @var string[]
      */
     protected $middleware = [];
 
     /**
      * @param LoopInterface $loop
-     * @param ContainerInterface $container
+     * @param Locator|ContainerInterface $locator
      * @param Browser $buzz
      * @param array $options
      */
     public function __construct(
         LoopInterface $loop,
-        ContainerInterface $container,
+        Locator $locator,
         Browser $buzz,
         array $options = []
     ) {
         $this->loop = $loop;
-        $this->container = $container;
+        $this->locator = $locator;
         $this->browser = $buzz;
         $this->options = $options + self::DEFAULT_OPTIONS;
 
         if (isset($this->options[Options::MIDDLEWARE])) {
             $this->middleware = $this->options[Options::MIDDLEWARE];
         }
-
-        $this->determineUserAgent();
-    }
-
-    protected function determineUserAgent()
-    {
-        if (!isset($this->options[Options::USER_AGENT]) && !isset($this->options[Options::USER_AGENT_STRATEGY])) {
-            throw new InvalidArgumentException('No way to determine user agent');
-        }
-
-        if (!isset($this->options[Options::USER_AGENT_STRATEGY])) {
-            return;
-        }
-
-        $strategy = $this->options[Options::USER_AGENT_STRATEGY];
-
-        if (!class_exists($strategy)) {
-            throw new InvalidArgumentException(sprintf('Strategy "%s", doesn\'t exist', $strategy));
-        }
-
-        if (!is_subclass_of($strategy, UserAgentStrategyInterface::class)) {
-            throw new InvalidArgumentException(sprintf(
-                'Strategy "%s", doesn\'t implement',
-                $strategy,
-                UserAgentStrategyInterface::class
-            ));
-        }
-
-        $this->options[Options::USER_AGENT] = $this->container->get($strategy)->determineUserAgent($this->options);
     }
 
     protected function constructMiddlewares(array $options): MiddlewareRunner
@@ -113,11 +85,7 @@ final class Client implements ClientInterface
         $args = [];
         $args[] = $options;
         foreach ($set as $middleware) {
-            if (!is_subclass_of($middleware, MiddlewareInterface::class)) {
-                continue;
-            }
-
-            $args[] = $this->container->get($middleware);
+            $args[] = $this->locator->get($middleware);
         }
 
         return new MiddlewareRunner(...$args);

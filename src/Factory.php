@@ -2,9 +2,11 @@
 
 namespace ApiClients\Foundation\Transport;
 
+use ApiClients\Foundation\Middleware\Locator\Locator;
 use Clue\React\Buzz\Browser;
 use Clue\React\Buzz\Io\Sender;
 use Interop\Container\ContainerInterface;
+use InvalidArgumentException;
 use React\Dns\Resolver\Factory as ResolverFactory;
 use React\Dns\Resolver\Resolver;
 use React\EventLoop\LoopInterface;
@@ -36,7 +38,7 @@ class Factory
             $httpClient,
             $resolver,
             $loop,
-            $options
+            self::determineUserAgent($container, $options)
         );
     }
 
@@ -61,7 +63,7 @@ class Factory
             (new Browser($loop, Sender::createFromLoopDns($loop, $resolver)))->withOptions([
                 'streaming' => true,
             ]),
-            $options
+            self::determineUserAgent($container, $options)
         );
     }
 
@@ -80,9 +82,38 @@ class Factory
     ): Client {
         return new Client(
             $loop,
-            $container,
+            $container->get(Locator::class),
             $buzz,
-            $options
+            self::determineUserAgent($container, $options)
         );
+    }
+
+    private static function determineUserAgent(ContainerInterface $container, array $options) : array
+    {
+        if (!isset($options[Options::USER_AGENT]) && !isset($options[Options::USER_AGENT_STRATEGY])) {
+            throw new InvalidArgumentException('No way to determine user agent');
+        }
+
+        if (!isset($options[Options::USER_AGENT_STRATEGY])) {
+            return $options;
+        }
+
+        $strategy = $options[Options::USER_AGENT_STRATEGY];
+
+        if (!class_exists($strategy)) {
+            throw new InvalidArgumentException(sprintf('Strategy "%s", doesn\'t exist', $strategy));
+        }
+
+        if (!is_subclass_of($strategy, UserAgentStrategyInterface::class)) {
+            throw new InvalidArgumentException(sprintf(
+                'Strategy "%s", doesn\'t implement "%s"',
+                $strategy,
+                UserAgentStrategyInterface::class
+            ));
+        }
+
+        $options[Options::USER_AGENT] = $container->get($strategy)->determineUserAgent($options);
+
+        return $options;
     }
 }
