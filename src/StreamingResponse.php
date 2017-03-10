@@ -37,7 +37,7 @@ final class StreamingResponse extends Observable
      * @param SchedulerInterface $scheduler
      * @return DisposableInterface
      */
-    public function subscribe(ObserverInterface $observer, SchedulerInterface $scheduler = null): DisposableInterface
+    public function subscribe(ObserverInterface $observer, $scheduler = null): DisposableInterface
     {
         $body = $this->response->getBody();
         $body->on('data', function (string $data) use ($observer) {
