@@ -2,6 +2,7 @@
 
 namespace ApiClients\Tests\Foundation\Transport;
 
+use ApiClients\Foundation\Middleware\Locator\ContainerLocator;
 use ApiClients\Foundation\Middleware\Locator\Locator;
 use ApiClients\Foundation\Transport\Client;
 use ApiClients\Foundation\Transport\Options;
@@ -31,23 +32,17 @@ class ClientTest extends TestCase
     {
         yield [
             new Request('GET', ''),
-            new Request('GET', 'http://api.example.com/', [
-                'User-Agent' => 'api-clients/transport ' . explode('@', Versions::getVersion('api-clients/transport'))[0] . ' powered by PHP API Clients https://php-api-clients.org/',
-            ]),
+            new Request('GET', 'http://api.example.com/'),
         ];
 
         yield [
             new Request('GET', 'status'),
-            new Request('GET', 'http://api.example.com/status', [
-                'User-Agent' => 'api-clients/transport ' . explode('@', Versions::getVersion('api-clients/transport'))[0] . ' powered by PHP API Clients https://php-api-clients.org/',
-            ]),
+            new Request('GET', 'http://api.example.com/status'),
         ];
 
         yield [
             new Request('HEAD', 'https://api.example.com/status'),
-            new Request('HEAD', 'https://api.example.com/status', [
-                'User-Agent' => 'api-clients/transport ' . explode('@', Versions::getVersion('api-clients/transport'))[0] . ' powered by PHP API Clients https://php-api-clients.org/',
-            ]),
+            new Request('HEAD', 'https://api.example.com/status'),
         ];
     }
 
@@ -83,8 +78,6 @@ class ClientTest extends TestCase
             [
                 Options::SCHEMA => 'http',
                 Options::HOST => 'api.example.com',
-                Options::USER_AGENT => 'api-clients/transport ' . explode('@', Versions::getVersion('api-clients/transport'))[0] . ' powered by PHP API Clients https://php-api-clients.org/',
-                Options::PACKAGE => 'api-clients/transport',
             ]
         );
 
@@ -134,13 +127,11 @@ class ClientTest extends TestCase
 
         $client = new Client(
             $loop,
-            $container,
+            new ContainerLocator($container),
             $handler,
             [
                 Options::SCHEMA => 'http',
                 Options::HOST => 'api.example.com',
-                Options::USER_AGENT_STRATEGY => UserAgentStrategies::PACKAGE_VERSION,
-                Options::PACKAGE => 'api-clients/transport',
                 Options::MIDDLEWARE => [
                     DummyMiddleware::class,
                 ],

@@ -149,7 +149,7 @@ final class Client implements ClientInterface
             $request = $request->withAddedHeader($key, $value);
         }
 
-        return $request->withUri($uri)->withAddedHeader('User-Agent', $this->options[Options::USER_AGENT]);
+        return $request->withUri($uri);
     }
 
     public function applyRequestOptions(array $options): array
