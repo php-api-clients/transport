@@ -11,6 +11,6 @@ class JsonEncodeCommandTest extends TestCase
     {
         $json = [];
         $command = new JsonEncodeCommand($json);
-        $this->assertSame($json, $command->getJson());
+        self::assertSame($json, $command->getJson());
     }
 }

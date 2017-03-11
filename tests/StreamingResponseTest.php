@@ -26,9 +26,9 @@ class StreamingResponseTest extends TestCase
         });
         $psr7Response = new Response(200, [], new ReadableBodyStream($stream));
         $response = new StreamingResponse($psr7Response);
-        $this->assertSame($psr7Response, $response->getResponse());
+        self::assertSame($psr7Response, $response->getResponse());
         $result = await(Promise::fromObservable(Promise::toObservable(resolve($response))->switchLatest()), $loop);
-        $this->assertSame($string, $result);
+        self::assertSame($string, $result);
     }
 
     public function testResponseError()

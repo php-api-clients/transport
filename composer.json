@@ -11,7 +11,7 @@
   ],
   "require": {
     "php": "^7.0",
-    "api-clients/middleware": "^1.1",
+    "api-clients/middleware": "^2.0",
     "api-clients/resource": "^3.0",
     "api-clients/rx": "dev-master",
     "api-clients/service": "dev-master",
@@ -20,14 +20,12 @@
     "container-interop/container-interop": "^1.1",
     "daverandom/exceptional-json": "^1.0.1",
     "doctrine/annotations": "^1.2",
-    "joshdifabio/composed": "^1.0",
-    "ocramius/package-versions": "^1.1",
     "react/http-client": "^0.4.15",
     "react/promise": "^2.4",
     "wyrihaximus/ticking-promise": "^1.6"
   },
   "require-dev": {
-    "api-clients/test-utilities": "^2.0",
+    "api-clients/test-utilities": "^3.0.1",
     "php-di/php-di": "^5.4"
   },
   "suggest": {

@@ -26,9 +26,9 @@ class JsonDecodeMiddlewareTest extends TestCase
             $loop
         )->getBody();
 
-        $this->assertInstanceOf(JsonStream::class, $body);
+        self::assertInstanceOf(JsonStream::class, $body);
 
-        $this->assertSame(
+        self::assertSame(
             [],
             $body->getJson()
         );
@@ -41,7 +41,7 @@ class JsonDecodeMiddlewareTest extends TestCase
         $middleware = new JsonDecodeMiddleware($service);
         $response = new Response(200, [], new ReadableBodyStream(new ThroughStream()));
 
-        $this->assertSame(
+        self::assertSame(
             $response,
             await(
                 $middleware->post($response),
@@ -55,6 +55,6 @@ class JsonDecodeMiddlewareTest extends TestCase
         $loop = Factory::create();
         $service = new JsonDecodeService($loop);
         $middleware = new JsonDecodeMiddleware($service);
-        $this->assertSame(1000, $middleware->priority());
+        self::assertSame(1000, $middleware->priority());
     }
 }

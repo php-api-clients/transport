@@ -24,9 +24,8 @@ class FactoryTest extends TestCase
         $loop = LoopFactory::create();
         $client = Factory::create(
             $container,
-            $loop,
-            [Options::USER_AGENT => 'u']
+            $loop
         );
-        $this->assertInstanceOf(Client::class, $client);
+        self::assertInstanceOf(Client::class, $client);
     }
 }

@@ -10,10 +10,7 @@ class Options
     const HOST                    = 'host';
     const PORT                    = 'port';
     const PATH                    = 'path';
-    const USER_AGENT              = 'user_agent';
     const HEADERS                 = 'headers';
     const MIDDLEWARE              = 'middleware';
     const DEFAULT_REQUEST_OPTIONS = 'default_request_options';
-    const USER_AGENT_STRATEGY     = 'user_agent_strategy';
-    const PACKAGE                 = 'package';
 }

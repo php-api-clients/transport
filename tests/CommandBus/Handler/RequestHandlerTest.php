@@ -43,6 +43,6 @@ class RequestHandlerTest extends TestCase
         $command = new SimpleRequestCommand($path);
         $handler = new RequestHandler(new RequestService($client->reveal()));
         $result = await($handler->handle($command), $loop);
-        $this->assertEquals(200, $result->getStatusCode());
+        self::assertEquals(200, $result->getStatusCode());
     }
 }

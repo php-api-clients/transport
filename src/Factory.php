@@ -38,7 +38,7 @@ class Factory
             $httpClient,
             $resolver,
             $loop,
-            self::determineUserAgent($container, $options)
+            $options
         );
     }
 
@@ -63,7 +63,7 @@ class Factory
             (new Browser($loop, Sender::createFromLoopDns($loop, $resolver)))->withOptions([
                 'streaming' => true,
             ]),
-            self::determineUserAgent($container, $options)
+            $options
         );
     }
 
@@ -84,36 +84,7 @@ class Factory
             $loop,
             $container->get(Locator::class),
             $buzz,
-            self::determineUserAgent($container, $options)
+            $options
         );
-    }
-
-    private static function determineUserAgent(ContainerInterface $container, array $options) : array
-    {
-        if (!isset($options[Options::USER_AGENT]) && !isset($options[Options::USER_AGENT_STRATEGY])) {
-            throw new InvalidArgumentException('No way to determine user agent');
-        }
-
-        if (!isset($options[Options::USER_AGENT_STRATEGY])) {
-            return $options;
-        }
-
-        $strategy = $options[Options::USER_AGENT_STRATEGY];
-
-        if (!class_exists($strategy)) {
-            throw new InvalidArgumentException(sprintf('Strategy "%s", doesn\'t exist', $strategy));
-        }
-
-        if (!is_subclass_of($strategy, UserAgentStrategyInterface::class)) {
-            throw new InvalidArgumentException(sprintf(
-                'Strategy "%s", doesn\'t implement "%s"',
-                $strategy,
-                UserAgentStrategyInterface::class
-            ));
-        }
-
-        $options[Options::USER_AGENT] = $container->get($strategy)->determineUserAgent($options);
-
-        return $options;
     }
 }

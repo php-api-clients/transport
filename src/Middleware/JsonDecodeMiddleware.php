@@ -2,6 +2,7 @@
 
 namespace ApiClients\Foundation\Transport\Middleware;
 
+use ApiClients\Foundation\Middleware\ErrorTrait;
 use ApiClients\Foundation\Middleware\MiddlewareInterface;
 use ApiClients\Foundation\Middleware\PreTrait;
 use ApiClients\Foundation\Middleware\Priority;
@@ -15,6 +16,7 @@ use function React\Promise\resolve;
 class JsonDecodeMiddleware implements MiddlewareInterface
 {
     use PreTrait;
+    use ErrorTrait;
 
     /**
      * @var JsonDecodeService

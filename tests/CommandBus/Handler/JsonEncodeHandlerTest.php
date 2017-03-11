@@ -17,6 +17,6 @@ class JsonEncodeHandlerTest extends TestCase
         $command = new JsonEncodeCommand([]);
         $service = new JsonEncodeService($loop);
         $handler = new JsonEncodeHandler($service);
-        $this->assertSame('[]', await($handler->handle($command), $loop));
+        self::assertSame('[]', await($handler->handle($command), $loop));
     }
 }
