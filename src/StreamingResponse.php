@@ -34,21 +34,17 @@ final class StreamingResponse extends Observable
 
     /**
      * @param ObserverInterface $observer
-     * @param SchedulerInterface $scheduler
      * @return DisposableInterface
+     * @ignoreCodeCoverage
      */
-    public function subscribe(ObserverInterface $observer, $scheduler = null): DisposableInterface
+    // @codingStandardsIgnoreStart
+    protected function _subscribe(ObserverInterface $observer): DisposableInterface
     {
+        // @codingStandardsIgnoreEnd
         $body = $this->response->getBody();
-        $body->on('data', function (string $data) use ($observer) {
-            $observer->onNext($data);
-        });
-        $body->on('end', function () use ($observer) {
-            $observer->onCompleted();
-        });
-        $body->on('error', function ($error) use ($observer) {
-            $observer->onError($error);
-        });
+        $body->on('data', [$observer, 'onNext']);
+        $body->on('error', [$observer, 'onError']);
+        $body->on('end', [$observer, 'onCompleted']);
 
         return new EmptyDisposable();
     }

@@ -27,7 +27,7 @@ class StreamingResponseTest extends TestCase
         $psr7Response = new Response(200, [], new ReadableBodyStream($stream));
         $response = new StreamingResponse($psr7Response);
         self::assertSame($psr7Response, $response->getResponse());
-        $result = await(Promise::fromObservable(Promise::toObservable(resolve($response))->switchLatest()), $loop);
+        $result = await(Promise::fromObservable(Promise::toObservable(resolve($response))->switch()), $loop);
         self::assertSame($string, $result);
     }
 
@@ -44,6 +44,6 @@ class StreamingResponseTest extends TestCase
         });
         $psr7Response = new Response(200, [], new ReadableBodyStream($stream));
         $response = new StreamingResponse($psr7Response);
-        await(Promise::fromObservable(Promise::toObservable(resolve($response))->switchLatest()), $loop);
+        await(Promise::fromObservable(Promise::toObservable(resolve($response))->switch()), $loop);
     }
 }
