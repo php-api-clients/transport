@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9910f2d44629de78d586ae2c7a12acf0",
+    "content-hash": "7ee6a8b2840e0e1cc18378833c90a310",
     "packages": [
         {
             "name": "api-clients/command-bus",
@@ -150,16 +150,16 @@
         },
         {
             "name": "api-clients/rx",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-api-clients/rx.git",
-                "reference": "a1d797606e1367a51055634eb73cba20112a99ed"
+                "reference": "7f5d1b8596304b10f12deae46ed015b8513ff20f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-api-clients/rx/zipball/a1d797606e1367a51055634eb73cba20112a99ed",
-                "reference": "a1d797606e1367a51055634eb73cba20112a99ed",
+                "url": "https://api.github.com/repos/php-api-clients/rx/zipball/7f5d1b8596304b10f12deae46ed015b8513ff20f",
+                "reference": "7f5d1b8596304b10f12deae46ed015b8513ff20f",
                 "shasum": ""
             },
             "require": {
@@ -189,7 +189,7 @@
                     "email": "ceesjank@gmail.com"
                 }
             ],
-            "time": "2017-01-09 14:39:21"
+            "time": "2017-03-22T20:22:07+00:00"
         },
         {
             "name": "api-clients/service",
@@ -1305,16 +1305,16 @@
         },
         {
             "name": "reactivex/rxphp",
-            "version": "1.5.2",
+            "version": "1.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ReactiveX/RxPHP.git",
-                "reference": "84bfbd05e79d924b3d2597eaeef6156475e2a514"
+                "reference": "31f36d69cf9ab121eff726fc0d003b2ccfc3ab16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ReactiveX/RxPHP/zipball/84bfbd05e79d924b3d2597eaeef6156475e2a514",
-                "reference": "84bfbd05e79d924b3d2597eaeef6156475e2a514",
+                "url": "https://api.github.com/repos/ReactiveX/RxPHP/zipball/31f36d69cf9ab121eff726fc0d003b2ccfc3ab16",
+                "reference": "31f36d69cf9ab121eff726fc0d003b2ccfc3ab16",
                 "shasum": ""
             },
             "require": {
@@ -1367,7 +1367,7 @@
                 "reactive",
                 "rx"
             ],
-            "time": "2017-02-07T19:28:24+00:00"
+            "time": "2017-03-14T21:00:10+00:00"
         },
         {
             "name": "ringcentral/psr7",
@@ -3233,7 +3233,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "api-clients/rx": 20,
         "api-clients/service": 20
     },
     "prefer-stable": true,
