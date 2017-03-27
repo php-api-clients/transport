@@ -3,21 +3,19 @@
 namespace ApiClients\Foundation\Transport;
 
 use ApiClients\Foundation\Middleware\Locator\Locator;
-use ApiClients\Foundation\Middleware\MiddlewareInterface;
 use ApiClients\Foundation\Middleware\MiddlewareRunner;
 use ApiClients\Foundation\Transport\CommandBus;
 use Clue\React\Buzz\Browser;
 use Interop\Container\ContainerInterface;
-use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use React\EventLoop\LoopInterface;
 use React\Promise\PromiseInterface;
 use RingCentral\Psr7\Uri;
 use Throwable;
+use function ApiClients\Foundation\options_merge;
 use function React\Promise\reject;
 use function React\Promise\resolve;
-use function WyriHaximus\React\futureFunctionPromise;
 
 final class Client implements ClientInterface
 {
@@ -113,8 +111,8 @@ final class Client implements ClientInterface
      */
     public function request(RequestInterface $request, array $options = []): PromiseInterface
     {
-        $request = $this->applyApiSettingsToRequest($request);
         $options = $this->applyRequestOptions($options);
+        $request = $this->applyApiSettingsToRequest($request, $options);
         $executioner = $this->constructMiddlewares($options);
 
         return $executioner->pre($request)->then(function ($request) use ($options) {
@@ -130,22 +128,23 @@ final class Client implements ClientInterface
         });
     }
 
-    protected function applyApiSettingsToRequest(RequestInterface $request): RequestInterface
+    protected function applyApiSettingsToRequest(RequestInterface $request, array $options): RequestInterface
     {
+        $options = array_replace_recursive($this->options, $options);
         $uri = $request->getUri();
         if (strpos((string)$uri, '://') === false) {
             $uri = Uri::resolve(
                 new Uri(
-                    $this->options[Options::SCHEMA] .
+                    $options[Options::SCHEMA] .
                     '://' .
-                    $this->options[Options::HOST] .
-                    $this->options[Options::PATH]
+                    $options[Options::HOST] .
+                    $options[Options::PATH]
                 ),
                 $request->getUri()
             );
         }
 
-        foreach ($this->options[Options::HEADERS] as $key => $value) {
+        foreach ($options[Options::HEADERS] as $key => $value) {
             $request = $request->withAddedHeader($key, $value);
         }
 
