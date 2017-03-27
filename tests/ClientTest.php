@@ -3,24 +3,18 @@
 namespace ApiClients\Tests\Foundation\Transport;
 
 use ApiClients\Foundation\Middleware\Locator\ContainerLocator;
-use ApiClients\Foundation\Middleware\Locator\Locator;
 use ApiClients\Foundation\Transport\Client;
 use ApiClients\Foundation\Transport\Options;
-use ApiClients\Foundation\Transport\UserAgentStrategies;
-use ApiClients\Foundation\Transport\UserAgentStrategy\PackageVersionStrategy;
-use ApiClients\Foundation\Transport\UserAgentStrategyInterface;
 use ApiClients\Tools\TestUtilities\TestCase;
 use Clue\React\Buzz\Browser as BuzzClient;
 use DI\ContainerBuilder;
 use Exception;
 use InvalidArgumentException;
-use PackageVersions\Versions;
 use Phake;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use React\EventLoop\Factory;
-use React\Promise\FulfilledPromise;
 use RingCentral\Psr7\Request;
 use function Clue\React\Block\await;
 use function React\Promise\reject;
@@ -30,28 +24,117 @@ class ClientTest extends TestCase
 {
     public function provideRequests()
     {
+        $defaultClientOptions = [
+            Options::SCHEMA => 'http',
+            Options::HOST => 'api.example.com',
+            Options::MIDDLEWARE => [
+                DummyMiddleware::class,
+            ],
+        ];
+        $defaultRequestOptions = [];
+
         yield [
             new Request('GET', ''),
             new Request('GET', 'http://api.example.com/'),
+            $defaultClientOptions,
+            $defaultRequestOptions,
         ];
 
         yield [
             new Request('GET', 'status'),
             new Request('GET', 'http://api.example.com/status'),
+            $defaultClientOptions,
+            $defaultRequestOptions,
         ];
 
         yield [
             new Request('HEAD', 'https://api.example.com/status'),
             new Request('HEAD', 'https://api.example.com/status'),
+            $defaultClientOptions,
+            $defaultRequestOptions,
+        ];
+
+        yield [
+            new Request('HEAD', 'https://api.example.com/status'),
+            new Request('HEAD', 'https://api.example.com/status', ['Accept' => 'foo',]),
+            $defaultClientOptions + [
+                Options::HEADERS => [
+                    'Accept' => 'foo',
+                ],
+            ],
+            $defaultRequestOptions,
+        ];
+
+        yield [
+            new Request('HEAD', 'https://api.example.com/status'),
+            new Request('HEAD', 'https://api.example.com/status', ['Accept' => 'bar',]),
+            $defaultClientOptions + [
+                Options::HEADERS => [
+                    'Accept' => 'foo',
+                ],
+            ],
+            $defaultRequestOptions + [
+                Options::HEADERS => [
+                    'Accept' => 'bar',
+                ],
+            ],
+        ];
+
+        yield [
+            new Request('HEAD', 'https://api.example.com/status'),
+            new Request('HEAD', 'https://api.example.com/status', ['Accept' => 'foo',' Decline' => 'bar',]),
+            $defaultClientOptions + [
+                Options::HEADERS => [
+                    'Accept' => 'foo',
+                ],
+            ],
+            $defaultRequestOptions + [
+                Options::HEADERS => [
+                    'Decline' => 'bar',
+                ],
+            ],
+        ];
+
+        yield [
+            new Request('HEAD', 'https://api.example.com/status'),
+            new Request('HEAD', 'https://api.example.com/status', ['Accept' => 'bar',' Decline' => 'bar',]),
+            $defaultClientOptions + [
+                Options::HEADERS => [
+                    'Accept' => 'foo',
+                ],
+            ],
+            $defaultRequestOptions + [
+                Options::HEADERS => [
+                    'Accept' => 'bar',
+                    'Decline' => 'bar',
+                ],
+            ],
+        ];
+
+        yield [
+            new Request('HEAD', 'https://api.example.com/status'),
+            new Request('HEAD', 'https://api.example.com/status', ['a' => 'b',' c' => 'd', 'e' => 'f', 'g' => 'h',]),
+            $defaultClientOptions + [
+                Options::HEADERS => [
+                    'a' => 'b',
+                    'c' => 'd',
+                ],
+            ],
+            $defaultRequestOptions + [
+                Options::HEADERS => [
+                    'e' => 'f',
+                    'g' => 'h',
+                ],
+            ],
         ];
     }
 
     /**
      * @dataProvider provideRequests
      */
-    public function testRequest(RequestInterface $inputRequest, RequestInterface $outputRequest)
+    public function testRequest(RequestInterface $inputRequest, RequestInterface $outputRequest, array $clientOptions, array $requestOptions)
     {
-        $locator = Phake::mock(Locator::class);
+        $container = ContainerBuilder::buildDevContainer();
         $loop = Factory::create();
 
         $stream = Phake::mock(StreamInterface::class);
@@ -65,31 +148,29 @@ class ClientTest extends TestCase
         Phake::when($response)->getReasonPhrase()->thenReturn('OK');
 
         $request = false;
-        $handler = Phake::mock(BuzzClient::class);
-        Phake::when($handler)->send($outputRequest)->thenReturnCallback(function (RequestInterface $guzzleRequest) use ($response, &$request) {
+        $buzz = Phake::mock(BuzzClient::class);
+        Phake::when($buzz)->send(Phake::anyParameters())->thenReturnCallback(function (RequestInterface $guzzleRequest) use ($response, &$request) {
             $request = $guzzleRequest;
-            return new FulfilledPromise($response);
+            return resolve($response);
         });
 
         $client = new Client(
             $loop,
-            $locator,
-            $handler,
-            [
-                Options::SCHEMA => 'http',
-                Options::HOST => 'api.example.com',
-            ]
+            new ContainerLocator($container),
+            $buzz,
+            $clientOptions
         );
 
-        $client->request($inputRequest, [], true);
+        $client->request($inputRequest, $requestOptions);
 
-        Phake::verify($handler)->send($outputRequest);
+        Phake::verify($buzz)->send($outputRequest);
 
         self::assertNotFalse($request);
         self::assertInstanceOf(RequestInterface::class, $request);
 
         self::assertSame($outputRequest->getMethod(), $request->getMethod());
         self::assertSame((string) $outputRequest->getUri(), (string) $request->getUri());
+        self::assertSame($outputRequest->getHeaders(), $request->getHeaders());
 
         $headers = $outputRequest->getHeaders();
         ksort($headers);
@@ -101,7 +182,7 @@ class ClientTest extends TestCase
     /**
      * @dataProvider provideRequests
      */
-    public function testError(RequestInterface $inputRequest, RequestInterface $outputRequest)
+    public function testError(RequestInterface $inputRequest, RequestInterface $outputRequest, array $clientOptions, array $requestOptions)
     {
         $exceptionMessage = 'Exception turned InvalidArgumentException';
         $exception = new Exception($exceptionMessage);
@@ -129,15 +210,9 @@ class ClientTest extends TestCase
             $loop,
             new ContainerLocator($container),
             $handler,
-            [
-                Options::SCHEMA => 'http',
-                Options::HOST => 'api.example.com',
-                Options::MIDDLEWARE => [
-                    DummyMiddleware::class,
-                ],
-            ]
+            $clientOptions
         );
 
-        await($client->request($inputRequest, [], true), $loop);
+        await($client->request($inputRequest, $requestOptions, true), $loop);
     }
 }
