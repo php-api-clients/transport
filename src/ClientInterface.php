@@ -6,7 +6,6 @@ use ApiClients\Foundation\Middleware\MiddlewareInterface;
 use ApiClients\Foundation\Middleware\MiddlewareRunner;
 use ApiClients\Foundation\Transport\CommandBus;
 use Clue\React\Buzz\Browser;
-use Interop\Container\ContainerInterface;
 use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

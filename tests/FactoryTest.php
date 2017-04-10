@@ -10,7 +10,6 @@ use ApiClients\Foundation\Transport\Factory;
 use ApiClients\Foundation\Transport\Options;
 use ApiClients\Tools\TestUtilities\TestCase;
 use DI\ContainerBuilder;
-use Interop\Container\ContainerInterface;
 use League\Event\Emitter;
 use League\Event\EmitterInterface;
 use React\EventLoop\Factory as LoopFactory;

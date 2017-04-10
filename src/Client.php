@@ -6,7 +6,6 @@ use ApiClients\Foundation\Middleware\Locator\Locator;
 use ApiClients\Foundation\Middleware\MiddlewareRunner;
 use ApiClients\Foundation\Transport\CommandBus;
 use Clue\React\Buzz\Browser;
-use Interop\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use React\EventLoop\LoopInterface;
@@ -31,7 +30,7 @@ final class Client implements ClientInterface
     protected $loop;
 
     /**
-     * @var ContainerInterface
+     * @var Locator
      */
     protected $locator;
 
@@ -52,7 +51,7 @@ final class Client implements ClientInterface
 
     /**
      * @param LoopInterface $loop
-     * @param Locator|ContainerInterface $locator
+     * @param Locator $locator
      * @param Browser $buzz
      * @param array $options
      */
