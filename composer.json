@@ -56,6 +56,10 @@
   },
   "scripts": {
     "ensure-installed": "composer install --ansi -n -q",
+    "lint-php": [
+      "@ensure-installed",
+      "parallel-lint --exclude vendor ."
+    ],
     "cs": [
       "@ensure-installed",
       "phpcs --standard=PSR2 src/"
@@ -65,10 +69,12 @@
       "phpunit --colors=always -c phpunit.xml.dist --coverage-text --coverage-html covHtml"
     ],
     "qa-all": [
+      "@lint-php",
       "@cs",
       "@unit"
     ],
     "qa-windows": [
+      "@lint-php",
       "@cs",
       "@unit"
     ],
