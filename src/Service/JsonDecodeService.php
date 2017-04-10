@@ -8,7 +8,7 @@ use React\Promise\CancellablePromiseInterface;
 use function ExceptionalJSON\decode;
 use function WyriHaximus\React\futureFunctionPromise;
 
-final class JsonDecodeService implements ServiceInterface
+final class JsonDecodeService
 {
     /**
      * @var LoopInterface

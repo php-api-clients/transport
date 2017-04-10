@@ -10,7 +10,7 @@ use Psr\Http\Message\RequestInterface;
 use React\Promise\CancellablePromiseInterface;
 use function React\Promise\resolve;
 
-final class RequestService implements ServiceInterface
+final class RequestService
 {
     /**
      * @var ClientInterface

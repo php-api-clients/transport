@@ -9,7 +9,7 @@ use function ExceptionalJSON\encode;
 use function React\Promise\resolve;
 use function WyriHaximus\React\futureFunctionPromise;
 
-final class JsonEncodeService implements ServiceInterface
+final class JsonEncodeService
 {
     /**
      * @var LoopInterface

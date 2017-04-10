@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use React\Promise\CancellablePromiseInterface;
 use function React\Promise\resolve;
 
-final class StreamingRequestService implements ServiceInterface
+final class StreamingRequestService
 {
     /**
      * @var ClientInterface

@@ -1,8 +1,6 @@
 {
   "name": "api-clients/transport",
   "license": "MIT",
-  "minimum-stability": "dev",
-  "prefer-stable": true,
   "authors": [
     {
       "name": "Cees-Jan Kiewiet",
@@ -14,7 +12,6 @@
     "api-clients/middleware": "^2.0",
     "api-clients/resource": "^3.0",
     "api-clients/rx": "^2.0",
-    "api-clients/service": "dev-master",
     "clue/block-react": "^1.1",
     "clue/buzz-react": "^1.1",
     "daverandom/exceptional-json": "^1.0.1",
@@ -26,7 +23,7 @@
   },
   "require-dev": {
     "api-clients/test-utilities": "^3.0.1",
-    "php-di/php-di": "^5.4"
+    "php-di/php-di": "^5.4.1"
   },
   "suggest": {
     "api-clients/resource-generator": "Easy wireframing of resources",
