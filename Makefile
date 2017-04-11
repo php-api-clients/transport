@@ -1,6 +1,9 @@
 all:
 	composer qa-all
 
+all-coverage:
+	composer qa-all-coverage
+
 ci:
 	composer qa-ci
 
