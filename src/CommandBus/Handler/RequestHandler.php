@@ -24,7 +24,7 @@ final class RequestHandler
 
     public function handle(RequestCommandInterface $command): PromiseInterface
     {
-        return $this->service->handle(
+        return $this->service->request(
             $command->getRequest(),
             $command->getOptions()
         );

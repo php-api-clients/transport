@@ -22,9 +22,13 @@ final class StreamingRequestHandler
         $this->service = $service;
     }
 
+    /**
+     * @param RequestCommandInterface $command
+     * @return PromiseInterface
+     */
     public function handle(RequestCommandInterface $command): PromiseInterface
     {
-        return $this->service->handle(
+        return $this->service->stream(
             $command->getRequest(),
             $command->getOptions()
         );
