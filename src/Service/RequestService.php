@@ -30,7 +30,7 @@ class RequestService
      * @param array $options
      * @return CancellablePromiseInterface
      */
-    public function handle(RequestInterface $request = null, array $options = []): CancellablePromiseInterface
+    public function request(RequestInterface $request, array $options = []): CancellablePromiseInterface
     {
         if (!isset($options[Options::MIDDLEWARE])) {
             $options[Options::MIDDLEWARE] = [];

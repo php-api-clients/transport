@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 use React\Promise\CancellablePromiseInterface;
 use function React\Promise\resolve;
 
-final class StreamingRequestService
+class StreamingRequestService
 {
     /**
      * @var ClientInterface
@@ -30,7 +30,7 @@ final class StreamingRequestService
      * @param array $options
      * @return CancellablePromiseInterface
      */
-    public function handle(RequestInterface $request = null, array $options = []): CancellablePromiseInterface
+    public function stream(RequestInterface $request, array $options = []): CancellablePromiseInterface
     {
         return $this->client->request(
             $request,
