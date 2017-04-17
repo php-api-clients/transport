@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e8d593ae10096f0d61158a55d98e77fe",
+    "content-hash": "625edb5d21600fe27230a4e81d469439",
     "packages": [
         {
             "name": "api-clients/command-bus",
@@ -325,41 +325,6 @@
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
             "time": "2017-02-14T19:40:03+00:00"
-        },
-        {
-            "name": "daverandom/exceptional-json",
-            "version": "v1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/DaveRandom/ExceptionalJSON.git",
-                "reference": "4998f41b4da90b3720ecb4f895ca488f0f2c83f7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/DaveRandom/ExceptionalJSON/zipball/4998f41b4da90b3720ecb4f895ca488f0f2c83f7",
-                "reference": "4998f41b4da90b3720ecb4f895ca488f0f2c83f7",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ExceptionalJSON\\": "src/"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Wright"
-                }
-            ],
-            "description": "JSON encoding and decoding that throws exceptions on failure",
-            "time": "2016-05-04T15:52:54+00:00"
         },
         {
             "name": "doctrine/annotations",

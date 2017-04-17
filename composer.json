@@ -14,7 +14,6 @@
     "api-clients/rx": "^2.0",
     "clue/block-react": "^1.1",
     "clue/buzz-react": "^1.1",
-    "daverandom/exceptional-json": "^1.0.1",
     "doctrine/annotations": "^1.2",
     "psr/container": "^1.0",
     "react/http-client": "^0.4.15",
