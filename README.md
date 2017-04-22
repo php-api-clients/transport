@@ -22,8 +22,18 @@ Creating the client can be done using the factory:
 ```php
 $container = new PsrContainer(); // Any container implementing PSR-11 and holding a middleware locator 
 $loop = EventLoopFactory::create(); // The event loop
-$options = []; // Options, as described below
+$options = []; // Client options, as described below
 $client = Factory::create($container, $loop, $options);
+```
+
+Next you can make PSR-7 request:
+
+```php
+$request = new PsrRequest(); // 
+$requestOptions = []; // Options such as middleware settings
+$client->request($request, $requestOptions)->done(function (ResponseInterface $response) {
+    // Handle the response
+});
 ```
 
 # Middleware
