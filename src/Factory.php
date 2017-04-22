@@ -5,7 +5,6 @@ namespace ApiClients\Foundation\Transport;
 use ApiClients\Foundation\Middleware\Locator\Locator;
 use Clue\React\Buzz\Browser;
 use Clue\React\Buzz\Io\Sender;
-use InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 use React\Dns\Resolver\Factory as ResolverFactory;
 use React\Dns\Resolver\Resolver;
