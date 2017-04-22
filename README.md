@@ -1,11 +1,11 @@
 # API Client Foundation for PHP 7.x
 
-[![Build Status](https://travis-ci.org/php-api-clients/foundation.svg?branch=master)](https://travis-ci.org/php-api-clients/foundation)
-[![Latest Stable Version](https://poser.pugx.org/api-clients/foundation/v/stable.png)](https://packagist.org/packages/api-clients/foundation)
-[![Total Downloads](https://poser.pugx.org/api-clients/foundation/downloads.png)](https://packagist.org/packages/api-clients/foundation/stats)
-[![Code Coverage](https://scrutinizer-ci.com/g/php-api-clients/foundation/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-api-clients/foundation/?branch=master)
-[![License](https://poser.pugx.org/api-clients/foundation/license.png)](https://packagist.org/packages/api-clients/foundation)
-[![PHP 7 ready](http://php7ready.timesplinter.ch/php-api-clients/foundation/badge.svg)](https://appveyor-ci.org/php-api-clients/foundation)
+[![Build Status](https://travis-ci.org/php-api-clients/transport.svg?branch=master)](https://travis-ci.org/php-api-clients/transport)
+[![Latest Stable Version](https://poser.pugx.org/api-clients/transport/v/stable.png)](https://packagist.org/packages/api-clients/transport)
+[![Total Downloads](https://poser.pugx.org/api-clients/transport/downloads.png)](https://packagist.org/packages/api-clients/transport/stats)
+[![Code Coverage](https://scrutinizer-ci.com/g/php-api-clients/transport/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-api-clients/transport/?branch=master)
+[![License](https://poser.pugx.org/api-clients/transport/license.png)](https://packagist.org/packages/api-clients/transport)
+[![PHP 7 ready](http://php7ready.timesplinter.ch/php-api-clients/transport/badge.svg)](https://appveyor-ci.org/php-api-clients/transport)
 
 # Middleware
 
