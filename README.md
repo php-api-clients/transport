@@ -57,6 +57,17 @@ $options = [
 $client = new Client($loop, $container, $browser, $options);
 ```
 
+Middleware options can be changed per request, this specific request only will have a delay of 5 seconds instead of the default 3:
+
+```php
+$requestOptions = [
+    \ApiClients\Middleware\Delay\DelayMiddleware::class => [
+        \ApiClients\Middleware\Delay\Options::DELAY => 5,
+    ],
+];
+$client->request($request, $requestOptions);
+```
+
 # License
 
 The MIT License (MIT)
