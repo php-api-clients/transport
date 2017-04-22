@@ -7,6 +7,8 @@
 [![License](https://poser.pugx.org/api-clients/transport/license.png)](https://packagist.org/packages/api-clients/transport)
 [![PHP 7 ready](http://php7ready.timesplinter.ch/php-api-clients/transport/badge.svg)](https://appveyor-ci.org/php-api-clients/transport)
 
+In a nutshell this package is a wrapper around `clue/buzz-react` adding [middleware](https://github.com/php-api-clients/middleware).
+
 # Install
 
 To install via [Composer](http://getcomposer.org/), use the command below, it will automatically detect the latest version and bind it with `^`.
