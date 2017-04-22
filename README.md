@@ -15,6 +15,17 @@ To install via [Composer](http://getcomposer.org/), use the command below, it wi
 composer require api-clients/transport
 ```
 
+# Usage
+
+Creating the client can be done using the factory:
+
+```php
+$container = new PsrContainer(); // Any container implementing PSR-11 and holding a middleware locator 
+$loop = EventLoopFactory::create(); // The event loop
+$options = []; // Options, as described below
+$client = Factory::create($container, $loop, $options);
+```
+
 # Middleware
 
 Middlewares are passed into the client with the options argument. In this example the [`api-clients/middleware-delay`](https://github.com/php-api-clients/middleware-delay) is used. Adding middlewares to the client is simple, add an array to `$options` with `Options::MIDDLEWARE` as index cosisting of middleware class names. Optionally you can pass options for the middleware through the `$options` array. Simply add a new array inside the array with the middlware class name as index and pass the desired options into it.
