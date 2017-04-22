@@ -1,4 +1,4 @@
-# API Client Foundation for PHP 7.x
+# API Client Transport for PHP 7.x
 
 [![Build Status](https://travis-ci.org/php-api-clients/transport.svg?branch=master)](https://travis-ci.org/php-api-clients/transport)
 [![Latest Stable Version](https://poser.pugx.org/api-clients/transport/v/stable.png)](https://packagist.org/packages/api-clients/transport)
