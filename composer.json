@@ -10,15 +10,9 @@
   "require": {
     "php": "^7.0",
     "api-clients/middleware": "^2.0",
-    "api-clients/resource": "^3.0",
     "api-clients/rx": "^2.0",
-    "clue/block-react": "^1.1",
     "clue/buzz-react": "^1.1",
-    "doctrine/annotations": "^1.2",
-    "psr/container": "^1.0",
-    "react/http-client": "^0.4.15",
-    "react/promise": "^2.4",
-    "wyrihaximus/ticking-promise": "^1.6"
+    "psr/container": "^1.0"
   },
   "require-dev": {
     "api-clients/test-utilities": "^3.0.1",
