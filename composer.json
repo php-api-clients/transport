@@ -22,7 +22,7 @@
   },
   "require-dev": {
     "api-clients/test-utilities": "^3.0.1",
-    "php-di/php-di": "^5.4.1"
+    "php-di/php-di": "^5.4.3"
   },
   "suggest": {
     "api-clients/resource-generator": "Easy wireframing of resources",
