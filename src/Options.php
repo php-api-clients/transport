@@ -5,7 +5,6 @@ namespace ApiClients\Foundation\Transport;
 class Options
 {
     const DNS                     = 'dns';
-    const CACHE                   = 'cache';
     const SCHEMA                  = 'schema';
     const HOST                    = 'host';
     const PORT                    = 'port';
