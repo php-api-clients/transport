@@ -5,23 +5,20 @@ namespace ApiClients\Foundation\Transport;
 use ApiClients\Foundation\Middleware\Locator\Locator;
 use Clue\React\Buzz\Browser;
 use Clue\React\Buzz\Io\Sender;
-use Psr\Container\ContainerInterface;
 use React\Dns\Resolver\Factory as ResolverFactory;
 use React\Dns\Resolver\Resolver;
 use React\EventLoop\LoopInterface;
-use React\HttpClient\Client as HttpClient;
-use React\HttpClient\Factory as HttpClientFactory;
 
 class Factory
 {
     /**
-     * @param ContainerInterface $container
+     * @param Locator $locator
      * @param LoopInterface $loop
      * @param array $options
      * @return Client
      */
     public static function create(
-        ContainerInterface $container,
+        Locator $locator,
         LoopInterface $loop,
         array $options = []
     ): Client {
@@ -30,11 +27,9 @@ class Factory
         }
 
         $resolver = (new ResolverFactory())->createCached($options[Options::DNS], $loop);
-        $httpClient = (new HttpClientFactory())->create($loop, $resolver);
 
-        return self::createFromReactHttpClient(
-            $container,
-            $httpClient,
+        return self::createFromResolver(
+            $locator,
             $resolver,
             $loop,
             $options
@@ -42,22 +37,20 @@ class Factory
     }
 
     /**
-     * @param ContainerInterface $container
-     * @param HttpClient $httpClient
+     * @param Locator $locator
      * @param Resolver $resolver
      * @param LoopInterface $loop
      * @param array $options
      * @return Client
      */
-    public static function createFromReactHttpClient(
-        ContainerInterface $container,
-        HttpClient $httpClient,
+    public static function createFromResolver(
+        Locator $locator,
         Resolver $resolver,
         LoopInterface $loop,
         array $options = []
     ): Client {
         return self::createFromBuzz(
-            $container,
+            $locator,
             $loop,
             (new Browser($loop, Sender::createFromLoopDns($loop, $resolver)))->withOptions([
                 'streaming' => true,
@@ -67,21 +60,21 @@ class Factory
     }
 
     /**
-     * @param ContainerInterface $container
+     * @param Locator $locator
      * @param LoopInterface $loop
      * @param Browser $buzz
      * @param array $options
      * @return Client
      */
     public static function createFromBuzz(
-        ContainerInterface $container,
+        Locator $locator,
         LoopInterface $loop,
         Browser $buzz,
         array $options = []
     ): Client {
         return new Client(
             $loop,
-            $container->get(Locator::class),
+            $locator,
             $buzz,
             $options
         );

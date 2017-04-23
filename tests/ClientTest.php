@@ -3,6 +3,7 @@
 namespace ApiClients\Tests\Foundation\Transport;
 
 use ApiClients\Foundation\Middleware\Locator\ContainerLocator;
+use ApiClients\Foundation\Middleware\Locator\Locator;
 use ApiClients\Foundation\Transport\Client;
 use ApiClients\Foundation\Transport\Options;
 use ApiClients\Tools\TestUtilities\TestCase;
@@ -134,7 +135,9 @@ class ClientTest extends TestCase
      */
     public function testRequest(RequestInterface $inputRequest, RequestInterface $outputRequest, array $clientOptions, array $requestOptions)
     {
-        $container = ContainerBuilder::buildDevContainer();
+        $locator = $this->prophesize(Locator::class);
+        $locator->get(DummyMiddleware::class)->shouldBeCalled()->willReturn(new DummyMiddleware());
+
         $loop = Factory::create();
 
         $stream = Phake::mock(StreamInterface::class);
@@ -156,7 +159,7 @@ class ClientTest extends TestCase
 
         $client = new Client(
             $loop,
-            new ContainerLocator($container),
+            $locator->reveal(),
             $buzz,
             $clientOptions
         );
@@ -190,7 +193,9 @@ class ClientTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage($exceptionMessage);
 
-        $container = ContainerBuilder::buildDevContainer();
+        $locator = $this->prophesize(Locator::class);
+        $locator->get(DummyMiddleware::class)->shouldBeCalled()->willReturn(new DummyMiddleware());
+
         $loop = Factory::create();
 
         $stream = Phake::mock(StreamInterface::class);
@@ -208,7 +213,7 @@ class ClientTest extends TestCase
 
         $client = new Client(
             $loop,
-            new ContainerLocator($container),
+            $locator->reveal(),
             $handler,
             $clientOptions
         );

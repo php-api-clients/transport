@@ -22,10 +22,10 @@ composer require api-clients/transport
 Creating the client can be done using the factory:
 
 ```php
-$container = new PsrContainer(); // Any container implementing PSR-11 and holding a middleware locator 
+$locator = new MiddlewareLocator(); // A concrete class implementing the middleware locator interface 
 $loop = EventLoopFactory::create(); // The event loop
 $options = []; // Client options, as described below
-$client = Factory::create($container, $loop, $options);
+$client = Factory::create($locator, $loop, $options);
 ```
 
 Next you can make PSR-7 request:

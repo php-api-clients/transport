@@ -18,11 +18,10 @@ class FactoryTest extends TestCase
 {
     public function testCreate()
     {
-        $container = ContainerBuilder::buildDevContainer();
-        $container->set(Locator::class, new ContainerLocator($container));
+        $locator = $this->prophesize(Locator::class)->reveal();
         $loop = LoopFactory::create();
         $client = Factory::create(
-            $container,
+            $locator,
             $loop
         );
         self::assertInstanceOf(Client::class, $client);
