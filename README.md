@@ -68,6 +68,40 @@ $requestOptions = [
 $client->request($request, $requestOptions);
 ```
 
+# Options
+
+## Options::DNS
+
+DNS server to use resolving hostnames, defaults to `8.8.8.8`. 
+
+## Options::SCHEMA
+
+Schema part of the URI, defaults to `https`. 
+
+## Options::HOST
+
+Host part of the URI, required. 
+
+## Options::PORT
+
+Port part of the URI, optional. 
+
+## Options::PATH
+
+Path part of the URI, defaults to `/`. 
+
+## Options::HEADERS
+
+Key value array with headers, defaults to `[]`.
+
+## Options::MIDDLEWARE
+
+Array with middleware class names, for example `[MiddlewareOne::class, MiddlewareTwo::class]`, defaults to `[]`.
+
+## Options::DEFAULT_REQUEST_OPTIONS
+
+Set of default request options, mainly useful for middlewares needed for all requests, defaults to `[]`.
+
 # License
 
 The MIT License (MIT)
