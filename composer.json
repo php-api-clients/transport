@@ -1,5 +1,6 @@
 {
   "name": "api-clients/transport",
+  "description": "Middleware infused clue/buzz-react",
   "license": "MIT",
   "authors": [
     {
