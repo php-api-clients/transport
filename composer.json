@@ -12,7 +12,8 @@
     "api-clients/middleware": "^2.0",
     "api-clients/rx": "^2.0",
     "clue/buzz-react": "^1.1",
-    "react/http-client": "^0.4.17"
+    "react/http-client": "^0.4.17",
+    "react/promise-stream": "^0.1.0"
   },
   "require-dev": {
     "api-clients/test-utilities": "^3.0.1"

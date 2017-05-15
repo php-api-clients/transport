@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1f29d112b28a9ea0aa74b7e182af69d7",
+    "content-hash": "f3a2ec9bca50bca6590218bd5b94ecba",
     "packages": [
         {
             "name": "api-clients/middleware",
@@ -524,6 +524,62 @@
                 "promises"
             ],
             "time": "2017-03-25T12:08:31+00:00"
+        },
+        {
+            "name": "react/promise-stream",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/promise-stream.git",
+                "reference": "48ee7c90ed887f20e93745d2872f2846e9a79c9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/promise-stream/zipball/48ee7c90ed887f20e93745d2872f2846e9a79c9d",
+                "reference": "48ee7c90ed887f20e93745d2872f2846e9a79c9d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3",
+                "react/promise": "^2.1 || ^1.2",
+                "react/stream": "^0.4 || ^0.3"
+            },
+            "require-dev": {
+                "clue/block-react": "^1.0",
+                "phpunit/phpunit": "^4.8",
+                "react/event-loop": "^0.4 || ^0.3",
+                "react/promise-timer": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "React\\Promise\\Stream\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Lück",
+                    "email": "christian@lueck.tv"
+                }
+            ],
+            "description": "The missing link between Promise-land and Stream-land for React PHP",
+            "homepage": "https://github.com/reactphp/promise-stream",
+            "keywords": [
+                "Buffer",
+                "async",
+                "promise",
+                "reactphp",
+                "stream",
+                "unwrap"
+            ],
+            "time": "2017-05-10T15:18:14+00:00"
         },
         {
             "name": "react/promise-timer",
