@@ -16,7 +16,7 @@
     "react/promise-stream": "^0.1.0"
   },
   "require-dev": {
-    "api-clients/test-utilities": "^3.0.1"
+    "api-clients/test-utilities": "^4.0"
   },
   "suggest": {
     "api-clients/resource-generator": "Easy wireframing of resources",
@@ -46,13 +46,13 @@
   },
   "scripts": {
     "ensure-installed": "composer install --ansi -n -q",
-    "lint-php": [
-      "@ensure-installed",
-      "parallel-lint --exclude vendor ."
-    ],
     "cs": [
       "@ensure-installed",
-      "phpcs --standard=PSR2 src/"
+      "php-cs-fixer fix --config=.php_cs --ansi --dry-run --diff --verbose --allow-risky=yes --show-progress=estimating"
+    ],
+    "cs-fix": [
+      "@ensure-installed",
+      "php-cs-fixer fix --config=.php_cs --ansi --verbose --allow-risky=yes --show-progress=estimating"
     ],
     "unit": [
       "@ensure-installed",
@@ -61,6 +61,10 @@
     "unit-coverage": [
       "@ensure-installed",
       "phpunit --colors=always -c phpunit.xml.dist --coverage-text --coverage-html covHtml --coverage-clover ./build/logs/clover.xml"
+    ],
+    "lint-php": [
+      "@ensure-installed",
+      "parallel-lint --exclude vendor ."
     ],
     "qa-all": [
       "@lint-php",
@@ -78,6 +82,9 @@
       "@unit"
     ],
     "qa-ci": [
+      "@unit"
+    ],
+    "qa-ci-extended": [
       "@qa-all-coverage"
     ],
     "qa-ci-windows": [

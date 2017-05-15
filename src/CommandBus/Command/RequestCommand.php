@@ -22,7 +22,7 @@ final class RequestCommand implements RequestCommandInterface
 
     /**
      * @param RequestInterface $request
-     * @param array $options
+     * @param array            $options
      */
     public function __construct(RequestInterface $request, array $options = [])
     {

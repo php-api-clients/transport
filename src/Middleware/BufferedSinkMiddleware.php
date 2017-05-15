@@ -20,8 +20,8 @@ class BufferedSinkMiddleware implements MiddlewareInterface
     use ErrorTrait;
 
     /**
-     * @param ResponseInterface $response
-     * @param array $options
+     * @param  ResponseInterface           $response
+     * @param  array                       $options
      * @return CancellablePromiseInterface
      */
     public function post(ResponseInterface $response, array $options = []): CancellablePromiseInterface
@@ -33,6 +33,7 @@ class BufferedSinkMiddleware implements MiddlewareInterface
         return buffer($response->getBody())->then(function (string $body) use ($response) {
             $stream = new BufferStream(strlen($body));
             $stream->write($body);
+
             return resolve($response->withBody($stream));
         });
     }

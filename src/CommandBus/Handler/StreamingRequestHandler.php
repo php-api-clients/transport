@@ -5,7 +5,6 @@ namespace ApiClients\Foundation\Transport\CommandBus\Handler;
 use ApiClients\Foundation\Transport\CommandBus\Command\RequestCommandInterface;
 use ApiClients\Foundation\Transport\Service\StreamingRequestService;
 use React\Promise\PromiseInterface;
-use function React\Promise\resolve;
 
 final class StreamingRequestHandler
 {
@@ -23,7 +22,7 @@ final class StreamingRequestHandler
     }
 
     /**
-     * @param RequestCommandInterface $command
+     * @param  RequestCommandInterface $command
      * @return PromiseInterface
      */
     public function handle(RequestCommandInterface $command): PromiseInterface

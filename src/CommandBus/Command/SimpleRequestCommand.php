@@ -23,7 +23,7 @@ final class SimpleRequestCommand implements RequestCommandInterface
 
     /**
      * @param string $path
-     * @param array $options
+     * @param array  $options
      */
     public function __construct(string $path, array $options = [])
     {

@@ -5,7 +5,6 @@ namespace ApiClients\Foundation\Transport\CommandBus\Handler;
 use ApiClients\Foundation\Transport\CommandBus\Command\RequestCommandInterface;
 use ApiClients\Foundation\Transport\Service\RequestService;
 use React\Promise\PromiseInterface;
-use function React\Promise\resolve;
 
 final class RequestHandler
 {

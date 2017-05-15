@@ -12,9 +12,9 @@ use React\EventLoop\LoopInterface;
 class Factory
 {
     /**
-     * @param Locator $locator
-     * @param LoopInterface $loop
-     * @param array $options
+     * @param  Locator       $locator
+     * @param  LoopInterface $loop
+     * @param  array         $options
      * @return Client
      */
     public static function create(
@@ -37,10 +37,10 @@ class Factory
     }
 
     /**
-     * @param Locator $locator
-     * @param Resolver $resolver
-     * @param LoopInterface $loop
-     * @param array $options
+     * @param  Locator       $locator
+     * @param  Resolver      $resolver
+     * @param  LoopInterface $loop
+     * @param  array         $options
      * @return Client
      */
     public static function createFromResolver(
@@ -60,10 +60,10 @@ class Factory
     }
 
     /**
-     * @param Locator $locator
-     * @param LoopInterface $loop
-     * @param Browser $buzz
-     * @param array $options
+     * @param  Locator       $locator
+     * @param  LoopInterface $loop
+     * @param  Browser       $buzz
+     * @param  array         $options
      * @return Client
      */
     public static function createFromBuzz(

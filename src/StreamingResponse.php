@@ -7,7 +7,6 @@ use Rx\Disposable\EmptyDisposable;
 use Rx\DisposableInterface;
 use Rx\Observable;
 use Rx\ObserverInterface;
-use Rx\SchedulerInterface;
 
 final class StreamingResponse extends Observable
 {
@@ -33,7 +32,7 @@ final class StreamingResponse extends Observable
     }
 
     /**
-     * @param ObserverInterface $observer
+     * @param  ObserverInterface   $observer
      * @return DisposableInterface
      * @ignoreCodeCoverage
      */

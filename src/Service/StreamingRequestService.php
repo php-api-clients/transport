@@ -2,7 +2,6 @@
 
 namespace ApiClients\Foundation\Transport\Service;
 
-use ApiClients\Foundation\Service\ServiceInterface;
 use ApiClients\Foundation\Transport\ClientInterface;
 use ApiClients\Foundation\Transport\StreamingResponse;
 use Psr\Http\Message\RequestInterface;
@@ -26,8 +25,8 @@ class StreamingRequestService
     }
 
     /**
-     * @param RequestInterface $request
-     * @param array $options
+     * @param  RequestInterface            $request
+     * @param  array                       $options
      * @return CancellablePromiseInterface
      */
     public function stream(RequestInterface $request, array $options = []): CancellablePromiseInterface

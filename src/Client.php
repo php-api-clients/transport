@@ -4,7 +4,6 @@ namespace ApiClients\Foundation\Transport;
 
 use ApiClients\Foundation\Middleware\Locator\Locator;
 use ApiClients\Foundation\Middleware\MiddlewareRunner;
-use ApiClients\Foundation\Transport\CommandBus;
 use Clue\React\Buzz\Browser;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -12,7 +11,6 @@ use React\EventLoop\LoopInterface;
 use React\Promise\PromiseInterface;
 use RingCentral\Psr7\Uri;
 use Throwable;
-use function ApiClients\Foundation\options_merge;
 use function React\Promise\reject;
 use function React\Promise\resolve;
 
@@ -51,9 +49,9 @@ final class Client implements ClientInterface
 
     /**
      * @param LoopInterface $loop
-     * @param Locator $locator
-     * @param Browser $buzz
-     * @param array $options
+     * @param Locator       $locator
+     * @param Browser       $buzz
+     * @param array         $options
      */
     public function __construct(
         LoopInterface $loop,
@@ -69,6 +67,42 @@ final class Client implements ClientInterface
         if (isset($this->options[Options::MIDDLEWARE])) {
             $this->middleware = $this->options[Options::MIDDLEWARE];
         }
+    }
+
+    /**
+     * @param  RequestInterface $request
+     * @param  array            $options
+     * @return PromiseInterface
+     */
+    public function request(RequestInterface $request, array $options = []): PromiseInterface
+    {
+        $options = $this->applyRequestOptions($options);
+        $request = $this->applyApiSettingsToRequest($request, $options);
+        $executioner = $this->constructMiddlewares($options);
+
+        return $executioner->pre($request)->then(function ($request) use ($options) {
+            return resolve($this->browser->send(
+                $request
+            ));
+        }, function (ResponseInterface $response) {
+            return resolve($response);
+        })->then(function (ResponseInterface $response) use ($executioner) {
+            return $executioner->post($response);
+        })->otherwise(function (Throwable $throwable) use ($executioner) {
+            return reject($executioner->error($throwable));
+        });
+    }
+
+    public function applyRequestOptions(array $options): array
+    {
+        if (!isset($this->options[Options::DEFAULT_REQUEST_OPTIONS])) {
+            return $options;
+        }
+
+        return array_merge_recursive(
+            $this->options[Options::DEFAULT_REQUEST_OPTIONS],
+            $options
+        );
     }
 
     protected function constructMiddlewares(array $options): MiddlewareRunner
@@ -93,7 +127,7 @@ final class Client implements ClientInterface
         $set = $this->middleware;
 
         foreach ($extraMiddlewares as $middleware) {
-            if (in_array($middleware, $set)) {
+            if (in_array($middleware, $set, true)) {
                 continue;
             }
 
@@ -101,30 +135,6 @@ final class Client implements ClientInterface
         }
 
         return $set;
-    }
-
-    /**
-     * @param RequestInterface $request
-     * @param array $options
-     * @return PromiseInterface
-     */
-    public function request(RequestInterface $request, array $options = []): PromiseInterface
-    {
-        $options = $this->applyRequestOptions($options);
-        $request = $this->applyApiSettingsToRequest($request, $options);
-        $executioner = $this->constructMiddlewares($options);
-
-        return $executioner->pre($request)->then(function ($request) use ($options) {
-            return resolve($this->browser->send(
-                $request
-            ));
-        }, function (ResponseInterface $response) {
-            return resolve($response);
-        })->then(function (ResponseInterface $response) use ($executioner) {
-            return $executioner->post($response);
-        })->otherwise(function (Throwable $throwable) use ($executioner) {
-            return reject($executioner->error($throwable));
-        });
     }
 
     protected function applyApiSettingsToRequest(RequestInterface $request, array $options): RequestInterface
@@ -148,17 +158,5 @@ final class Client implements ClientInterface
         }
 
         return $request->withUri($uri);
-    }
-
-    public function applyRequestOptions(array $options): array
-    {
-        if (!isset($this->options[Options::DEFAULT_REQUEST_OPTIONS])) {
-            return $options;
-        }
-
-        return array_merge_recursive(
-            $this->options[Options::DEFAULT_REQUEST_OPTIONS],
-            $options
-        );
     }
 }
