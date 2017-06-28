@@ -13,12 +13,14 @@ use function React\Promise\reject;
 
 class DummyMiddleware implements MiddlewareInterface
 {
-    use DefaultPriorityTrait;
     use PreTrait;
     use PostTrait;
 
-    public function error(Throwable $throwable, array $options = []): CancellablePromiseInterface
-    {
+    public function error(
+        Throwable $throwable,
+        string $transactionId,
+        array $options = []
+    ): CancellablePromiseInterface {
         return reject(new InvalidArgumentException($throwable->getMessage(), $throwable->getCode(), $throwable));
     }
 }
