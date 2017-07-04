@@ -2,7 +2,6 @@
 
 namespace ApiClients\Foundation\Transport\Middleware;
 
-use ApiClients\Foundation\Middleware\DefaultPriorityTrait;
 use ApiClients\Foundation\Middleware\ErrorTrait;
 use ApiClients\Foundation\Middleware\MiddlewareInterface;
 use ApiClients\Foundation\Middleware\PreTrait;
@@ -15,7 +14,6 @@ use function React\Promise\Stream\buffer;
 
 class BufferedSinkMiddleware implements MiddlewareInterface
 {
-    use DefaultPriorityTrait;
     use PreTrait;
     use ErrorTrait;
 
@@ -24,8 +22,11 @@ class BufferedSinkMiddleware implements MiddlewareInterface
      * @param  array                       $options
      * @return CancellablePromiseInterface
      */
-    public function post(ResponseInterface $response, array $options = []): CancellablePromiseInterface
-    {
+    public function post(
+        ResponseInterface $response,
+        string $transactionId,
+        array $options = []
+    ): CancellablePromiseInterface {
         if (!($response->getBody() instanceof ReadableStreamInterface)) {
             return resolve($response);
         }

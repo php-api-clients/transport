@@ -24,7 +24,7 @@ class BufferedSinkMiddlewareTest extends TestCase
         });
         $body = new ReadableBodyStream($stream);
         $response = new Response(200, [], $body);
-        $result = await($middleware->post($response), $loop);
+        $result = await($middleware->post($response, 'abc'), $loop);
         self::assertInstanceOf(BufferStream::class, $result->getBody());
         self::assertSame($bodyString, (string)$result->getBody());
     }
@@ -35,13 +35,7 @@ class BufferedSinkMiddlewareTest extends TestCase
         $middleware = new BufferedSinkMiddleware();
         $body = new BufferStream();
         $response = new Response(200, [], $body);
-        $result = await($middleware->post($response), $loop);
+        $result = await($middleware->post($response, 'abc'), $loop);
         self::assertSame($body, $result->getBody());
-    }
-
-    public function testPriority()
-    {
-        $middleware = new BufferedSinkMiddleware();
-        self::assertSame(500, $middleware->priority());
     }
 }
