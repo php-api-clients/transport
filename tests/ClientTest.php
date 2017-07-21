@@ -87,7 +87,12 @@ class ClientTest extends TestCase
 
         yield [
             new Request('HEAD', 'https://api.example.com/status', [], new BufferStream()),
-            new Request('HEAD', 'https://api.example.com/status', ['Accept' => 'foo',' Decline' => 'bar',], new BufferStream()),
+            new Request(
+                'HEAD',
+                'https://api.example.com/status',
+                ['Accept' => 'foo',' Decline' => 'bar',],
+                new BufferStream()
+            ),
             $defaultClientOptions + [
                 Options::HEADERS => [
                     'Accept' => 'foo',
@@ -102,7 +107,12 @@ class ClientTest extends TestCase
 
         yield [
             new Request('HEAD', 'https://api.example.com/status', [], new BufferStream()),
-            new Request('HEAD', 'https://api.example.com/status', ['Accept' => 'bar',' Decline' => 'bar',], new BufferStream()),
+            new Request(
+                'HEAD',
+                'https://api.example.com/status',
+                ['Accept' => 'bar',' Decline' => 'bar',],
+                new BufferStream()
+            ),
             $defaultClientOptions + [
                 Options::HEADERS => [
                     'Accept' => 'foo',
@@ -118,7 +128,12 @@ class ClientTest extends TestCase
 
         yield [
             new Request('HEAD', 'https://api.example.com/status', [], new BufferStream()),
-            new Request('HEAD', 'https://api.example.com/status', ['a' => 'b',' c' => 'd', 'e' => 'f', 'g' => 'h',], new BufferStream()),
+            new Request(
+                'HEAD',
+                'https://api.example.com/status',
+                ['a' => 'b',' c' => 'd', 'e' => 'f', 'g' => 'h',],
+                new BufferStream()
+            ),
             $defaultClientOptions + [
                 Options::HEADERS => [
                     'a' => 'b',
@@ -137,8 +152,12 @@ class ClientTest extends TestCase
     /**
      * @dataProvider provideRequests
      */
-    public function testRequest(RequestInterface $inputRequest, RequestInterface $outputRequest, array $clientOptions, array $requestOptions)
-    {
+    public function testRequest(
+        RequestInterface $inputRequest,
+        RequestInterface $outputRequest,
+        array $clientOptions,
+        array $requestOptions
+    ) {
         $locator = $this->prophesize(Locator::class);
         $locator->get(DummyMiddleware::class)->shouldBeCalled()->willReturn(new DummyMiddleware());
 
@@ -156,7 +175,9 @@ class ClientTest extends TestCase
 
         $request = false;
         $buzz = Phake::mock(BuzzClient::class);
-        Phake::when($buzz)->send(Phake::anyParameters())->thenReturnCallback(function (RequestInterface $guzzleRequest) use ($response, &$request, $loop) {
+        Phake::when($buzz)->send(
+            Phake::anyParameters()
+        )->thenReturnCallback(function (RequestInterface $guzzleRequest) use ($response, &$request, $loop) {
             $request = $guzzleRequest;
             return new Promise(function ($resolve, $reject) use ($response, $loop) {
                 $loop->addTimer(0.01, function () use ($response, $resolve) {
@@ -193,8 +214,12 @@ class ClientTest extends TestCase
     /**
      * @dataProvider provideRequests
      */
-    public function testError(RequestInterface $inputRequest, RequestInterface $outputRequest, array $clientOptions, array $requestOptions)
-    {
+    public function testError(
+        RequestInterface $inputRequest,
+        RequestInterface $outputRequest,
+        array $clientOptions,
+        array $requestOptions
+    ) {
         $exceptionMessage = 'Exception turned InvalidArgumentException';
         $exception = new Exception($exceptionMessage);
 
