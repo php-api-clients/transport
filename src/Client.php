@@ -100,7 +100,21 @@ final class Client implements ClientInterface
         }, function (ResponseInterface $response) {
             return resolve($response);
         })->then(function (ResponseInterface $response) use ($executioner) {
+            $body = $response->getBody();
+            if ($body instanceof ReadableStreamInterface) {
+                $body->pause();
+            }
+
             return $executioner->post($response);
+        })->then(function (ResponseInterface $response) {
+            $body = $response->getBody();
+            if ($body instanceof ReadableStreamInterface) {
+                $this->loop->futureTick(function () use ($body) {
+                    $body->resume();
+                });
+            }
+
+            return resolve($response);
         })->otherwise(function (Throwable $throwable) use ($executioner) {
             return reject($executioner->error($throwable));
         });
