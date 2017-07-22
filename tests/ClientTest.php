@@ -8,6 +8,7 @@ use ApiClients\Foundation\Transport\Client;
 use ApiClients\Foundation\Transport\Options;
 use ApiClients\Tools\TestUtilities\TestCase;
 use Clue\React\Buzz\Browser as BuzzClient;
+use Clue\React\Buzz\Message\ReadableBodyStream;
 use DI\ContainerBuilder;
 use Exception;
 use InvalidArgumentException;
@@ -16,6 +17,9 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use React\EventLoop\Factory;
+use React\Promise\Deferred;
+use React\Promise\Promise;
+use RingCentral\Psr7\BufferStream;
 use RingCentral\Psr7\Request;
 use function Clue\React\Block\await;
 use function React\Promise\reject;
@@ -35,29 +39,29 @@ class ClientTest extends TestCase
         $defaultRequestOptions = [];
 
         yield [
-            new Request('GET', ''),
-            new Request('GET', 'http://api.example.com/'),
+            new Request('GET', '', [], new BufferStream()),
+            new Request('GET', 'http://api.example.com/', [], new BufferStream()),
             $defaultClientOptions,
             $defaultRequestOptions,
         ];
 
         yield [
-            new Request('GET', 'status'),
-            new Request('GET', 'http://api.example.com/status'),
+            new Request('GET', 'status', [], new BufferStream()),
+            new Request('GET', 'http://api.example.com/status', [], new BufferStream()),
             $defaultClientOptions,
             $defaultRequestOptions,
         ];
 
         yield [
-            new Request('HEAD', 'https://api.example.com/status'),
-            new Request('HEAD', 'https://api.example.com/status'),
+            new Request('HEAD', 'https://api.example.com/status', [], new BufferStream()),
+            new Request('HEAD', 'https://api.example.com/status', [], new BufferStream()),
             $defaultClientOptions,
             $defaultRequestOptions,
         ];
 
         yield [
-            new Request('HEAD', 'https://api.example.com/status'),
-            new Request('HEAD', 'https://api.example.com/status', ['Accept' => 'foo',]),
+            new Request('HEAD', 'https://api.example.com/status', [], new BufferStream()),
+            new Request('HEAD', 'https://api.example.com/status', ['Accept' => 'foo',], new BufferStream()),
             $defaultClientOptions + [
                 Options::HEADERS => [
                     'Accept' => 'foo',
@@ -67,8 +71,8 @@ class ClientTest extends TestCase
         ];
 
         yield [
-            new Request('HEAD', 'https://api.example.com/status'),
-            new Request('HEAD', 'https://api.example.com/status', ['Accept' => 'bar',]),
+            new Request('HEAD', 'https://api.example.com/status', [], new BufferStream()),
+            new Request('HEAD', 'https://api.example.com/status', ['Accept' => 'bar',], new BufferStream()),
             $defaultClientOptions + [
                 Options::HEADERS => [
                     'Accept' => 'foo',
@@ -82,8 +86,13 @@ class ClientTest extends TestCase
         ];
 
         yield [
-            new Request('HEAD', 'https://api.example.com/status'),
-            new Request('HEAD', 'https://api.example.com/status', ['Accept' => 'foo',' Decline' => 'bar',]),
+            new Request('HEAD', 'https://api.example.com/status', [], new BufferStream()),
+            new Request(
+                'HEAD',
+                'https://api.example.com/status',
+                ['Accept' => 'foo',' Decline' => 'bar',],
+                new BufferStream()
+            ),
             $defaultClientOptions + [
                 Options::HEADERS => [
                     'Accept' => 'foo',
@@ -97,8 +106,13 @@ class ClientTest extends TestCase
         ];
 
         yield [
-            new Request('HEAD', 'https://api.example.com/status'),
-            new Request('HEAD', 'https://api.example.com/status', ['Accept' => 'bar',' Decline' => 'bar',]),
+            new Request('HEAD', 'https://api.example.com/status', [], new BufferStream()),
+            new Request(
+                'HEAD',
+                'https://api.example.com/status',
+                ['Accept' => 'bar',' Decline' => 'bar',],
+                new BufferStream()
+            ),
             $defaultClientOptions + [
                 Options::HEADERS => [
                     'Accept' => 'foo',
@@ -113,8 +127,13 @@ class ClientTest extends TestCase
         ];
 
         yield [
-            new Request('HEAD', 'https://api.example.com/status'),
-            new Request('HEAD', 'https://api.example.com/status', ['a' => 'b',' c' => 'd', 'e' => 'f', 'g' => 'h',]),
+            new Request('HEAD', 'https://api.example.com/status', [], new BufferStream()),
+            new Request(
+                'HEAD',
+                'https://api.example.com/status',
+                ['a' => 'b',' c' => 'd', 'e' => 'f', 'g' => 'h',],
+                new BufferStream()
+            ),
             $defaultClientOptions + [
                 Options::HEADERS => [
                     'a' => 'b',
@@ -133,8 +152,12 @@ class ClientTest extends TestCase
     /**
      * @dataProvider provideRequests
      */
-    public function testRequest(RequestInterface $inputRequest, RequestInterface $outputRequest, array $clientOptions, array $requestOptions)
-    {
+    public function testRequest(
+        RequestInterface $inputRequest,
+        RequestInterface $outputRequest,
+        array $clientOptions,
+        array $requestOptions
+    ) {
         $locator = $this->prophesize(Locator::class);
         $locator->get(DummyMiddleware::class)->shouldBeCalled()->willReturn(new DummyMiddleware());
 
@@ -152,9 +175,15 @@ class ClientTest extends TestCase
 
         $request = false;
         $buzz = Phake::mock(BuzzClient::class);
-        Phake::when($buzz)->send(Phake::anyParameters())->thenReturnCallback(function (RequestInterface $guzzleRequest) use ($response, &$request) {
+        Phake::when($buzz)->send(
+            Phake::anyParameters()
+        )->thenReturnCallback(function (RequestInterface $guzzleRequest) use ($response, &$request, $loop) {
             $request = $guzzleRequest;
-            return resolve($response);
+            return new Promise(function ($resolve, $reject) use ($response, $loop) {
+                $loop->addTimer(0.01, function () use ($response, $resolve) {
+                    $resolve($response);
+                });
+            });
         });
 
         $client = new Client(
@@ -164,7 +193,7 @@ class ClientTest extends TestCase
             $clientOptions
         );
 
-        $client->request($inputRequest, $requestOptions);
+        await($client->request($inputRequest, $requestOptions), $loop);
 
         Phake::verify($buzz)->send($outputRequest);
 
@@ -185,8 +214,12 @@ class ClientTest extends TestCase
     /**
      * @dataProvider provideRequests
      */
-    public function testError(RequestInterface $inputRequest, RequestInterface $outputRequest, array $clientOptions, array $requestOptions)
-    {
+    public function testError(
+        RequestInterface $inputRequest,
+        RequestInterface $outputRequest,
+        array $clientOptions,
+        array $requestOptions
+    ) {
         $exceptionMessage = 'Exception turned InvalidArgumentException';
         $exception = new Exception($exceptionMessage);
 
@@ -209,7 +242,13 @@ class ClientTest extends TestCase
         Phake::when($response)->getReasonPhrase()->thenReturn('OK');
 
         $handler = Phake::mock(BuzzClient::class);
-        Phake::when($handler)->send($outputRequest)->thenReturn(reject($exception));
+        Phake::when($handler)->send($outputRequest)->thenReturn(
+            new Promise(function ($resolve, $reject) use ($exception, $loop) {
+                $loop->addTimer(0.01, function () use ($exception, $reject) {
+                    $reject($exception);
+                });
+            })
+        );
 
         $client = new Client(
             $loop,
@@ -219,5 +258,41 @@ class ClientTest extends TestCase
         );
 
         await($client->request($inputRequest, $requestOptions, true), $loop);
+    }
+
+    public function testPauseReadableStream()
+    {
+        $exceptionMessage = 'Exception turned InvalidArgumentException';
+        $exception = new Exception($exceptionMessage);
+
+        self::expectException(Exception::class);
+        self::expectExceptionMessage($exceptionMessage);
+
+        $loop = Factory::create();
+        $locator = $this->prophesize(Locator::class);
+
+        $stream = $this->prophesize(ReadableBodyStream::class);
+        $stream->pause()->shouldBeCalled();
+        $stream->resume()->shouldBeCalled();
+
+        $request = new Request('HEAD', 'https://api.example.com/status', [], $stream->reveal());
+
+        $deferred = new Deferred();
+        $loop->addTimer(0.01, function () use ($deferred, $exception) {
+            $deferred->reject($exception);
+        });
+
+        $handler = Phake::mock(BuzzClient::class);
+        Phake::when($handler)->send($request)->thenReturn($deferred->promise());
+
+        $client = new Client(
+            $loop,
+            $locator->reveal(),
+            $handler,
+            []
+        );
+
+
+        await($client->request($request, [], true), $loop);
     }
 }

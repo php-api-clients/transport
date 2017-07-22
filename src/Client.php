@@ -9,6 +9,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use React\EventLoop\LoopInterface;
 use React\Promise\PromiseInterface;
+use React\Stream\ReadableStreamInterface;
 use RingCentral\Psr7\Uri;
 use Throwable;
 use function React\Promise\reject;
@@ -76,18 +77,44 @@ final class Client implements ClientInterface
      */
     public function request(RequestInterface $request, array $options = []): PromiseInterface
     {
+        $body = $request->getBody();
+        if ($body instanceof ReadableStreamInterface) {
+            $body->pause();
+        }
+
         $options = $this->applyRequestOptions($options);
         $request = $this->applyApiSettingsToRequest($request, $options);
         $executioner = $this->constructMiddlewares($options);
 
-        return $executioner->pre($request)->then(function ($request) use ($options) {
+        return $executioner->pre($request)->then(function (RequestInterface $request) use ($options) {
+            $body = $request->getBody();
+            if ($body instanceof ReadableStreamInterface) {
+                $this->loop->futureTick(function () use ($body) {
+                    $body->resume();
+                });
+            }
+
             return resolve($this->browser->send(
                 $request
             ));
         }, function (ResponseInterface $response) {
             return resolve($response);
         })->then(function (ResponseInterface $response) use ($executioner) {
+            $body = $response->getBody();
+            if ($body instanceof ReadableStreamInterface) {
+                $body->pause();
+            }
+
             return $executioner->post($response);
+        })->then(function (ResponseInterface $response) {
+            $body = $response->getBody();
+            if ($body instanceof ReadableStreamInterface) {
+                $this->loop->futureTick(function () use ($body) {
+                    $body->resume();
+                });
+            }
+
+            return resolve($response);
         })->otherwise(function (Throwable $throwable) use ($executioner) {
             return reject($executioner->error($throwable));
         });
