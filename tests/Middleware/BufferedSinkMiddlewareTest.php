@@ -17,8 +17,9 @@ class BufferedSinkMiddlewareTest extends TestCase
     {
         $loop = Factory::create();
         $bodyString = 'foo.bar';
-        $middleware = new BufferedSinkMiddleware();
+        $middleware = new BufferedSinkMiddleware($loop);
         $stream = new ThroughStream();
+        $stream->pause();
         $loop->futureTick(function () use ($stream, $bodyString) {
             $stream->end($bodyString);
         });
@@ -32,7 +33,7 @@ class BufferedSinkMiddlewareTest extends TestCase
     public function testPostNoStream()
     {
         $loop = Factory::create();
-        $middleware = new BufferedSinkMiddleware();
+        $middleware = new BufferedSinkMiddleware($loop);
         $body = new BufferStream();
         $response = new Response(200, [], $body);
         $result = await($middleware->post($response, 'abc'), $loop);
