@@ -4,10 +4,10 @@ namespace ApiClients\Foundation\Transport;
 
 use ApiClients\Foundation\Middleware\Locator\Locator;
 use Clue\React\Buzz\Browser;
-use Clue\React\Buzz\Io\Sender;
 use React\Dns\Resolver\Factory as ResolverFactory;
 use React\Dns\Resolver\Resolver;
 use React\EventLoop\LoopInterface;
+use React\Socket\Connector;
 
 class Factory
 {
@@ -52,7 +52,12 @@ class Factory
         return self::createFromBuzz(
             $locator,
             $loop,
-            (new Browser($loop, Sender::createFromLoopDns($loop, $resolver)))->withOptions([
+            (new Browser($loop, new Connector(
+                $loop,
+                [
+                    'dns' => $resolver,
+                ]
+            )))->withOptions([
                 'streaming' => true,
             ]),
             $options
