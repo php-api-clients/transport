@@ -174,6 +174,7 @@ final class Client implements ClientInterface
                     $options[Options::SCHEMA] .
                     '://' .
                     $options[Options::HOST] .
+                    (isset($options[Options::PORT]) ? ':' . $options[Options::PORT] : '') .
                     $options[Options::PATH]
                 ),
                 $request->getUri()
