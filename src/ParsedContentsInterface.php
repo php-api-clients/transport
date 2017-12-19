@@ -2,9 +2,7 @@
 
 namespace ApiClients\Foundation\Transport;
 
-use Psr\Http\Message\StreamInterface;
-
-interface ParsedContentsInterface extends StreamInterface
+interface ParsedContentsInterface
 {
     /**
      * Return the parsed body as array.
