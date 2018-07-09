@@ -13,6 +13,8 @@
     "api-clients/middleware": "^4.0",
     "api-clients/rx": "^2.0",
     "clue/buzz-react": "^2.0 || ^1.4",
+    "clue/http-proxy-react": "^1.2",
+    "clue/socks-react": "^0.8.5",
     "react/event-loop": "^1.0 || ^0.5 || ^0.4",
     "react/http-client": "^0.4.17 || ^0.5",
     "react/promise-stream": "^1.0 || ^0.1.0"
