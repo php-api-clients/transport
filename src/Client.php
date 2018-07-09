@@ -143,6 +143,12 @@ final class Client implements ClientInterface
         $args = [];
         $args[] = $options;
         foreach ($set as $middleware) {
+            if (is_object($middleware)) {
+                $args[] = $middleware;
+
+                continue;
+            }
+
             $args[] = $this->locator->get($middleware);
         }
 
@@ -174,6 +180,7 @@ final class Client implements ClientInterface
                     $options[Options::SCHEMA] .
                     '://' .
                     $options[Options::HOST] .
+                    (isset($options[Options::PORT]) ? ':' . $options[Options::PORT] : '') .
                     $options[Options::PATH]
                 ),
                 $request->getUri()

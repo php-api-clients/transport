@@ -34,6 +34,7 @@ class ClientTest extends TestCase
             Options::HOST => 'api.example.com',
             Options::MIDDLEWARE => [
                 DummyMiddleware::class,
+                new InstanceDummyMiddleware(),
             ],
         ];
         $defaultRequestOptions = [];
