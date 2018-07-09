@@ -143,6 +143,12 @@ final class Client implements ClientInterface
         $args = [];
         $args[] = $options;
         foreach ($set as $middleware) {
+            if (is_object($middleware)) {
+                $args[] = $middleware;
+
+                continue;
+            }
+
             $args[] = $this->locator->get($middleware);
         }
 
